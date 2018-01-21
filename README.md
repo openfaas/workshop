@@ -1,0 +1,2 @@
+# openfaas-workshop
+OpenFaaS workshop

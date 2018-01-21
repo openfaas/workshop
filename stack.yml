@@ -1,0 +1,9 @@
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  print-env:
+    lang: node
+    handler: ./print-env
+    image: print-env

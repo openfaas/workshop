@@ -1,0 +1,9 @@
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  space-counter:
+    lang: python
+    handler: ./space-counter
+    image: space-counter
