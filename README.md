@@ -10,7 +10,7 @@ Requirements:
  * Docker for Mac Edge
  * Or an account on DigitalOcean to provision a small Kubernetes cluster
 
-Disclaimer: this is a work-in-progress.
+> Disclaimer: this is a work-in-progress.
 
 Planned Topics:
 
