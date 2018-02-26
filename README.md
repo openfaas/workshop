@@ -27,31 +27,32 @@ Requirements:
 * Deploy via the Function Store
 * Find metrics with Prometheus
 
-## [Lab 3 - Introduction to Functions](./lab1.md)
+## [Lab 3 - Introduction to Functions](./lab3.md)
 
 * Scaffold or generate a new function
+* Troubleshooting: verbose output with `write_debug`
+* Troubleshooting: find the container's logs
 * Add dependencies with `pip`
 * Use third-party language templates
 
-## [Lab 4 - Go deeper with functions](./lab1.md)
+## [Lab 4 - Go deeper with functions](./lab4.md)
 
-* Enable verbose output on functions with `write_debug`
 * Extend timeouts with `read_timeout`
 * Inject configuration through environmental variables
 * Use HTTP context - querystring / headers etc
 
-# [Lab 4 - Asynchronous Functions](./lab1.md)
+## [Lab 5 - Asynchronous Functions](./lab5.md)
 
 * Call a function asynchronously vs synchronously
 * View the queue-worker's logs
 * Use an `X-Callback-Url` with requestbin and ngrok
 
-# [Lab 5 - Chain Functions](./lab1.md)
+## [Lab 6 - Chain or combine Functions into workflows](./lab6.md)
 
 * Make use of another function
 * Director pattern
 
-# [Lab 6 - Put it all together](./lab1.md)
+## [Lab 7 - Put it all together](./lab7.md)
 
 > Triaging customer feedback from Twitter
 
@@ -62,12 +63,14 @@ Requirements:
 
 You can start with the first lab [Lab 1](lab1.md).
 
+## Wrapping up
 
+If you're taking an instructor-led workshop, we'll now take Q&A and cover some advanced topics too.
 
-Advanced topics:
-
-* Monitoring your functions with a dashboard in Grafana
-* TLS
-* Basic auth
-* Add a new language template
-* Object storage with Minio
+* What is auto-scaling and how does it work?
+* How to monitoring functions with a dashboard in Grafana
+* How to enable TLS for security
+* How to lock down the gateway with Basic Authentication
+* Object storage with S3/Minio
+* How to build your own templates
+    * How to customise the templates
