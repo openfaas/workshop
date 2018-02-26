@@ -1,0 +1,11 @@
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  hello-openfaas:
+    lang: python
+    handler: ./hello-openfaas
+    image: alexellis2/hello-openfaas
+    environment:
+      write_debug: true

@@ -30,9 +30,10 @@ Requirements:
 ## [Lab 3 - Introduction to Functions](./lab3.md)
 
 * Scaffold or generate a new function
+* Build the space-counter function
+ * Add dependencies with `pip`
 * Troubleshooting: verbose output with `write_debug`
 * Troubleshooting: find the container's logs
-* Add dependencies with `pip`
 * Use third-party language templates
 
 ## [Lab 4 - Go deeper with functions](./lab4.md)

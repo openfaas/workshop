@@ -1,6 +1,6 @@
 # Lab 2 - Testing things out
 
-## Test-out the UI
+## Use the UI Portal
 
 You can now test out the OpenFaaS UI by going to http://localhost:8080 or http://127.0.0.1:8080 - if you're deploying to a Linux VM then replace localhost with the IP address from the output you see on the `ifconfig` command.
 
@@ -32,7 +32,7 @@ You will see the following fields displayed:
 
 Click *Invoke* a number of times and see the *Invocation count* increase.
 
-### Deploy a function from the store
+## Deploy via the Function Store
 
 You can deploy a function from the OpenFaaS store. The store is a free collection of functions curated by the community.
 
@@ -52,7 +52,7 @@ You'll see an ASCII logo generated like this:
 |_|\___/ \___/_/(_)
 ``` 
 
-## Test out the CLI
+## Learn about the CLI
 
 You can now test out the CLI, but first a note on alternate gateways URLs:
 
@@ -107,7 +107,7 @@ You can even generate a HTML file from this lab's markdown file with the followi
 $ cat lab2.md | faas-cli invoke func_markdown
 ```
 
-### Find metrics with Prometheus
+## Find metrics with Prometheus
 
 Now we saw that there are already two ways to get a function's invocation count:
 
