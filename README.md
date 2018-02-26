@@ -9,6 +9,7 @@ Requirements:
 * Kubernetes
  * Docker for Mac Edge
  * Or an account on DigitalOcean to provision a small Kubernetes cluster
+* Installed [VSCode](https://code.visualstudio.com/download)
 
 > Disclaimer: this is a work-in-progress.
 
