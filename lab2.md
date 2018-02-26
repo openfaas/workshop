@@ -1,201 +1,110 @@
-# Lab 2 - Functions
+# Lab 2 - Testing things out
 
-## Creating a new function
+## Test-out the UI
 
-There are two ways to create a new function:
+You can now test out the OpenFaaS UI by going to http://localhost:8080 or http://127.0.0.1:8080 - if you're deploying to a Linux VM then replace localhost with the IP address from the output you see on the `ifconfig` command.
 
-* scaffold a function using a built-in or community code template (default)
-* take an existing binary and use it as your function (advanced)
+Note: on some Linux distributions accessing `localhost` may hang, if that happens then oplease use `127.0.0.1` instead and replace it wherever you see `localhost`.
 
-### Scaffolding a new function
+In the default stack we deploy several sample functions.
 
-To find out which languages are available type in:
+You can try them out in the UI such as the Markdown function which converts Markdown code into HTML.
 
-```
-faas new --list
-Languages available as templates:
-- csharp
-- go
-- go-armhf
-- node
-- node-arm64
-- node-armhf
-- python
-- python-armhf
-- python3
-- ruby
-
-Or alternatively create a folder containing a Dockerfile, then pick
-the "Dockerfile" lang type in your YAML file.
-```
-
-At this point you can create a new function for Python, Python 3, Ruby, Go, Node, CSharp etc.
-
-* Let's pick Python:
-
-We'll create a function that pulls in a random name of someone in space aboard the International Space Station (ISS).
+Type the below into the *Request* field:
 
 ```
-faas new --lang python space-counter
+## The **OpenFaaS** _workshop_
 ```
 
-This will write three files for us:
+Now click *Invoke* and see the response appear in the bottom half of the screen.
+
+I.e.
 
 ```
-./space-counter/handler.py
+<h2>The <strong>OpenFaaS</strong> <em>workshop</em></h2>
 ```
 
-The handler for the function - you get a `req` object with the raw request and can print the result of the function to the console.
+You will see the following fields displayed:
+
+* Replicas - the amount of replicas of your function running in the swarm cluster
+* Image - the Docker image name and version as published to the Docker Hub or Docekr repository
+* Invocation count - this shows how many times the function has been invoked and is updated every 5 seconds
+
+Click *Invoke* a number of times and see the *Invocation count* increase.
+
+### Deploy a function from the store
+
+You can deploy a function from the OpenFaaS store. The store is a free collection of functions curated by the community.
+
+* Click *Deploy New Function*
+* Click *From Store*
+* Click *Figlet* or enter *figlet* into the search bar and then click *Deploy*
+
+The Figlet function will now appear in your left-hand list of functions. Give this a few moments to be downloaded from the Docker Hub and then type in some text and click Invoke like we did for the Markdown function.
+
+You'll see an ASCII logo generated like this:
 
 ```
-./space-counter/requirements.txt
-```
+ _  ___   ___ _  __
+/ |/ _ \ / _ (_)/ /
+| | | | | | | |/ / 
+| | |_| | |_| / /_ 
+|_|\___/ \___/_/(_)
+``` 
 
-This file lists any `pip` modules you want to install, such as `requests` or `urllib`
+## Test out the CLI
 
-```
-./space-counter.yml
-```
+You can now test out the CLI, but first a note on alternate gateways URLs:
 
-This file is used to manage the function - it has the name of the function, the Docker image and any other customisations needed.
+If your gateway is not deployed at http://localhost:8080 then you will need to specify the `--gateway` flag followed by the alternate URL such as http://127.0.0.1:8080/. 
 
-* Edit `requirements.txt`
+> A shorter versions of flags are available most of the time so `--gateway` can be shortened to `-g` too. Check `faas-cli --help` for more information.
 
-```
-echo "requests" > ./space-counter/requirements.txt
-```
+### List the deployed functions
 
-This tells the function it needs to use a third-party module for accessing websites.
-
-* Write the function's code:
-
-We'll be pulling in data from: http://api.open-notify.org/astros.json
-
-Here's an example of the result:
+This will show the functions, how many replicas you have and the invocation count.
 
 ```
-{"number": 6, "people": [{"craft": "ISS", "name": "Alexander Misurkin"}, {"craft": "ISS", "name": "Mark Vande Hei"}, {"craft": "ISS", "name": "Joe Acaba"}, {"craft": "ISS", "name": "Anton Shkaplerov"}, {"craft": "ISS", "name": "Scott Tingle"}, {"craft": "ISS", "name": "Norishige Kanai"}], "message": "success"}
+$ faas-cli list
 ```
 
-Update `handler.py`:
+You should see the *markdown* function as `func_markdown` and the *figlet* function listed too along with how many times you've invoked them.
+
+Now try the verbose flag
 
 ```
-import requests
-import random
-
-def handle(st):
-    r = requests.get("http://api.open-notify.org/astros.json")
-    result = r.json()
-    index = random.randint(0, len(result["people"])-1)
-    name = result["people"][index]["name"]
-
-    print (name + " is in space") 
+$ faas-cli list --verbose
 ```
-
-Now build the function:
+or
 
 ```
-faas build -f ./space-counter.yml
+$ faas-cli list -v
 ```
 
-> Tip: If you rename space-counter.yml to `stack.yml` then you can leave off the `-f` argument. `stack.yml` is the default file-name for the CLI.
+You can now see the Docker image along with the names of the functions.
 
-Deploy the function:
+### Invoke a function
 
-```
-faas deploy -f ./space-counter.yml
-```
-
-Invoke the function
+Pick one of the functions you saw appear on `faas-cli list` such as `func_markdown`:
 
 ```
-echo | faas invoke space-counter
-Anton Shkaplerov is in space
-
-echo | faas invoke space-counter
-Joe Acaba is in space
+$ faas-cli invoke func_markdown
 ```
 
-### Making use of custom templates
+You'll now be asked to type in some text. Hit Control + D when you're done.
 
-If you have your own language template or have found a community template such as the PHP template then you can add that with the following command:
-
-```
-faas template pull https://github.com/itscaro/openfaas-template-php
-
-...
-
-faas new --list|grep php
-- php
-- php5
-```
-
-A list of community templates is maintained on the [OpenFaaS CLI site](https://github.com/openfaas/faas-cli).
-
-## Accessing the HTTP request / query-string
-
-The `faas-cli invoke` can accept other parameters such as `--query` to provide a querystring. Any parameters will be available as environmental variables within your code.
-
-Here's an example where we scaffold a new Node.js function using the `faas new` command:
+Alternatively you can use a command such as `echo` or `uname -a` as input to the `invoke` command which works through the use of pipes.
 
 ```
-faas new --lang node print-env
-mv print-env.yml stack.yml
+$ echo Hi | faas-cli invoke func_markdown
+
+$ uname -a | faas-cli invoke func_markdown
 ```
 
-The `new` command will create two files for a Node.js template:
+You can even generate a HTML file from this lab's markdown file with the following:
 
 ```
-./print-env/handler.js
-./stack.yml
+$ cat lab2.md | faas-cli invoke func_markdown
 ```
 
-If you need to add `npm` modules later on you can create a `package.json` file in the `print-env` folder.
-
-Edit `print-env/handler.js`:
-
-```
-"use strict"
-
-module.exports = (context, callback) => {
-    callback(undefined, { "environment": process.env });
-}
-```
-
-This will print out the environmental variables available to the function. So let's build / deploy and invoke it:
-
-```
-faas build
-faas deploy
-echo -n "openfaas" | faas invoke print-env --query workshop=true
-
-{"environment":{"PATH":"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","HOSTNAME":"59cc01de25a6",
-"fprocess":"node index.js","NODE_VERSION":"8.9.1","YARN_VERSION":"1.3.2","NPM_CONFIG_LOGLEVEL":"warn",
-"cgi_headers":"true","HOME":"/home/app",
-"Http_User_Agent":"Go-http-client/1.1",
-"Http_Accept_Encoding":"gzip",
-"Http_Content_Type":"text/plain",
-"Http_Connection":"close",
-"Http_Method":"POST",
-"Http_ContentLength":"-1",
-"Http_Query":"workshop=true",
-"Http_Path":"/function/print-env"}}
-```
-
-As part of the output you can see the Http headers and request data revealed in environmental variables.
-
-Our querystring of `workshop=true` is available in the environmental variable `Http_Query`.
-
-In Python you can find environmental variables through the `os.getenv(key, default_value)` function or `os.environ` array after importing the `os` package.
-
-i.e.
-
-```
-import os
-
-def handle(st):
-    print os.getenv("Http_Method")          # will be "NoneType" if empty
-    print os.getenv("Http_Method", "GET")   # provide a default of "GET" if empty
-    print os.environ["Http_Method"]         # throws an exception is not present
-    print os.environ                        # array of environment
-```
+Now move onto [Lab 3](./lab3.md)
