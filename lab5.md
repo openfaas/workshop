@@ -104,4 +104,6 @@ Now refresh the page on the requestbin site and you will see the result from `fi
                                                             
 ```
 
+> Pro-tip: It is also possible to use another function as the `X-Callback-Url` - this would be great for notifying yourself over Slack or Email when an asynchronous workload has been processed. To call another function with the result set the `X-Callback-Url` to `http://gateway:8080/function/<function_name>`.
+
 Now move onto [Lab 6](lab6.md)
