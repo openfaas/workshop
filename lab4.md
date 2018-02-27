@@ -2,66 +2,129 @@
 
 ## Extend timeouts with `read_timeout`
 
+The *timeout* corresponds to how long a function can run for until it is executed. It is important for preventing misuse in distributed systems.
+
+There are several places where a timeout can be configured for your function, in each place this is done through the use of environmental variables.
+
+* Function timeout
+
+* `read_timeout` - time allowed fo the function to read a request over HTTP
+* `write_timeout` - time allowed for the function to write a response over HTTP
+* `hard_timeout` - the maximum duration a function can run before being terminated
+
+The API Gateway has a default of 20 seconds, so let's test out setting a shorter timeout on a function.
+
+```
+$ faas new --lang python sleep-for
+```
+
+Edit handler.py and add:
+
+```
+import time
+
+def handler(req):
+...
+    print("Starting to sleep")
+    time.sleep(10)  # Sleep for 10 seconds
+...
+```
+
+Now edit the `sleep-for.yml` file and add these environmental variables:
+
+```
+    environment:
+      write_debug: true
+      read_timeout: "5s"
+      write_timeout: "5s"
+      hard_timeout: "5s"
+```
+
+Use the CLI to build, push, deploy and invoke the function.
+
+You should see it terminate early after 5 seconds.
+
+* API Gateway
+
+This is the maximum timeout duration as set at the gateway, it will override the function timeout. At the time of writing the maximum timeout is configured at "20s", but can be configured to a longer or shorter value.
+
+To update the gateway value set `read_timeout` and `write_timeout` in the `docker-compose.yml` file for the `gateway` and `faas-swarm` service then run `./deploy_stack.sh`.
+
 ## Inject configuration through environmental variables
 
-## Use HTTP context - querystring / headers etc
+It is useful to be able to control how a function behaves at runtime, we can do that in at least two ways:
 
+### At deployment time
 
-## Accessing the HTTP request / query-string
+* Set environmental variables at deployment time
 
-The `faas-cli invoke` can accept other parameters such as `--query` to provide a querystring. Any parameters will be available as environmental variables within your code.
+We did this with `write_debug` and `hard_timeout` - you can also set any custom environmental variables you want here too - for instance if you wanted to configure a language for your *hello world* function you may introduce a `spoken_language` variable.
 
-Here's an example where we scaffold a new Node.js function using the `faas new` command:
+### Use HTTP context - querystring / headers
 
-```
-faas new --lang node print-env
-mv print-env.yml stack.yml
-```
+* Use querystring and HTTP headers
 
-The `new` command will create two files for a Node.js template:
+The other option which is more dynamic and can be altered at a per-request level is the use of querystrings and HTTP headers, both can be passed through the `faas-cli` or `curl`.
 
-```
-./print-env/handler.js
-./stack.yml
-```
+These headers become exposed through environmental variables so they are easy to consume within your function. So any header is prefixed with `Http_` and all `-` hyphens are replaced with an `_` underscore.
 
-If you need to add `npm` modules later on you can create a `package.json` file in the `print-env` folder.
-
-Edit `print-env/handler.js`:
+Let's try it out with a querystring and a function that lists off all environmental variables:
 
 ```
-"use strict"
-
-module.exports = (context, callback) => {
-    callback(undefined, { "environment": process.env });
-}
+$ faas deploy --name env --fprocess="env" --image="functions/alpine:latest"
+$ echo "" | faas invoke env --query workshop=1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=05e8db360c5a
+fprocess=env
+HOME=/root
+Http_Connection=close
+Http_Content_Type=text/plain
+Http_X_Call_Id=cdbed396-a20a-43fe-9123-1d5a122c976d
+Http_X_Forwarded_For=10.255.0.2
+Http_X_Start_Time=1519729562486546741
+Http_User_Agent=Go-http-client/1.1
+Http_Accept_Encoding=gzip
+Http_Method=POST
+Http_ContentLength=-1
+Http_Path=/function/env
+...
+Http_Query=workshop=1
+...
 ```
 
-This will print out the environmental variables available to the function. So let's build / deploy and invoke it:
+In Python code you'd type in `os.getenv("Http_Query")`.
+
+And with a header:
 
 ```
-faas build
-faas deploy
-echo -n "openfaas" | faas invoke print-env --query workshop=true
-
-{"environment":{"PATH":"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","HOSTNAME":"59cc01de25a6",
-"fprocess":"node index.js","NODE_VERSION":"8.9.1","YARN_VERSION":"1.3.2","NPM_CONFIG_LOGLEVEL":"warn",
-"cgi_headers":"true","HOME":"/home/app",
-"Http_User_Agent":"Go-http-client/1.1",
-"Http_Accept_Encoding":"gzip",
-"Http_Content_Type":"text/plain",
-"Http_Connection":"close",
-"Http_Method":"POST",
-"Http_ContentLength":"-1",
-"Http_Query":"workshop=true",
-"Http_Path":"/function/print-env"}}
+$ faas deploy --name env --fprocess="env" --image="functions/alpine:latest"
+$ echo "" | curl http://127.0.0.1:8080/function/env --header "X-Output-Mode: json"
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=05e8db360c5a
+fprocess=env
+HOME=/root
+Http_X_Call_Id=8e597bcf-614f-4ca5-8f2e-f345d660db5e
+Http_X_Forwarded_For=10.255.0.2
+Http_X_Start_Time=1519729577415481886
+Http_Accept=*/*
+Http_Accept_Encoding=gzip
+Http_Connection=close
+Http_User_Agent=curl/7.55.1
+Http_Method=GET
+Http_ContentLength=0
+Http_Path=/function/env
+...
+Http_X_Output_Mode=json
+...
 ```
 
-As part of the output you can see the Http headers and request data revealed in environmental variables.
+In Python code you'd type in `os.getenv("Http_X_Output_Mode")`.
 
-Our querystring of `workshop=true` is available in the environmental variable `Http_Query`.
+You can see that all other HTTP context is also provided such as `Content-Length` when the `Http_Method` is a `POST`, the `User_Agent`, Cookies and anything else you'd expect to see from a HTTP request.
 
-In Python you can find environmental variables through the `os.getenv(key, default_value)` function or `os.environ` array after importing the `os` package.
+### Summarising environmental variables.
+
+In Python you can find environmental variables through the `os.getenv(key, default_value)` function or `os.environ` array after importing the `os` package. The OpenFaaS watchdog provides all HTTP context to your function through environmental variables. They can be used at deployment time or at runtime to alter the behaviour of your code.
 
 i.e.
 
