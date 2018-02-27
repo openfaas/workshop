@@ -1,17 +1,21 @@
 # openfaas-workshop
 
-This is a self-paced workshop on OpenFaaS running on Kubernetes.
+This is a self-paced workshop for learning how to build, deploy and run OpenFaaS functions.
+
+> This workshop starts by deploying OpenFaaS your laptop with Docker for Mac or Windows and then shows how to build, deploy and invoke Serverless functions in Python. Topics will include: managing dependencies with pip, dealing with API tokens through secure secrets, monitoring functions with Prometheus, invoking functions asynchronously and chaining functions together to create applications. We finish by connecting to online event-streams through IFTTT.com - this will enable you to build bots, auto-responders and integrations with social media and IoT devices.
 
 Requirements:
 
 * Functions will be written in Python, so prior programming or scripting experience is preferred 
-* Preferred OS: MacOS, Linux, Windows 10 Pro
-* Kubernetes
- * Docker for Mac Edge
- * Or an account on DigitalOcean to provision a small Kubernetes cluster
-* Installed [VSCode](https://code.visualstudio.com/download)
+* Install the recommended code-editor / IDE [VSCode](https://code.visualstudio.com/download)
+* Preferred OS: MacOS, Windows 10 Pro/Enterprise, Ubuntu Linux
+* Docker
+ * Docker for Mac/Windows Edge
+ * Docker CE for Linux
 
-> Disclaimer: this is a work-in-progress.
+> Note: As a last resort if you have an incompatible PC you can run the workshop on [http://play-with-docker.com](play-with-docker.com).
+
+Disclaimer: this workshop is a work-in-progress - labs 2-4 are ready.
 
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
