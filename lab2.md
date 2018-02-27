@@ -4,7 +4,7 @@
 
 You can now test out the OpenFaaS UI by going to http://localhost:8080 or http://127.0.0.1:8080 - if you're deploying to a Linux VM then replace localhost with the IP address from the output you see on the `ifconfig` command.
 
-Note: on some Linux distributions accessing `localhost` may hang, if that happens then oplease use `127.0.0.1` instead and replace it wherever you see `localhost`.
+Note: on some Linux distributions accessing `localhost` may hang, if that happens then please use `127.0.0.1` instead and replace it wherever you see `localhost`.
 
 In the default stack we deploy several sample functions.
 
