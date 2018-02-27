@@ -271,5 +271,55 @@ faas new --list|grep php
 
 A list of community templates is maintained on the [OpenFaaS CLI README page](https://github.com/openfaas/faas-cli).
 
+Continue to the optional exercise or go move onto [Lab 4](lab4.md).
+
+### Custom binaries as functions (optional)
+
+Custom binaries or containers can be used as functions, but most of the time using the language templates should cover all the most common scenarios.
+
+To use a custom binary or Dockerfile create a new function using the `dockerfile` language:
+
+```
+$ faas new --lang dockerfile sorter
+```
+
+You'll see a folder created named `sorter` and `sorter.yml`.
+
+Edit `sorter/Dockerfile` and update the line which sets the `fprocess`. Let's change it to the built-in bash command of `sort`. We can use this to sort a list of strings in alphanumeric order.
+
+```
+ENV fprocess="sort"
+```
+
+Edit `sorter.yml` and add your username as a prefix to the `image: sorter` field such as `image: alexellis2/sorter`.
+
+Now build, push and deploy the function:
+
+```
+$ faas build -f sorter.yml \
+  && faas push -f sorter.yml
+  && faas deploy -f sorter.yml
+```
+
+Now invoke the function through the UI or via the CLI:
+
+```
+$ echo -n '
+elephant
+zebra
+horse
+ardvark
+monkey'| faas invoke sorter -g 127.0.0.1:8081
+
+ardvark
+elephant
+horse
+monkey
+zebra
+```
+
+In the example we used sort from [BusyBox](https://busybox.net/downloads/BusyBox.html) which is built into the function. There are other useful commands such as `sha512sum` and even a `bash` or shell script, but you are not limited to these built-in commands. Any binary or existing container can be made a serverless function by adding the OpenFaaS function watchdog.
+
+> Tip: did you know that OpenFaaS supports Windows binaries too? Like C#, VB or PowerShell?
 
 Now move onto [Lab 4](lab4.md)
