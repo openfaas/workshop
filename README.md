@@ -15,7 +15,7 @@ Requirements:
 
 > Note: As a last resort if you have an incompatible PC you can run the workshop on [http://play-with-docker.com](play-with-docker.com).
 
-Disclaimer: this workshop is a work-in-progress - labs 2-4 are ready.
+Disclaimer: this workshop is a work-in-progress - labs 2-5 are ready.
 
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
