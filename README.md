@@ -35,7 +35,7 @@ Disclaimer: this workshop is a work-in-progress - labs 2-5 are ready.
 ## [Lab 3 - Introduction to Functions](./lab3.md)
 
 * Scaffold or generate a new function
-* Build the space-counter function
+* Build the astronaut-finder function
  * Add dependencies with `pip`
 * Troubleshooting: verbose output with `write_debug`
 * Troubleshooting: find the container's logs
