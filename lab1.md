@@ -10,18 +10,30 @@ The basic primitive for any OpenFaaS function is a Docker image, which is built 
 
 For Mac
 
-* Docker CE for Mac
+* [Docker CE for Mac Edge Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 
 For Windows 
 
 * Windows 10 Pro or Enterprise only
-* Docker CE for Windows
+* [Docker CE for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
 
 Linux - Ubuntu or Debian
 
 * Docker CE for Linux
 
 > You can install Docker CE from the [Docker Store](https://store.docker.com).
+
+### Setup a single-node Docker Swarm
+
+OpenFaaS works with Docker Swarm and Kubernetes. For this workshop we will use Docker Swarm because it's easier to set up but there are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
+
+On your laptop or VM setup a single-node Docker Swarm:
+
+```
+$ docker swarm init
+```
+
+> If you receive an error then pass the `--advertise-addr` parameter along with your laptop's IP address.
 
 ### Docker Hub
 
@@ -44,18 +56,6 @@ On Windows download the the latest `faas-cli.exe` from the [releases page](https
 > If you're an advanced Windows user, place the CLI in a directory of your choice and then add that folder to your PATH environmental variable.
 
 We will use the `faas-cli` to scaffold new functions, build, deploy and invoke functions. You can find out commands available for the cli with `faas-cli --help`.
-
-### Setup a single-node Docker Swarm
-
-OpenFaaS works with Docker Swarm and Kubernetes. For this workshop we will use Docker Swarm because it's easier to set up but there are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
-
-On your laptop or VM setup a single-node Docker Swarm:
-
-```
-$ docker swarm init
-```
-
-> If you receive an error then pass the `--advertise-addr` parameter along with your laptop's IP address.
 
 ### Deploy OpenFaaS
 
