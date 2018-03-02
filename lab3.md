@@ -58,7 +58,7 @@ The YAML (.yml) file is used to configure the CLI for building, pushing and depl
 
 Here's the contents of the YAML file:
 
-```
+```yaml
 provider:
   name: faas
   gateway: http://localhost:8080
@@ -74,7 +74,7 @@ On the line `image: ` make sure the name is prefixed with your Docker Hub accoun
 
 Here is the contents of the `handler.py` file:
 
-```
+```python
 def handle(req):
     """handle a request to the function
     Args:
@@ -160,13 +160,13 @@ We'll be pulling in data from: http://api.open-notify.org/astros.json
 
 Here's an example of the result:
 
-```
+```json
 {"number": 6, "people": [{"craft": "ISS", "name": "Alexander Misurkin"}, {"craft": "ISS", "name": "Mark Vande Hei"}, {"craft": "ISS", "name": "Joe Acaba"}, {"craft": "ISS", "name": "Anton Shkaplerov"}, {"craft": "ISS", "name": "Scott Tingle"}, {"craft": "ISS", "name": "Norishige Kanai"}], "message": "success"}
 ```
 
 Update `handler.py`:
 
-```
+```python
 import requests
 import random
 
@@ -221,7 +221,7 @@ Let's turn on verbose output for your function. This is turned-off by default so
 
 This is the standard YAML configuration:
 
-```
+```yaml
 provider:
   name: faas
   gateway: http://localhost:8080
@@ -235,7 +235,7 @@ functions:
 
 Edit your YAML file for the function and add an "environment" section.
 
-```
+```yaml
   astronaut-finder:
     lang: python
     handler: ./astronaut-finder

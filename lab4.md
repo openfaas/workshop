@@ -22,7 +22,7 @@ $ faas new --lang python sleep-for
 
 Edit handler.py and add:
 
-```
+```python
 import time
 
 def handler(req):
@@ -34,7 +34,7 @@ def handler(req):
 
 Now edit the `sleep-for.yml` file and add these environmental variables:
 
-```
+```yaml
     environment:
       write_debug: true
       read_timeout: "5s"
@@ -130,7 +130,7 @@ In Python you can find environmental variables through the `os.getenv(key, defau
 
 i.e.
 
-```
+```python
 import os
 
 def handle(st):

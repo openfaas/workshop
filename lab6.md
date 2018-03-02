@@ -69,14 +69,14 @@ So the result shows us that our test sentence was both very subjective (75%) and
 
 The following code can be used to call the *Sentiment Analysis* function or any other function:
 
-```
+```python
     test_sentence = "California is great, it's always sunny there."
     r = requests.get("http://gateway:8080/function/sentimentanalysis", text= test_sentence)
 ```
 
 Or via an environmental variable:
 
-```
+```python
     gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
     test_sentence = "California is great, it's always sunny there."
     r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", text= test_sentence)
@@ -84,7 +84,7 @@ Or via an environmental variable:
 
 Since the result is always in JSON format we can make use of the helper function `.json()` to convert the response:
 
-```
+```python
     result = r.json()
     if result["polarity" > 0.45]:
         print("That was probably positive")
