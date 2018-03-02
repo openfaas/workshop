@@ -1,5 +1,7 @@
 # Lab 6 - Chain or combine Functions into workflows
 
+<img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
+
 ## Call one function from another
 
 The easiest way to call one function from another is make a call over HTTP back to the API Gateway in OpenFaaS. This call does not need to know the external domain name or IP address, it can simply refer to the API Gateway as `gateway`.
