@@ -28,6 +28,8 @@ Linux - Ubuntu or Debian
 
 > You can install Docker CE from the [Docker Store](https://store.docker.com).
 
+Note: As a last resort if you have an incompatible PC you can run the workshop on [https://labs.play-with-docker.com/](play-with-docker.com).
+
 ### Setup a single-node Docker Swarm
 
 OpenFaaS works with Docker Swarm and Kubernetes. For this workshop we will use Docker Swarm because it's easier to set up but there are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
