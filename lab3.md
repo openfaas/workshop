@@ -116,35 +116,35 @@ Functions can be invoked via a `GET` or `POST` method only.
 
 Test out the function with `faas-cli invoke`, check `faas-cli invoke --help` for more options.
 
-### Example function: space-counter
+### Example function: astronaut-finder
 
-We'll create a function that pulls in a random name of someone in space aboard the International Space Station (ISS).
+We'll create a function called `astronaut-finder` that pulls in a random name of someone in space aboard the International Space Station (ISS).
 
 ```
-$ faas new --lang python space-counter
+$ faas new --lang python astronaut-finder
 ```
 
 This will write three files for us:
 
 ```
-./space-counter/handler.py
+./astronaut-finder/handler.py
 ```
 
 The handler for the function - you get a `req` object with the raw request and can print the result of the function to the console.
 
 ```
-./space-counter/requirements.txt
+./astronaut-finder/requirements.txt
 ```
 
 This file lists any `pip` modules you want to install, such as `requests` or `urllib`
 
 ```
-./space-counter.yml
+./astronaut-finder.yml
 ```
 
 This file is used to manage the function - it has the name of the function, the Docker image and any other customisations needed.
 
-* Edit `./space-counter/requirements.txt`
+* Edit `./astronaut-finder/requirements.txt`
 
 ```
 requests
@@ -182,24 +182,24 @@ def handle(req):
 Now build the function:
 
 ```
-$ faas build -f ./space-counter.yml
+$ faas build -f ./astronaut-finder.yml
 ```
 
-> Tip: If you rename space-counter.yml to `stack.yml` then you can leave off the `-f` argument. `stack.yml` is the default file-name for the CLI.
+> Tip: If you rename astronaut-finder.yml to `stack.yml` then you can leave off the `-f` argument. `stack.yml` is the default file-name for the CLI.
 
 Deploy the function:
 
 ```
-$ faas deploy -f ./space-counter.yml
+$ faas deploy -f ./astronaut-finder.yml
 ```
 
 Invoke the function
 
 ```
-$ echo | faas invoke space-counter
+$ echo | faas invoke astronaut-finder
 Anton Shkaplerov is in space
 
-$ echo | faas invoke space-counter
+$ echo | faas invoke astronaut-finder
 Joe Acaba is in space
 ```
 
@@ -208,9 +208,9 @@ Joe Acaba is in space
 You can find out high-level information on every invocation of your function via the container's logs:
 
 ```
-$ docker service logs -f space-counter
-space-counter.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
-space-counter.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Wrote 18 Bytes - Duration: 0.063269 seconds
+$ docker service logs -f astronaut-finder
+astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
+astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Wrote 18 Bytes - Duration: 0.063269 seconds
 ```
 
 ## Troubleshooting: verbose output with `write_debug`
@@ -225,34 +225,34 @@ provider:
   gateway: http://localhost:8080
 
 functions:
-  space-counter:
+  astronaut-finder:
     lang: python
-    handler: ./space-counter
-    image: space-counter
+    handler: ./astronaut-finder
+    image: astronaut-finder
 ```
 
 Edit your YAML file for the function and add an "environment" section.
 
 ```
-  space-counter:
+  astronaut-finder:
     lang: python
-    handler: ./space-counter
-    image: space-counter
+    handler: ./astronaut-finder
+    image: astronaut-finder
     environment:
       write_debug: true
 ```
 
-Now deploy your function again with `faas-cli deploy -f ./space-counter.yml`.
+Now deploy your function again with `faas-cli deploy -f ./astronaut-finder.yml`.
 
 Invoke the function and then checkout the logs again to view the function responses:
 
 ```
-$ docker service logs -f space-counter
-space-counter.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
-space-counter.1.szobw9pt3m60@nuc    | 2018/02/26 14:49:57 Query  
-space-counter.1.szobw9pt3m60@nuc    | 2018/02/26 14:49:57 Path  /function/hello-openfaas
-space-counter.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Hello World
-space-counter.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Duration: 0.063269 seconds
+$ docker service logs -f astronaut-finder
+astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
+astronaut-finder.1.szobw9pt3m60@nuc    | 2018/02/26 14:49:57 Query  
+astronaut-finder.1.szobw9pt3m60@nuc    | 2018/02/26 14:49:57 Path  /function/hello-openfaas
+astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Hello World
+astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Duration: 0.063269 seconds
 ```
 
 ### Make use of custom templates
@@ -318,7 +318,7 @@ monkey
 zebra
 ```
 
-In the example we used sort from [BusyBox](https://busybox.net/downloads/BusyBox.html) which is built into the function. There are other useful commands such as `sha512sum` and even a `bash` or shell script, but you are not limited to these built-in commands. Any binary or existing container can be made a serverless function by adding the OpenFaaS function watchdog.
+In the example we used `sort` from [BusyBox](https://busybox.net/downloads/BusyBox.html) which is built into the function. There are other useful commands such as `sha512sum` and even a `bash` or shell script, but you are not limited to these built-in commands. Any binary or existing container can be made a serverless function by adding the OpenFaaS function watchdog.
 
 > Tip: did you know that OpenFaaS supports Windows binaries too? Like C#, VB or PowerShell?
 

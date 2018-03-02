@@ -8,10 +8,13 @@ Requirements:
 
 * Functions will be written in Python, so prior programming or scripting experience is preferred 
 * Install the recommended code-editor / IDE [VSCode](https://code.visualstudio.com/download)
+* For Windows install [Git Bash](https://git-scm.com/downloads)
 * Preferred OS: MacOS, Windows 10 Pro/Enterprise, Ubuntu Linux
-* Docker
- * Docker for Mac/Windows Edge
- * Docker CE for Linux
+
+Docker:
+
+* Docker for Mac/Windows **Edge edition**
+* Docker CE for Linux
 
 > Note: As a last resort if you have an incompatible PC you can run the workshop on [http://play-with-docker.com](play-with-docker.com).
 
@@ -35,7 +38,7 @@ Disclaimer: this workshop is a work-in-progress - labs 2-5 are ready.
 ## [Lab 3 - Introduction to Functions](./lab3.md)
 
 * Scaffold or generate a new function
-* Build the space-counter function
+* Build the astronaut-finder function
  * Add dependencies with `pip`
 * Troubleshooting: verbose output with `write_debug`
 * Troubleshooting: find the container's logs

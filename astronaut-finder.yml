@@ -3,7 +3,7 @@ provider:
   gateway: http://localhost:8080
 
 functions:
-  space-counter:
+  astronaut-finder:
     lang: python
-    handler: ./space-counter
-    image: space-counter
+    handler: ./astronaut-finder
+    image: astronaut-finder

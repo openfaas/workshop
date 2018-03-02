@@ -14,8 +14,11 @@ For Mac
 
 For Windows 
 
-* Windows 10 Pro or Enterprise only
-* [Docker CE for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
+* Use Windows 10 Pro or Enterprise only
+* Install [Docker CE for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
+* Install [Git Bash](https://git-scm.com/downloads)
+
+> Note: please use Git Bash for all steps: do not attempt to use *WSL* or *Bash for Windows*.
 
 Linux - Ubuntu or Debian
 
@@ -43,25 +46,60 @@ You can sign up here: [Docker Hub](https://hub.docker.com)
 
 > Note: The Docker Hub can also be setup to automate builds of Docker images.
 
+Open a Terminal or Git Bash window and log into the Docker Hub using the username you signed up for above.
+
+```
+$ docker login
+```
+
+### Setup a single-node Docker Swarm
+
+OpenFaaS works with Docker Swarm and Kubernetes. For this workshop we will use Docker Swarm because it's easier to set up but there are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
+
+On your laptop or VM setup a single-node Docker Swarm:
+
+```
+$ docker swarm init
+```
+
+> If you receive an error then pass the `--advertise-addr` parameter along with your laptop's IP address.
+
 ### OpenFaaS CLI
 
 You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script on Mac or Linux:
+
+Using a Terminal on Mac or Linux:
 
 ```
 $ curl -sL cli.openfaas.com | sudo sh
 ```
 
-On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli). You can place it in a local directory or in the C:\Windows path so that it's available from a command prompt.
+On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli). You can place it in a local directory or in the `C:\Windows\` path so that it's available from a command prompt.
 
 > If you're an advanced Windows user, place the CLI in a directory of your choice and then add that folder to your PATH environmental variable.
 
 We will use the `faas-cli` to scaffold new functions, build, deploy and invoke functions. You can find out commands available for the cli with `faas-cli --help`.
 
+=======
+Test the `faas-cli`
+
+Open a Terminal or Git Bash window and type in:
+
+```
+$ faas-cli help
+$ faas-cli version
+```
+
 ### Deploy OpenFaaS
 
-The instructions for deploying OpenFaaS change from time to time as we strive to make this easier. Head over to the official deployment guide in the official guide and follow the steps:
+The instructions for deploying OpenFaaS change from time to time as we strive to make this easier. The following will get OpenFaaS deployed in around 60 seconds:
 
-* [Deployment guide](https://github.com/openfaas/faas/blob/master/guide/deployment_swarm.md)
+```
+$ git clone https://github.com/openfaas/faas && \
+  cd faas && \
+  git checkout 0.7.3 && \
+  ./deploy_stack.sh
+```
 
 You should now have OpenFaaS deployed. If you are on a shared WiFi connection at an event then it may take several minutes to pull down all the Docker images and start them.
 
@@ -70,5 +108,7 @@ Check the services show `1/1` and `running` on this screen:
 ```
 $ docker service ls
 ```
+
+If you run into any problems, please consult the [Deployment guide](https://github.com/openfaas/faas/blob/master/guide/deployment_swarm.md) for Docker Swarm.
 
 Now move onto [Lab 2](./lab2.md)
