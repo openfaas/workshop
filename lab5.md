@@ -1,5 +1,7 @@
 # Lab 5 - Asynchronous Functions
 
+<img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
+
 ## Call a function synchronously vs asynchronously
 
 When you call a function synchronously a connection is made to the gateway through to your function and is held open for the whole execution time. Synchronous calls are *blocking* so you should see your client pause and become inactive until the function has completed its task. 
