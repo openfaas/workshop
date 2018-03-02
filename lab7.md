@@ -82,7 +82,144 @@ Each time you create an issue the count will increase. You can see the payload s
 
 ## Analyse new Issues on GitHub
 
+
+### Deploy Sentiment Analysis function
+
+In order to use this issue-bot function, you will need to deploy the Sentiment Analysis function first.
+This is a python function that provides a rating on sentiment positive/negative (polarity -1.0-1.0) and subjectivity provided to each of the sentences sent in via the TextBlob project.
+
+You can checkout the function from [faas/sample-functions](https://github.com/openfaas/faas/tree/master/sample-functions).
+
+Deploy with: 
+
+```
+curl -s http://fuh83fhfj.ngrok.io/system/functions --data-binary \
+'{ 
+   "service": "sentimentanalysis",
+   "image": "functions/sentimentanalysis",
+   "envProcess": "python ./handler.py",
+   "network": "func_functions"
+   }'
+```
+
+and test
+
+```
+# curl http://fuh83fhfj.ngrok.io/function/sentimentanalysis -d "I am really excited to participate in the OpenFaaS workshop."
+Polarity: 0.375 Subjectivity: 0.75
+
+# curl http://fuh83fhfj.ngrok.io/function/sentimentanalysis -d "The hotel was clean, but the area was terrible"; echo
+Polarity: -0.316666666667 Subjectivity: 0.85
+```
+
+### Update your `issue-bot` function
+
+Open `issue-bot/handler.py` and paste this code:
+
+```
+import requests, json, os, sys
+
+def handle(req):
+
+    event_header = os.getenv("Http_X_Github_Event")
+
+    if not event_header == "issues":
+        sys.exit(1)
+        return
+
+    gateway_hostname = os.getenv("gateway_hostname", "gateway")
+
+    payload = json.loads(req)
+
+    if not payload["action"] == "opened":
+        return
+
+    #sentimentanalysis
+    res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
+
+    print(res.json())
+```
+
+Update `requirements.txt` with 
+
+```
+requests
+```
+
+**TODO** - add more details about what the code does
+
+### Build and Deploy:
+
+Use the CLI to build and deploy the function:
+
+```
+faas build -f issue.yml & faas push -f issue-bot.yml & faas deploy -f issue-bot.yml
+```
+
+Now create new issues in the `bot-tester` repo and check the Response from the repo Webhook.
+**TODO** Add more details
+
+
 ## Apply labels via the GitHub API
+
+### Create Github Auth token
+
+Go to your GitHub profile -> Settings/Developer settings/Personal access tokens and generate new token.
+
+Copy the contents of `env.example.yml` to `env.yml` and update `auth_token` value with the new generated token.
+
+Update `repo` in `env.yml` with the `bot-tester` repository.
+
+
+### Update code
+
+Open `issue-bot/handler.py` and update the code with:
+
+```
+from github import Github
+
+# ... leave the old code here
+
+# positive_threshold
+    positive_threshold = float(os.getenv("positive_threshold", "0.2"))
+
+    g = Github(os.getenv("auth_token"))
+    repo = g.get_repo(os.getenv("repo"))
+    issue = repo.get_issue(payload["issue"]["number"])
+
+    has_label_positive = False
+    has_label_review = False
+    for label in issue.labels:
+        if label == "positive":
+            has_label_positive = True
+        if label == "review":
+            has_label_review = True
+
+    if res.json()['polarity']  >  positive_threshold and not has_label_positive:
+        issue.set_labels("positive")
+    elif not has_label_review:
+        issue.set_labels("review")
+
+    print(res.json())
+```
+**TODO** Add more details about the code
+
+Update `requirements.txt` with 
+
+```
+PyGithub
+```
+
+### Build and Deploy:
+
+Use the CLI to build and deploy the function:
+
+```
+faas build -f issue.yml & faas push -f issue-bot.yml & faas deploy -f issue-bot.yml
+```
+
+Now create new issues in the `bot-tester` repo and check the labels.
+**TODO** more details
 
 
 Now return to the [main page for Q&A](./README.md).
