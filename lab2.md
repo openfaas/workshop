@@ -10,6 +10,8 @@ Note: on some Linux distributions accessing `localhost` may hang, if that happen
 
 In the default stack we deploy several sample functions.
 
+![](./screenshot/markdown_portal.png)
+
 You can try them out in the UI such as the Markdown function which converts Markdown code into HTML.
 
 Type the below into the *Request* field:

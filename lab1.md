@@ -12,12 +12,12 @@ The basic primitive for any OpenFaaS function is a Docker image, which is built 
 
 For Mac
 
-* Docker CE for Mac
+* [Docker CE for Mac Edge Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 
 For Windows 
 
 * Use Windows 10 Pro or Enterprise only
-* Install Docker CE for Windows
+* Install [Docker CE for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
 * Install [Git Bash](https://git-scm.com/downloads)
 
 > Note: please use Git Bash for all steps: do not attempt to use *WSL* or *Bash for Windows*.
@@ -27,6 +27,18 @@ Linux - Ubuntu or Debian
 * Docker CE for Linux
 
 > You can install Docker CE from the [Docker Store](https://store.docker.com).
+
+### Setup a single-node Docker Swarm
+
+OpenFaaS works with Docker Swarm and Kubernetes. For this workshop we will use Docker Swarm because it's easier to set up but there are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
+
+On your laptop or VM setup a single-node Docker Swarm:
+
+```
+$ docker swarm init
+```
+
+> If you receive an error then pass the `--advertise-addr` parameter along with your laptop's IP address.
 
 ### Docker Hub
 
@@ -67,17 +79,6 @@ $ faas-cli help
 $ faas-cli version
 ```
 
-### Setup a single-node Docker Swarm
-
-OpenFaaS works with Docker Swarm and Kubernetes. For this workshop we will use Docker Swarm because it's easier to set up but there are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
-
-On your laptop or VM setup a single-node Docker Swarm:
-
-```
-$ docker swarm init
-```
-
-> If you receive an error then pass the `--advertise-addr` parameter along with your laptop's IP address.
 
 ### Deploy OpenFaaS
 
