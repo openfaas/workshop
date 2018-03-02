@@ -1,5 +1,7 @@
 # Lab 4 - Go deeper with functions
 
+<img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
+
 ## Extend timeouts with `read_timeout`
 
 The *timeout* corresponds to how long a function can run for until it is executed. It is important for preventing misuse in distributed systems.
