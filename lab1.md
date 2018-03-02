@@ -1,5 +1,7 @@
 # Lab 1 - Preparing OpenFaaS
 
+<img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
+
 OpenFaaS runs on top of several major platforms including Docker Swarm and Kubernetes. For this tutorial we will get started with Docker Swarm on your local computer.
 
 The basic primitive for any OpenFaaS function is a Docker image, which is built using the `faas-cli` tool-chain.
