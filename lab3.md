@@ -1,5 +1,7 @@
 # Lab 3 - Introduction to Functions
 
+<img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
+
 ## Creating a new function
 
 There are two ways to create a new function:
