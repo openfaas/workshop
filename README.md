@@ -2,6 +2,8 @@
 
 This is a self-paced workshop for learning how to build, deploy and run OpenFaaS functions.
 
+![](https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png)
+
 > This workshop starts by deploying OpenFaaS your laptop with Docker for Mac or Windows and then shows how to build, deploy and invoke Serverless functions in Python. Topics will include: managing dependencies with pip, dealing with API tokens through secure secrets, monitoring functions with Prometheus, invoking functions asynchronously and chaining functions together to create applications. We finish by connecting to online event-streams through IFTTT.com - this will enable you to build bots, auto-responders and integrations with social media and IoT devices.
 
 Requirements:
