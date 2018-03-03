@@ -156,7 +156,21 @@ rate ( gateway_function_invocation_total{function_name="figlet"} [20s] )
 
 The metrics within Prometheus can be turned into a useful dashboard with free and Open Source tools like [Grafana](https://grafana.com).
 
-A pre-made [dashboard.json](https://raw.githubusercontent.com/openfaas/faas/master/contrib/grafana.json) file can be imported to Grafana for use with OpenFaaS. We suggest you look at this after completing the workshop.
+You can deploy OpenFaaS Grafana with:
+
+```bash
+docker service create -d \
+--name=func_grafana \
+--publish=3000:3000 \
+--network=func_functions \
+stefanprodan/faas-grafana:4.6.3
+```
+
+After the service has been created open Grafana in your browser, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at:
+
+```bash
+http://localhost:3000/dashboard/db/openfaas
+```
 
 <a href="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765"><img src="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765" width="500px" /></a>
 
