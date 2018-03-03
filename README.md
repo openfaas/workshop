@@ -22,7 +22,7 @@ Docker:
 
 > Note: As a last resort if you have an incompatible PC you can run the workshop on [https://labs.play-with-docker.com/](play-with-docker.com).
 
-Disclaimer: this workshop is a work-in-progress - labs 2-5 are ready.
+Disclaimer: this workshop is a work-in-progress - labs 2-6 are ready.
 
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
