@@ -71,6 +71,8 @@ Log back into GitHub and navigate to your repository *bot-tester*
 
 Click *Settings* -> *Webhooks* -> *Add Webhook*
 
+![](./screenshot/add_github_webhook.png)
+
 Now enter the URL you were given from Ngrok adding `/function/issue-bot` to the end, for example:
 
 ```
@@ -100,6 +102,8 @@ Each time you create an issue the count will increase due to GitHub's API invoki
 You can see the payload sent via GitHub by typing in `docker service logs -f issue-bot`.
 
 The GitHub Webhooks page will also show every message sent under "Recent Deliveries", you can replay a message here and see the response returned by your function.
+
+![](./screenshot/github_replay.png)
 
 ## Analyse new Issues on GitHub
 
