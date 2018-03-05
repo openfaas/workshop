@@ -20,14 +20,14 @@ Note: we will only use this repository as a testing ground for creating Issues. 
 
 You will need to receive incoming webhooks from GitHub. In production you will have a clear route for incoming traffic but within the constraints of a workshop we have to be creative.
 
-Run this on your local computer:
+Open a new Terminal and type in:
 
 ```
-$ docker run -p 4040:127.0.0.1:4040 -it --rm --net=func_functions \
-  stefanprodan/ngrok http gateway:8080
+$ docker run -p 4040:4040 -it --rm --net=func_functions \
+  alexellis2/ngrok-admin http gateway:8080
 ```
 
-You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
+Use the built-in UI of `ngrok` at http://localhost:4040 to find your HTTP URL. You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
 
 Test the URL such as http://fuh83fhfj.ngrok.io
 
@@ -81,7 +81,7 @@ http://fuh83fhfj.ngrok.io/function/issue-bot
 
 ![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookURLSettings.png)
 
-For *Content-type* select : application/json
+For *Content-type* select: *application/json*
 
 Leave *Secret* blank for now.
 
@@ -165,19 +165,17 @@ def handle(req):
     print(res.json())
 ```
 
-Update `requirements.txt` with 
+Update your `requirements.txt` file with the requests module for HTTP/HTTPs:
 
 ```
 requests
 ```
 
-This is the key line for chaining functions:
+The following line from the code above posts the GitHub Issue's title and body to the `sentimentanalysis` function as text. The response will be in JSON format.
 
 ```
 res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
 ```
-
-What you do here is to post the data to the already deployed `sentimentanalysis` function, which will read it and return the results.
 
 ### Build and Deploy:
 
@@ -189,36 +187,101 @@ $ faas build -f issue-bot.yml \
   && faas deploy -f issue-bot.yml
 ```
 
-Now create a new issue in the `bot-tester` repo.
+Now create a new issue in the `bot-tester` repository. GitHub will respond by sending a JSON payload to your function via the Ngrok tunnel we set up at the start.
 
-Then go to Settings -> Webhook and check the response from the event.
+You can view the request/response directly on GitHub - navigate to *Settings* -> *Webhook* as below:
 
 ![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookResponse.png)
 
-## Apply labels via the GitHub API
-
 ### Create a Personal Access Token for GitHub
 
-Go to your GitHub profile -> Settings/Developer settings/Personal access tokens and generate new token.
+The next step will be for us to apply a label of `positive` or `review`, but because this action involves writing to the repository we need to get a *Personal Access Token* from GitHub.
+
+Go to your *GitHub profile* -> *Settings/Developer settings* -> *Personal access tokens* and then click *Generate new token*.
 
 ![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/PersonalAccessTokens.png)
 
 ![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/NewPAT.png)
 
-Copy the contents of `env.example.yml` to `env.yml` and update `auth_token` value with the new generated token.
+Create a file called env.yml:
+* update the `auth_token` variable
+* update `repo`
 
-Update `repo` in `env.yml` with the `bot-tester` repository.
-
-### Update code
-
-Open `issue-bot/handler.py` and update the code with:
+The `positive_threshold` environmental variable is used to fine-tune whether an Issue gets the `positive` or `review` label.
 
 ```
+environment:
+  auth_token: <auth_token_value>
+  repo: iyovcheva/github-issue-bot
+  positive_threshold: 0.6
+```
+
+Now update your issue-bot.yml file and tell it to use the `env.yml` file:
+
+```
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  issue-bot:
+    lang: python
+    handler: ./issue-bot
+    image: <your-username>/issue-bot
+    environment:
+      gateway_hostname: "gateway"
+      write_debug: true
+    environment_file:
+    - env.yml
+```
+
+## Apply labels via the GitHub API
+
+You can use the API to perform many different tasks, the [documentation is available here](https://github.com/PyGithub/PyGithub).
+
+Here's a sample of Python code that we could use to apply a label, but you do not add it to your function yet.
+
+```
+issue_number = 1
+repo_name = "issue_bot"
+auth_token = "xyz"
+
+g = Github("auth_token")
+repo = g.get_repo(repo_name)
+issue = repo.get_issue(issue_number)
+```
+
+This library for GitHub is provided by the community and is not official, but appears to be popular. It can be pulled in from `pip` through our `requirements.txt` file.
+
+### Putting the whole function together
+
+* Update your `issue-bot/requirements.txt` file and add a line for `PyGithub`
+
+* Open `issue-bot/handler.py` and update the code with:
+
+```python
+import requests, json, os, sys
 from github import Github
 
-# ... leave the old code here
+def handle(req):
 
-# positive_threshold
+    event_header = os.getenv("Http_X_Github_Event")
+
+    if not event_header == "issues":
+        sys.exit(1)
+        return
+
+    gateway_hostname = os.getenv("gateway_hostname", "gateway")
+
+    payload = json.loads(req)
+
+    if not payload["action"] == "opened":
+        return
+
+    #sentimentanalysis
+    res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
+
+    # positive_threshold
     positive_threshold = float(os.getenv("positive_threshold", "0.2"))
 
     g = Github(os.getenv("auth_token"))
@@ -241,15 +304,6 @@ from github import Github
     print(res.json())
 ```
 
-Here we use a non official Python library for GitHUb - [PyGithub](https://github.com/PyGithub/PyGithub), which appears to be the most popular between any alternatives.
-
-
-In order to use the library update `requirements.txt` with 
-
-```
-PyGithub
-```
-
 ### Build and Deploy:
 
 Use the CLI to build and deploy the function:
@@ -260,9 +314,6 @@ $ faas build -f issue-bot.yml \
   && faas deploy -f issue-bot.yml
 ```
 
-Now create new issues in the `bot-tester` repo and type different possitive and negative statements in the issue body.
+Now try it out by creating some new issues in the `bot-tester` repository. Check whether `positive` and `review` labels were properly applied and consult the GitHub Webhooks page if you are not sure that the messages are getting through or if you suspect an error is being thrown.
 
-Check whether `positive` and `review` labels were properly applied.
-
-
-Now return to the [main page for Q&A](./README.md).
+Now return to the [main page](./README.md) for Q&A or to read the appendix.
