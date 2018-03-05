@@ -14,16 +14,17 @@ The job of issue-bot is to triage new issues by analysing the sentiment of the "
 
 * Create a new repository and call it *bot-tester*
 
+Note: we will only use this repository as a testing ground for creating Issues. You don't need to commit any code there.
+
 ## Set up a tunnel with ngrok
 
 You will need to receive incoming webhooks from GitHub. In production you will have a clear route for incoming traffic but within the constraints of a workshop we have to be creative.
 
-Head over to ngrok.com and download the tool and unzip it.
-
 Run this on your local computer:
 
 ```
-$ ngrok http 8080
+$ docker run -p 4040:127.0.0.1:4040 -it --rm --net=func_functions \
+  stefanprodan/ngrok http gateway:8080
 ```
 
 You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
@@ -42,7 +43,21 @@ $ faas build -f ./issue-bot.yml
 $ faas push -f ./issue-bot.yml
 ```
 
-Now edit the function's YAML file and add an environmental variable of `write_debug: true`.
+Now edit the function's YAML file `issue-bot.yml` and add an environmental variable of `write_debug: true`:
+
+```
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  issue-bot:
+    lang: python
+    handler: ./issue-bot
+    image: <user-name>/issue-bot
+    environment:
+      write_debug: true
+```
 
 * Deploy the function
 
@@ -52,9 +67,9 @@ $ faas deploy -f ./issue-bot.yml
 
 ## Receive webhooks from GitHub
 
-Log back into GitHub and navigate to your repo *bot-tester*
+Log back into GitHub and navigate to your repository *bot-tester*
 
-Click Settings -> Webhooks
+Click *Settings* -> *Webhooks* -> *Add Webhook*
 
 Now enter the URL you were given from Ngrok adding `/function/issue-bot` to the end, for example:
 
@@ -62,7 +77,9 @@ Now enter the URL you were given from Ngrok adding `/function/issue-bot` to the 
 http://fuh83fhfj.ngrok.io/function/issue-bot
 ```
 
-For content-type pick: application/json
+For *Content-type* select : application/json
+
+Leave *Secret* blank for now.
 
 And select "Send me everything"
 
@@ -78,7 +95,11 @@ Function    Invocations
 issue-bot   1
 ```
 
-Each time you create an issue the count will increase. You can see the payload sent via GitHub by typing in `docker service logs -f issue-bot`.
+Each time you create an issue the count will increase due to GitHub's API invoking the function.
+
+You can see the payload sent via GitHub by typing in `docker service logs -f issue-bot`.
+
+The GitHub Webhooks page will also show every message sent under "Recent Deliveries", you can replay a message here and see the response returned by your function.
 
 ## Analyse new Issues on GitHub
 
@@ -105,10 +126,10 @@ curl -s http://fuh83fhfj.ngrok.io/system/functions --data-binary \
 and test
 
 ```
-# curl http://fuh83fhfj.ngrok.io/function/sentimentanalysis -d "I am really excited to participate in the OpenFaaS workshop."
+# echo -n "I am really excited to participate in the OpenFaaS workshop." | faas-cli invoke sentimentanalysis
 Polarity: 0.375 Subjectivity: 0.75
 
-# curl http://fuh83fhfj.ngrok.io/function/sentimentanalysis -d "The hotel was clean, but the area was terrible"; echo
+# echo -n "The hotel was clean, but the area was terrible" | faas-cli invoke sentimentanalysis
 Polarity: -0.316666666667 Subjectivity: 0.85
 ```
 
@@ -153,12 +174,13 @@ requests
 Use the CLI to build and deploy the function:
 
 ```
-faas build -f issue.yml & faas push -f issue-bot.yml & faas deploy -f issue-bot.yml
+$ faas build -f issue.yml \
+  && faas push -f issue-bot.yml \
+  && faas deploy -f issue-bot.yml
 ```
 
 Now create new issues in the `bot-tester` repo and check the Response from the repo Webhook.
 **TODO** Add more details
-
 
 ## Apply labels via the GitHub API
 
@@ -169,7 +191,6 @@ Go to your GitHub profile -> Settings/Developer settings/Personal access tokens 
 Copy the contents of `env.example.yml` to `env.yml` and update `auth_token` value with the new generated token.
 
 Update `repo` in `env.yml` with the `bot-tester` repository.
-
 
 ### Update code
 
