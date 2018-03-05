@@ -240,7 +240,7 @@ from github import Github
 Here we use a non official Python library for GitHUb - [PyGithub](https://github.com/PyGithub/PyGithub), which appears to be the most popular between any alternatives.
 
 
-In order the use the library update `requirements.txt` with 
+In order to use the library update `requirements.txt` with 
 
 ```
 PyGithub
@@ -258,7 +258,7 @@ $ faas build -f issue-bot.yml \
 
 Now create new issues in the `bot-tester` repo and type different possitive and negative statements in the issue body.
 
-Check whether `possitive` and `review` labels were properly applied.
+Check whether `positive` and `review` labels were properly applied.
 
 
 Now return to the [main page for Q&A](./README.md).
