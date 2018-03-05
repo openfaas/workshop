@@ -77,11 +77,17 @@ Now enter the URL you were given from Ngrok adding `/function/issue-bot` to the 
 http://fuh83fhfj.ngrok.io/function/issue-bot
 ```
 
+![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookURLSettings.png)
+
 For *Content-type* select : application/json
 
 Leave *Secret* blank for now.
 
 And select "Send me everything"
+
+For events select **Issues** and **Issue comment**
+
+![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookEventsSettings.png)
 
 ## Check it worked
 
@@ -104,24 +110,12 @@ The GitHub Webhooks page will also show every message sent under "Recent Deliver
 ## Analyse new Issues on GitHub
 
 
-### Deploy Sentiment Analysis function
+### Deploy SentimentAnalysis function
 
-In order to use this issue-bot function, you will need to deploy the Sentiment Analysis function first.
+In order to use this issue-bot function, you will need to deploy the SentimentAnalysis function first.
 This is a python function that provides a rating on sentiment positive/negative (polarity -1.0-1.0) and subjectivity provided to each of the sentences sent in via the TextBlob project.
 
-You can checkout the function from [faas/sample-functions](https://github.com/openfaas/faas/tree/master/sample-functions).
-
-Deploy with: 
-
-```
-curl -s http://fuh83fhfj.ngrok.io/system/functions --data-binary \
-'{ 
-   "service": "sentimentanalysis",
-   "image": "functions/sentimentanalysis",
-   "envProcess": "python ./handler.py",
-   "network": "func_functions"
-   }'
-```
+You can deploy it from the **Function Store**
 
 and test
 
@@ -133,9 +127,15 @@ Polarity: 0.375 Subjectivity: 0.75
 Polarity: -0.316666666667 Subjectivity: 0.85
 ```
 
-### Update your `issue-bot` function
+### Create `issue-bot` function
 
-Open `issue-bot/handler.py` and paste this code:
+Create `issue-bot` function with
+
+```
+faas-cli new --lang python issue-bot
+```
+
+Then open `issue-bot/handler.py` and paste this code:
 
 ```
 import requests, json, os, sys
@@ -167,26 +167,39 @@ Update `requirements.txt` with
 requests
 ```
 
-**TODO** - add more details about what the code does
+This is the key line for chaining functions:
+
+```
+res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
+```
+
+What you do here is to post the data to the already deployed `sentimentanalysis` function, which will read it and return the results.
 
 ### Build and Deploy:
 
 Use the CLI to build and deploy the function:
 
 ```
-$ faas build -f issue.yml \
+$ faas build -f issue-bot.yml \
   && faas push -f issue-bot.yml \
   && faas deploy -f issue-bot.yml
 ```
 
-Now create new issues in the `bot-tester` repo and check the Response from the repo Webhook.
-**TODO** Add more details
+Now create a new issue in the `bot-tester` repo.
+
+Then go to Settings -> Webhook and check the response from the event.
+
+![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookResponse.png)
 
 ## Apply labels via the GitHub API
 
-### Create Github Auth token
+### Create a Personal Access Token for GitHub
 
 Go to your GitHub profile -> Settings/Developer settings/Personal access tokens and generate new token.
+
+![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/PersonalAccessTokens.png)
+
+![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/NewPAT.png)
 
 Copy the contents of `env.example.yml` to `env.yml` and update `auth_token` value with the new generated token.
 
@@ -223,9 +236,11 @@ from github import Github
 
     print(res.json())
 ```
-**TODO** Add more details about the code
 
-Update `requirements.txt` with 
+Here we use a non official Python library for GitHUb - [PyGithub](https://github.com/PyGithub/PyGithub), which appears to be the most popular between any alternatives.
+
+
+In order the use the library update `requirements.txt` with 
 
 ```
 PyGithub
@@ -236,11 +251,14 @@ PyGithub
 Use the CLI to build and deploy the function:
 
 ```
-faas build -f issue.yml & faas push -f issue-bot.yml & faas deploy -f issue-bot.yml
+$ faas build -f issue-bot.yml \
+  && faas push -f issue-bot.yml \
+  && faas deploy -f issue-bot.yml
 ```
 
-Now create new issues in the `bot-tester` repo and check the labels.
-**TODO** more details
+Now create new issues in the `bot-tester` repo and type different possitive and negative statements in the issue body.
+
+Check whether `possitive` and `review` labels were properly applied.
 
 
 Now return to the [main page for Q&A](./README.md).
