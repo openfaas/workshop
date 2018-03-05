@@ -94,20 +94,19 @@ Since the result is always in JSON format we can make use of the helper function
 
 Now create a new function in Python and it all together
 
+```python
+    gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
+    test_sentence = "California is great, it's always sunny there."
+    r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", text= test_sentence)
+    result = r.json()
+    if result["polarity" > 0.45]:
+        print("That was probably positive")
+    else:
+        print("That was neutral or negative")
+```
+
 * Remember to add `requests` to your `requirements.txt` file
 
 Note: you do not need to modify or alter the source for the SentimentAnalysis function, we have already deployed it and will access it via the API gateway.
-
-## The Director pattern
-
-The *Director pattern* as [documented here](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) is where one function *the director* exists only to call another function and return the result. It is a mixture of the two techniques we explored above.
-
-![](./diagram/director_function.png)
-
-
-In the diagram above the *director function* named "RSS Feed to MP3" creates a workflow by calling two functions on the server-side and then returning the result. The advantage of using a director function is that this function can be versioned, built and deployed in exactly the same way as the functions it makes use of.
-
-The URL passes through the director to the "Get RSS feed" function, the result (a parsed RSS feed) would be fed into the "Text-To-Speech" function resulting in an MP3 file as an output.
-
 
 Now move onto [Lab 7](lab7.md)

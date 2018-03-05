@@ -111,55 +111,14 @@ You can even generate a HTML file from this lab's markdown file with the followi
 $ cat lab2.md | faas-cli invoke func_markdown
 ```
 
-## Find metrics with Prometheus
+## Monitoring dashboard
 
-Now we saw that there are already two ways to get a function's invocation count:
+OpenFaaS tracks metrics on your functions automatically using Prometheus. The metrics can be turned into a useful dashboard with free and Open Source tools like [Grafana](https://grafana.com).
 
-* You can click on the function in the Portal UI
-* You can also type in `faas-cli list`
-
-The third option is to use the Prometheus UI which is baked-in as part of the OpenFaaS project.
-
-http://localhost:9090 - if you are using a remote server replace localhost for your public IP address
-
-Into "Expression" type:
-
-```
-rate ( gateway_function_invocation_total [20s] ) 
-```
-
-Now hit *Execute* followed by *Graph*. This will give you a rolling rate of how many times each function is being invoked.
-
-Prometheus is constantly recording this information - you can even see a break-down by HTTP response code which is useful for detecting failure or errors within one of your functions.
-
-Type in:
-
-```
-$ echo test | faas-cli invoke non-existing-function
-```
-
-Now give it a few seconds and check what you see on the UI. There should be a 500 error for the function name `non-existing-function.
-
-To only see statistics from HTTP 200 type in:
-
-```
-rate ( gateway_function_invocation_total{code="200"} [20s] ) 
-```
-
-To only see a specific function such as `figlet` type in:
-
-```
-rate ( gateway_function_invocation_total{function_name="figlet"} [20s] ) 
-```
-
-* Further reading:
-
-The metrics within Prometheus can be turned into a useful dashboard with free and Open Source tools like [Grafana](https://grafana.com).
-
-You can deploy OpenFaaS Grafana with:
+Deploy OpenFaaS Grafana with:
 
 ```bash
-docker service create -d \
+$ docker service create -d \
 --name=func_grafana \
 --publish=3000:3000 \
 --network=func_functions \
@@ -168,10 +127,11 @@ stefanprodan/faas-grafana:4.6.3
 
 After the service has been created open Grafana in your browser, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at:
 
-```bash
-http://localhost:3000/dashboard/db/openfaas
-```
+[http://localhost:3000/dashboard/db/openfaas](http://localhost:3000/dashboard/db/openfaas)
 
-<a href="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765"><img src="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765" width="500px" /></a>
+
+<a href="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765"><img src="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765" width="600px" /></a>
+
+*Pictured: example of an OpenFaaS dashboard with Grafana*
 
 Now move onto [Lab 3](./lab3.md)

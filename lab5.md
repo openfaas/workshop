@@ -29,32 +29,32 @@ Edit `long-task/Dockerfile` and change the fprocess to `sleep 1`.
 Now build, deploy and invoke your function 10 times synchronously like this:
 
 ```
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-curl 127.0.0.1:8080/function/long-task
-
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
+echo -n "" | faas-cli invoke long-task
 ```
 
 Now invoke the function 10 times asynchronously:
 
 ```
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
-curl 127.0.0.1:8080/async-function/long-task
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
+echo -n "" | faas-cli invoke long-task --async
 ```
 
 What did you observe? The first example should have taken 10 seconds where as the second example would have returned to your prompt within around a second or less. The work will still take 10x1 seconds to complete, but that is now going to be placed on a queue for deferred execution.
@@ -92,7 +92,7 @@ Now copy the "Bin URL" and paste it below:
 For example (`http://requestbin.fullcontact.com/1i7i1we1`)
 
 ```
-$ curl localhost:8080/async-function/figlet -H "X-Callback-Url: http://requestbin.fullcontact.com/1i7i1we1" --data "LaterIsBetter"
+$ echo -n "LaterIsBetter" | faas-cli invoke figlet --async --header "X-Callback-Url: http://requestbin.fullcontact.com/1i7i1we1"
 ```
 
 Now refresh the page on the requestbin site and you will see the result from `figlet`:
