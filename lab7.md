@@ -23,11 +23,13 @@ You will need to receive incoming webhooks from GitHub. In production you will h
 Open a new Terminal and type in:
 
 ```
-$ docker run -p 4040:4040 -it --rm --net=func_functions \
+$ docker run -p 4040:4040 -d --name=ngrok --net=func_functions \
   alexellis2/ngrok-admin http gateway:8080
 ```
 
 Use the built-in UI of `ngrok` at http://localhost:4040 to find your HTTP URL. You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
+
+> Note: `ngrok` also provides a JSON API at `http://localhost:4040/api/tunnels`
 
 Test the URL such as http://fuh83fhfj.ngrok.io
 
@@ -201,12 +203,13 @@ Click the "Generate Token" button at the bottom of the page
 
 Create a file called `env.yml` in the directory where your `issue-bot.yml` file is located with the following content:
 
-```
+```yaml
 environment:
   auth_token: <auth_token_value>
   repo: <github_username>/bot-tester
-  positive_threshold: 0.6
+  positive_threshold: 0.25
 ```
+
 Update the values to match your specifics
 * update the `auth_token` variable
 * update `repo`
@@ -215,7 +218,7 @@ Update the values to match your specifics
 
 Now update your issue-bot.yml file and tell it to use the `env.yml` file:
 
-```
+```yaml
 provider:
   name: faas
   gateway: http://localhost:8080
@@ -254,6 +257,11 @@ This library for GitHub is provided by the community and is not official, but ap
 
 * Update your `issue-bot/requirements.txt` file and add a line for `PyGithub`
 
+```
+requests
+PyGithub
+```
+
 * Open `issue-bot/handler.py` and replace the code with this:
 
 ```python
@@ -261,10 +269,10 @@ import requests, json, os, sys
 from github import Github
 
 def handle(req):
-
     event_header = os.getenv("Http_X_Github_Event")
 
     if not event_header == "issues":
+        print("Unable to handle X-GitHub-Event: " + event_header)
         sys.exit(1)
         return
 
@@ -273,17 +281,31 @@ def handle(req):
     payload = json.loads(req)
 
     if not payload["action"] == "opened":
+        print("Action not supported: " + payload["action"])
+        sys.exit(1)
         return
 
-    #sentimentanalysis
-    res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
+    # Call sentimentanalysis
+    res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', 
+                        data= payload["issue"]["title"]+" "+payload["issue"]["body"])
 
-    # positive_threshold
+    # Read the positive_threshold from configuration
     positive_threshold = float(os.getenv("positive_threshold", "0.2"))
 
+    polarity = res.json()['polarity']
+
+    # Call back to GitHub to apply a label
+    apply_label(polarity,
+        payload["issue"]["number"],
+        payload["repository"]["full_name"],
+        positive_threshold)
+
+    print("Repo: %s, issue: %s, polarity: %f" % (payload["repository"]["full_name"], payload["issue"]["number"], polarity))
+
+def apply_label(polarity, issue_number, repo, positive_threshold):
     g = Github(os.getenv("auth_token"))
-    repo = g.get_repo(os.getenv("repo"))
-    issue = repo.get_issue(payload["issue"]["number"])
+    repo = g.get_repo(repo)
+    issue = repo.get_issue(issue_number)
 
     has_label_positive = False
     has_label_review = False
@@ -293,13 +315,13 @@ def handle(req):
         if label == "review":
             has_label_review = True
 
-    if res.json()['polarity']  >  positive_threshold and not has_label_positive:
+    if polarity > positive_threshold and not has_label_positive:
         issue.set_labels("positive")
     elif not has_label_review:
         issue.set_labels("review")
-
-    print(res.json())
 ```
+
+> The source code is also available at [issue-bot/bot-handler/handler.py](./issue-bot/bot-handler/handler.py)
 
 * Build and deploy
 

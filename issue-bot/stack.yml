@@ -9,7 +9,8 @@ functions:
     image: alexellis2/issue-bot
     environment:
       write_debug: true
-      auth_token: <auth_token_value>
-      repo: <github_username>/bot-tester
-      positive_threshold: 0.6
+      repo: alexellis2/bot-tester
+      positive_threshold: 0.25
       gateway_hostname: "gateway"
+    environment_file:
+      - env.yml
