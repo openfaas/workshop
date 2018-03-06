@@ -20,31 +20,59 @@ The API Gateway has a default of 20 seconds, so let's test out setting a shorter
 $ faas new --lang python sleep-for
 ```
 
-Edit handler.py and add:
+Edit `handler.py`:
 
 ```python
 import time
+import os
 
-def handler(req):
-...
-    print("Starting to sleep")
-    time.sleep(10)  # Sleep for 10 seconds
-...
+def handle(req):
+    """handle a request to the function
+    Args:
+        req (str): request body
+    """
+
+    sleep_duration = int(os.getenv("sleep_duration", "10"))
+    print("Starting to sleep for %d" % sleep_duration)
+    time.sleep(sleep_duration)  # Sleep for a number of seconds
+    print("Finished the sleep")
 ```
 
 Now edit the `sleep-for.yml` file and add these environmental variables:
 
 ```yaml
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  sleep-for:
+    lang: python
+    handler: ./sleep-for
+    image: sleep-for:0.1
     environment:
-      write_debug: true
-      read_timeout: "5s"
-      write_timeout: "5s"
-      hard_timeout: "5s"
+      sleep_duration: 10
+      read_timeout: 5
+      write_timeout: 5
+      hard_timeout: 5
 ```
 
 Use the CLI to build, push, deploy and invoke the function.
 
-You should see it terminate early after 5 seconds.
+```
+$ echo | faas invoke sleep-for
+Server returned unexpected status code: 500 - Can't reach service: sleep-for
+```
+
+You should see it terminate without printing the message.
+
+Now set `sleep_duration` to a lower number like `2` and run `faas deploy` again. You don't need to rebuild the function when editing the function's YAML file.
+
+```
+$ echo | faas invoke sleep-for
+Starting to sleep for 2
+Finished the sleep
+```
 
 * API Gateway
 
