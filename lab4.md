@@ -17,7 +17,7 @@ There are several places where a timeout can be configured for your function, in
 The API Gateway has a default of 20 seconds, so let's test out setting a shorter timeout on a function.
 
 ```
-$ faas-cli new --lang python sleep-for
+$ faas-cli new --lang python sleep-for --prefix="<your-docker-username-here>"
 ```
 
 Edit `handler.py`:

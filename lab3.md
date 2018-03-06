@@ -50,7 +50,7 @@ We will create a hello-world function in Python, then move onto something that u
 * Scaffold the function
 
 ```
-$ faas-cli new --lang python hello-openfaas
+$ faas-cli new --lang python hello-openfaas --prefix="<your-docker-username-here>"
 ```
 
 This will create three files for us:
@@ -79,8 +79,6 @@ functions:
     handler: ./hello-openfaas
     image: hello-openfaas
 ```
-
-On the line `image: ` make sure the name is prefixed with your Docker Hub account. For Alex Ellis this is `image: alexellis2/hello-openfaas`. Update this for your name every time you create a new function.
 
 Here is the contents of the `handler.py` file:
 
@@ -133,7 +131,7 @@ Test out the function with `faas-cli invoke`, check `faas-cli invoke --help` for
 We'll create a function called `astronaut-finder` that pulls in a random name of someone in space aboard the International Space Station (ISS).
 
 ```
-$ faas-cli new --lang python astronaut-finder
+$ faas-cli new --lang python astronaut-finder --prefix="<your-docker-username-here>"
 ```
 
 This will write three files for us:
@@ -348,7 +346,7 @@ Custom binaries or containers can be used as functions, but most of the time usi
 To use a custom binary or Dockerfile create a new function using the `dockerfile` language:
 
 ```
-$ faas-cli new --lang dockerfile sorter
+$ faas-cli new --lang dockerfile sorter --prefix="<your-docker-username-here>"
 ```
 
 You'll see a folder created named `sorter` and `sorter.yml`.
@@ -358,8 +356,6 @@ Edit `sorter/Dockerfile` and update the line which sets the `fprocess`. Let's ch
 ```
 ENV fprocess="sort"
 ```
-
-Edit `sorter.yml` and add your username as a prefix to the `image: sorter` field such as `image: alexellis2/sorter`.
 
 Now build, push and deploy the function:
 
