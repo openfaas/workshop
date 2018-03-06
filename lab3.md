@@ -257,6 +257,62 @@ astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Hello World
 astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Duration: 0.063269 seconds
 ```
 
+### Managing multiple functions
+
+The YAML file for the CLI allows functions to be grouped together into stacks, this is helpful when working with a set of related functions.
+
+To see how this works generate two functions:
+
+```
+$ faas-cli new --lang python first
+```
+
+For the second function use the `--append` flag:
+
+```
+$ faas-cli new --lang python second --append=./first.yml
+```
+
+For convenience let's rename `first.yml` to `example.yml`.
+
+```
+$ mv first.yml example.yml
+```
+
+Now look at the file:
+
+```
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  first:
+    lang: python
+    handler: ./first
+    image: first
+  second:
+    lang: python
+    handler: ./second
+    image: second
+```
+
+Here are several flags that help when working with a stack of functions:
+
+* Build in parallel:
+
+`faas-cli build -f ./example.yml --parallel=2`
+
+* Build / push only one function:
+
+`faas-cli build -f ./example.yml --filter=second`
+
+Look at the options for `faas build --help` and `faas push --help` for more information.
+
+> Pro-tip: `stack.yml` is the default name the faas-cli will look for if you don't want to pass a `-f` parameter.
+
+You can also deploy function stack (yaml) files over HTTP(s) using `faas-cli -f https://....`.
+
 ### Make use of custom templates
 
 If you have your own language template or have found a community template such as the PHP template then you can add that with the following command:
