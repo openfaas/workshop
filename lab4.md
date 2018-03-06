@@ -98,10 +98,17 @@ The other option which is more dynamic and can be altered at a per-request level
 
 These headers become exposed through environmental variables so they are easy to consume within your function. So any header is prefixed with `Http_` and all `-` hyphens are replaced with an `_` underscore.
 
-Let's try it out with a querystring and a function that lists off all environmental variables:
+Let's try it out with a querystring and a function that lists off all environmental variables.
+
+* Deploy a function that prints environmental variables using a built-in BusyBox command:
 
 ```
-$ faas deploy --name env --fprocess="env" --image="functions/alpine:latest"
+$ faas deploy --name env --fprocess="env" --image="functions/alpine:latest" --network=func_functions
+```
+
+* Invoke the function with a querystring:
+
+```
 $ echo "" | faas invoke env --query workshop=1
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=05e8db360c5a
@@ -124,10 +131,9 @@ Http_Query=workshop=1
 
 In Python code you'd type in `os.getenv("Http_Query")`.
 
-And with a header:
+* Now invoke it with a header:
 
 ```
-$ faas deploy --name env --fprocess="env" --image="functions/alpine:latest"
 $ echo "" | curl http://127.0.0.1:8080/function/env --header "X-Output-Mode: json"
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=05e8db360c5a
