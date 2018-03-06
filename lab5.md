@@ -21,7 +21,7 @@ Asynchronous tasks run in a similar way with a few differences:
 Let's try a quick demo.
 
 ```
-$ faas new --lang dockerfile long-task
+$ faas-cli new --lang dockerfile long-task
 ```
 
 Edit `long-task/Dockerfile` and change the fprocess to `sleep 1`.
