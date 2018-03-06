@@ -14,7 +14,7 @@ There are two ways to create a new function:
 To find out which languages are available type in:
 
 ```
-$ faas new --list
+$ faas-cli new --list
 Languages available as templates:
 - csharp
 - go
@@ -40,7 +40,7 @@ We will create a hello-world function in Python, then move onto something that u
 * Scaffold the function
 
 ```
-$ faas new --lang python hello-openfaas
+$ faas-cli new --lang python hello-openfaas
 ```
 
 This will create three files for us:
@@ -95,9 +95,9 @@ Edit the message so it prints `hello world` instead i.e.
 This is the local developer-workflow for functions:
 
 ```
-$ faas build -f ./hello-openfaas.yml
-$ faas push -f ./hello-openfaas.yml
-$ faas deploy -f ./hello-openfaas.yml
+$ faas-cli build -f ./hello-openfaas.yml
+$ faas-cli push -f ./hello-openfaas.yml
+$ faas-cli deploy -f ./hello-openfaas.yml
 ```
 
 Followed by invoking the function via the UI, CLI, `curl` or another application.
@@ -123,7 +123,7 @@ Test out the function with `faas-cli invoke`, check `faas-cli invoke --help` for
 We'll create a function called `astronaut-finder` that pulls in a random name of someone in space aboard the International Space Station (ISS).
 
 ```
-$ faas new --lang python astronaut-finder
+$ faas-cli new --lang python astronaut-finder
 ```
 
 This will write three files for us:
@@ -184,7 +184,7 @@ def handle(req):
 Now build the function:
 
 ```
-$ faas build -f ./astronaut-finder.yml
+$ faas-cli build -f ./astronaut-finder.yml
 ```
 
 > Tip: If you rename astronaut-finder.yml to `stack.yml` then you can leave off the `-f` argument. `stack.yml` is the default file-name for the CLI.
@@ -192,16 +192,16 @@ $ faas build -f ./astronaut-finder.yml
 Deploy the function:
 
 ```
-$ faas deploy -f ./astronaut-finder.yml
+$ faas-cli deploy -f ./astronaut-finder.yml
 ```
 
 Invoke the function
 
 ```
-$ echo | faas invoke astronaut-finder
+$ echo | faas-cli invoke astronaut-finder
 Anton Shkaplerov is in space
 
-$ echo | faas invoke astronaut-finder
+$ echo | faas-cli invoke astronaut-finder
 Joe Acaba is in space
 ```
 
@@ -318,11 +318,11 @@ You can also deploy function stack (yaml) files over HTTP(s) using `faas-cli -f 
 If you have your own language template or have found a community template such as the PHP template then you can add that with the following command:
 
 ```
-$ faas template pull https://github.com/itscaro/openfaas-template-php
+$ faas-cli template pull https://github.com/itscaro/openfaas-template-php
 
 ...
 
-faas new --list|grep php
+faas-cli new --list|grep php
 - php
 - php5
 ```
@@ -338,7 +338,7 @@ Custom binaries or containers can be used as functions, but most of the time usi
 To use a custom binary or Dockerfile create a new function using the `dockerfile` language:
 
 ```
-$ faas new --lang dockerfile sorter
+$ faas-cli new --lang dockerfile sorter
 ```
 
 You'll see a folder created named `sorter` and `sorter.yml`.
@@ -354,9 +354,9 @@ Edit `sorter.yml` and add your username as a prefix to the `image: sorter` field
 Now build, push and deploy the function:
 
 ```
-$ faas build -f sorter.yml \
-  && faas push -f sorter.yml
-  && faas deploy -f sorter.yml
+$ faas-cli build -f sorter.yml \
+  && faas-cli push -f sorter.yml
+  && faas-cli deploy -f sorter.yml
 ```
 
 Now invoke the function through the UI or via the CLI:
