@@ -25,12 +25,17 @@ def handle(req):
     # Read the positive_threshold from configuration
     positive_threshold = float(os.getenv("positive_threshold", "0.2"))
 
+    polarity = res.json()['polarity']
+
     # Call back to GitHub to apply a label
-    apply_label(res.json()['polarity'], payload["issue"]["number"], payload["repository"]["full_name"])
+    apply_label(polarity,
+        payload["issue"]["number"],
+        payload["repository"]["full_name"],
+        positive_threshold)
 
-    print(res.json())
+    print("Repo: %s, issue: %s, polarity: %f" % (payload["repository"]["full_name"], payload["issue"]["number"], polarity))
 
-def apply_label(polarity, issue_number, repo):
+def apply_label(polarity, issue_number, repo, positive_threshold):
     g = Github(os.getenv("auth_token"))
     repo = g.get_repo(repo)
     issue = repo.get_issue(issue_number)
@@ -43,7 +48,7 @@ def apply_label(polarity, issue_number, repo):
         if label == "review":
             has_label_review = True
 
-    if polarity  >  positive_threshold and not has_label_positive:
+    if polarity > positive_threshold and not has_label_positive:
         issue.set_labels("positive")
     elif not has_label_review:
         issue.set_labels("review")
