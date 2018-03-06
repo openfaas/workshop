@@ -11,12 +11,22 @@ There are two ways to create a new function:
 
 ### Scaffold or generate a new function
 
-To find out which languages are available type in:
+Before being able to create a new function, you have to pull the templates before by typing:
+
+```
+$ faas template pull
+Fetch templates from repository: https://github.com/openfaas/templates.git
+ Attempting to expand templates from https://github.com/openfaas/templates.git
+ Fetched 11 template(s) : [csharp dockerfile go go-armhf node node-arm64 node-armhf python python-armhf python3 ruby] from https://github.com/openfaas/templates.git
+```
+
+After that, to find out which languages are available type in:
 
 ```
 $ faas-cli new --list
 Languages available as templates:
 - csharp
+- dockerfile
 - go
 - go-armhf
 - node
