@@ -40,9 +40,9 @@ $ faas-cli list --gateway http://fuh83fhfj.ngrok.io/
 ## Create an webhook receiver `issue-bot`
 
 ```
-$ faas new --lang python issue-bot --prefix="<your-docker-username-here>"
-$ faas build -f ./issue-bot.yml
-$ faas push -f ./issue-bot.yml
+$ faas-cli new --lang python issue-bot --prefix="<your-docker-username-here>"
+$ faas-cli build -f ./issue-bot.yml
+$ faas-cli push -f ./issue-bot.yml
 ```
 
 Now edit the function's YAML file `issue-bot.yml` and add an environmental variable of `write_debug: true`:
@@ -64,7 +64,7 @@ functions:
 * Deploy the function
 
 ```
-$ faas deploy -f ./issue-bot.yml
+$ faas-cli deploy -f ./issue-bot.yml
 ```
 
 ## Receive webhooks from GitHub
@@ -100,7 +100,7 @@ Now go to GitHub and create a new issue. Type "test" for the title and descripti
 Check how many times the function has been called - this number should be at least `1`.
 
 ```
-$ faas list
+$ faas-cli list
 Function    Invocations
 issue-bot   2
 ```
@@ -173,9 +173,9 @@ res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanal
 Use the CLI to build and deploy the function:
 
 ```
-$ faas build -f issue-bot.yml \
-  && faas push -f issue-bot.yml \
-  && faas deploy -f issue-bot.yml
+$ faas-cli build -f issue-bot.yml \
+  && faas-cli push -f issue-bot.yml \
+  && faas-cli deploy -f issue-bot.yml
 ```
 
 Now create a new issue in the `bot-tester` repository. GitHub will respond by sending a JSON payload to your function via the Ngrok tunnel we set up at the start.
@@ -329,9 +329,9 @@ def apply_label(polarity, issue_number, repo, positive_threshold):
 Use the CLI to build and deploy the function:
 
 ```
-$ faas build -f issue-bot.yml \
-  && faas push -f issue-bot.yml \
-  && faas deploy -f issue-bot.yml
+$ faas-cli build -f issue-bot.yml \
+  && faas-cli push -f issue-bot.yml \
+  && faas-cli deploy -f issue-bot.yml
 ```
 
 Now try it out by creating some new issues in the `bot-tester` repository. Check whether `positive` and `review` labels were properly applied and consult the GitHub Webhooks page if you are not sure that the messages are getting through or if you suspect an error is being thrown.

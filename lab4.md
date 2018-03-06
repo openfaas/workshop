@@ -17,7 +17,7 @@ There are several places where a timeout can be configured for your function, in
 The API Gateway has a default of 20 seconds, so let's test out setting a shorter timeout on a function.
 
 ```
-$ faas new --lang python sleep-for
+$ faas-cli new --lang python sleep-for
 ```
 
 Edit `handler.py`:
@@ -60,16 +60,16 @@ functions:
 Use the CLI to build, push, deploy and invoke the function.
 
 ```
-$ echo | faas invoke sleep-for
+$ echo | faas-cli invoke sleep-for
 Server returned unexpected status code: 500 - Can't reach service: sleep-for
 ```
 
 You should see it terminate without printing the message.
 
-Now set `sleep_duration` to a lower number like `2` and run `faas deploy` again. You don't need to rebuild the function when editing the function's YAML file.
+Now set `sleep_duration` to a lower number like `2` and run `faas-cli deploy` again. You don't need to rebuild the function when editing the function's YAML file.
 
 ```
-$ echo | faas invoke sleep-for
+$ echo | faas-cli invoke sleep-for
 Starting to sleep for 2
 Finished the sleep
 ```
@@ -103,13 +103,13 @@ Let's try it out with a querystring and a function that lists off all environmen
 * Deploy a function that prints environmental variables using a built-in BusyBox command:
 
 ```
-$ faas deploy --name env --fprocess="env" --image="functions/alpine:latest" --network=func_functions
+$ faas-cli deploy --name env --fprocess="env" --image="functions/alpine:latest" --network=func_functions
 ```
 
 * Invoke the function with a querystring:
 
 ```
-$ echo "" | faas invoke env --query workshop=1
+$ echo "" | faas-cli invoke env --query workshop=1
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=05e8db360c5a
 fprocess=env
