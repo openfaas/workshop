@@ -24,7 +24,7 @@ Example:
 * Then push the output from NodeInfo through the Markdown converter
 
 ```
-$ echo -n "" | faas invoke nodeinfo | faas invoke func_markdown
+$ echo -n "" | faas-cli invoke nodeinfo | faas-cli invoke func_markdown
 <p>Hostname: 64767782518c</p>
 
 <p>Platform: linux
@@ -61,7 +61,7 @@ In Lab 3 we introduced the requests module and used it to call a remote API to g
 The Sentiment Analysis function will tell you the subjectivity and polarity (positivity rating) of any sentence. The result of the function is formatted in JSON as per the example below:
 
 ```
-echo -n "California is great, it's always sunny there." | faas invoke sentimentanalysis
+echo -n "California is great, it's always sunny there." | faas-cli invoke sentimentanalysis
 {"polarity": 0.8, "sentence_count": 1, "subjectivity": 0.75}
 ```
 
