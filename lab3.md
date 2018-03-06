@@ -72,6 +72,8 @@ functions:
 
 On the line `image: ` make sure the name is prefixed with your Docker Hub account. For Alex Ellis this is `image: alexellis2/hello-openfaas`. Update this for your name every time you create a new function.
 
+> Tip: You can also use the `--prefix` flag when creating a new function to include your username: `faas-cli new --lang python hello-openfaas --prefix="<your-docker-username-here>"`
+
 Here is the contents of the `handler.py` file:
 
 ```python
@@ -379,5 +381,67 @@ zebra
 In the example we used `sort` from [BusyBox](https://busybox.net/downloads/BusyBox.html) which is built into the function. There are other useful commands such as `sha512sum` and even a `bash` or shell script, but you are not limited to these built-in commands. Any binary or existing container can be made a serverless function by adding the OpenFaaS function watchdog.
 
 > Tip: did you know that OpenFaaS supports Windows binaries too? Like C#, VB or PowerShell?
+
+### Bonus: Combine all your functions in one yml file
+
+Creating multiple functions means having a `.yml` file for each function.
+
+However, the cli uses `stack.yml` as the default. We can `append` our new functions to the `stack.yml` file and no longer need to use the `-f` flag.
+
+Revisiting the `sorter` function above, if you did rename the astronaut-finder.yml to `stack.yml` you can append the `sorter` to that file and manage both functions with the single yml file.
+
+```bash
+faas-cli new --lang dockerfile sorter --append stack.yml
+```
+
+Your `stack.yml` should now look like this:
+
+```yaml
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  astronaut-finder:
+    lang: python
+    handler: ./astronaut-finder
+    image: astronaut-finder
+  sorter:
+    lang: dockerfile
+    handler: ./sorter
+    image: sorter
+
+```
+
+Running any of the `faas-cli` commands without the `-f` flag will default to using this `stack.yml` file and will perform the actions on each of the functions listed
+
+```bash
+$ faas-cli build
+> Building astronaut-finder.
+Building: astronaut-finder with python template. Please wait..
+... # build output here
+Image: astronaut-finder built.
+< Building astronaut-finder done.
+> Building sorter.
+Building: sorter with Dockerfile. Please wait..
+... # build output here
+Image: sorter built.
+< Building sorter done.
+worker done.
+```
+
+As you can see, since there was no yml file declared with the `-f` flag, `faas-cli` used the `stack.yml` file as the default, and built both functions that are defined there
+
+You can also use the `--filter` flag to perform actions on specific functions declared in the yml file
+
+```bash
+faas-cli build --filter="sorter"                        
+> Building sorter.
+Building: sorter with Dockerfile. Please wait..
+... # build output here
+Image: sorter built.
+< Building sorter done.
+worker done.
+```
 
 Now move onto [Lab 4](lab4.md)
