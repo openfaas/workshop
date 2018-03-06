@@ -206,15 +206,9 @@ Create a file called `env.yml` in the directory where your `issue-bot.yml` file 
 ```yaml
 environment:
   auth_token: <auth_token_value>
-  repo: <github_username>/bot-tester
-  positive_threshold: 0.25
 ```
 
-Update the values to match your specifics
-* update the `auth_token` variable
-* update `repo`
-
-> The `positive_threshold` environmental variable is used to fine-tune whether an Issue gets the `positive` or `review` label.
+Update the `auth_token` variable with your token from GitHub.
 
 Now update your issue-bot.yml file and tell it to use the `env.yml` file:
 
@@ -229,11 +223,18 @@ functions:
     handler: ./issue-bot
     image: <your-username>/issue-bot
     environment:
-      gateway_hostname: "gateway"
       write_debug: true
+      gateway_hostname: "gateway"
+      positive_threshold: 0.25
     environment_file:
     - env.yml
 ```
+
+> The `positive_threshold` environmental variable is used to fine-tune whether an Issue gets the `positive` or `review` label.
+
+Any sensitive information is placed in an external file (i.e. `env.yml`) so that it can be included in a `.gitignore` file which will help prevent that information getting stored in a public Git repository.
+
+OpenFaaS supports the use of native Docker and Kubernetes secrets, but we do not cover this in the workshop.
 
 ### Apply labels via the GitHub API
 
@@ -243,7 +244,7 @@ Here's a sample of Python code that we could use to apply a label, but you do no
 
 ```
 issue_number = 1
-repo_name = "issue_bot"
+repo_name = "alexellis/issue_bot"
 auth_token = "xyz"
 
 g = Github("auth_token")
