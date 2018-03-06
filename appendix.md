@@ -1,17 +1,5 @@
 # Appendix
 
-## The Director pattern (for function chaining)
-
-The *Director pattern* as [documented here](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) is where one function *the director* exists only to call another function and return the result. It is a mixture of the two techniques we explored above.
-
-![](./diagram/director_function.png)
-
-
-In the diagram above the *director function* named "RSS Feed to MP3" creates a workflow by calling two functions on the server-side and then returning the result. The advantage of using a director function is that this function can be versioned, built and deployed in exactly the same way as the functions it makes use of.
-
-The URL passes through the director to the "Get RSS feed" function, the result (a parsed RSS feed) would be fed into the "Text-To-Speech" function resulting in an MP3 file as an output.
-
-
 ## Find metrics with Prometheus (PromQL)
 
 Now we saw that there are already two ways to get a function's invocation count:
@@ -52,3 +40,14 @@ To only see a specific function such as `figlet` type in:
 ```
 rate ( gateway_function_invocation_total{function_name="figlet"} [20s] ) 
 ```
+
+## The Director pattern (for function chaining)
+
+The *Director pattern* as [documented here](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) is where one function *the director* exists only to call another function and return the result. It is a mixture of the two techniques we explored above.
+
+![](./diagram/director_function.png)
+
+
+In the diagram above the *director function* named "RSS Feed to MP3" creates a workflow by calling two functions on the server-side and then returning the result. The advantage of using a director function is that this function can be versioned, built and deployed in exactly the same way as the functions it makes use of.
+
+The URL passes through the director to the "Get RSS feed" function, the result (a parsed RSS feed) would be fed into the "Text-To-Speech" function resulting in an MP3 file as an output.

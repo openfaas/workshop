@@ -17,10 +17,14 @@ We walk through how to install these requirements in [Lab 1](./lab1.md), but ple
 
 Docker:
 
-* Docker for Mac/Windows **Edge edition**
+* Docker CE for [Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)/[Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows) **Edge edition**
 * Docker CE for Linux
 
 > Note: As a last resort if you have an incompatible PC you can run the workshop on [https://labs.play-with-docker.com/](play-with-docker.com).
+
+## Instructor-led workshops
+
+If you're taking an instructor-led workshops then a link will be shared to join the OpenFaaS Slack community. Use the designated channel for the workshop to discuss comments, questions and suggestions.
 
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
@@ -60,28 +64,31 @@ Docker:
 
 ## [Lab 6 - Chain or combine Functions into workflows](./lab6.md)
 
-* Make use of another function
-* Director pattern
+* Chaining functions on the client-side
+* Call one function from another
 
 ## [Lab 7 - Put it all together](./lab7.md)
 
-> Triaging customer feedback from Twitter
+> Build `issue-bot` - an auto-responder for GitHub Issues
 
-* Receiving Tweets from IFTTT.com
-* Filtering out unwanted messages
-* Sorting good + bad with SentimentAnalysis
-* Forwarding to two different Slack channels
+* Get a GitHub account
+* Set up a tunnel with ngrok
+* Create an webhook receiver `issue-bot`
+* Receive webhooks from GitHub
+* Deploy SentimentAnalysis function
+* Apply labels via the GitHub API
+* Complete the function
 
 You can start with the first lab [Lab 1](lab1.md).
 
 ## Wrapping up
 
-If you're taking an instructor-led workshop, we'll now take Q&A and cover some advanced topics too.
+If you're taking an instructor-led workshop, we'll now take Q&A and cover some advanced topics:
 
-* What is auto-scaling and how does it work?
-* How to monitoring functions with a dashboard in Grafana
-* How to enable TLS for security
-* How to lock down the gateway with Basic Authentication
-* Object storage with S3/Minio
-* How to build your own templates
-    * How to customise the templates
+* Auto-scaling
+* Security
+  * TLS / Basic Authentication
+* Object storage
+* Customisations for templates
+
+The [appendix](./appendix.md) contains some additional content.

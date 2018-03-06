@@ -73,7 +73,7 @@ Click *Settings* -> *Webhooks* -> *Add Webhook*
 
 ![](./screenshot/add_github_webhook.png)
 
-Now enter the URL you were given from Ngrok adding `/function/issue-bot` to the end, for example:
+Now enter the URL you were given from `ngrok` adding `/function/issue-bot` to the end, for example:
 
 ```
 http://fuh83fhfj.ngrok.io/function/issue-bot
@@ -95,7 +95,7 @@ For events select **Issues** and **Issue comment**
 
 Now go to GitHub and create a new issue. Type "test" for the title and description.
 
-Check how many times the function has been called:
+Check how many times the function has been called - this number should be at least `1`.
 
 ```
 $ faas list
@@ -104,7 +104,6 @@ issue-bot   2
 ```
 
 Each time you create an issue the count will increase due to GitHub's API invoking the function.
-> _Github will invoke the function via a ping request once while setting up the webhook. That's why there are at least 2 invocations at this point_
 
 You can see the payload sent via GitHub by typing in `docker service logs -f issue-bot`.
 
@@ -112,17 +111,12 @@ The GitHub Webhooks page will also show every message sent under "Recent Deliver
 
 ![](./screenshot/github_replay.png)
 
-## Analyse new Issues on GitHub
-
-
 ### Deploy SentimentAnalysis function
 
 In order to use this issue-bot function, you will need to deploy the SentimentAnalysis function first.
 This is a python function that provides a rating on sentiment positive/negative (polarity -1.0-1.0) and subjectivity provided to each of the sentences sent in via the TextBlob project.
 
 You can deploy "SentimentAnalysis" from the **Function Store**
-
-and test
 
 ```
 # echo -n "I am really excited to participate in the OpenFaaS workshop." | faas-cli invoke sentimentanalysis
@@ -172,7 +166,7 @@ The following line from the code above posts the GitHub Issue's title and body t
 res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
 ```
 
-### Build and Deploy:
+* Build and deploy
 
 Use the CLI to build and deploy the function:
 
@@ -188,9 +182,11 @@ You can view the request/response directly on GitHub - navigate to *Settings* ->
 
 ![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookResponse.png)
 
-### Create a Personal Access Token for GitHub
+## Respond to GitHub
 
 The next step will be for us to apply a label of `positive` or `review`, but because this action involves writing to the repository we need to get a *Personal Access Token* from GitHub.
+
+### Create a Personal Access Token for GitHub
 
 Go to your *GitHub profile* -> *Settings/Developer settings* -> *Personal access tokens* and then click *Generate new token*.
 
@@ -236,7 +232,7 @@ functions:
     - env.yml
 ```
 
-## Apply labels via the GitHub API
+### Apply labels via the GitHub API
 
 You can use the API to perform many different tasks, the [documentation is available here](https://github.com/PyGithub/PyGithub).
 
@@ -254,7 +250,7 @@ issue = repo.get_issue(issue_number)
 
 This library for GitHub is provided by the community and is not official, but appears to be popular. It can be pulled in from `pip` through our `requirements.txt` file.
 
-### Putting the whole function together
+## Complete the function
 
 * Update your `issue-bot/requirements.txt` file and add a line for `PyGithub`
 
@@ -305,7 +301,7 @@ def handle(req):
     print(res.json())
 ```
 
-### Build and Deploy:
+* Build and deploy
 
 Use the CLI to build and deploy the function:
 
@@ -317,6 +313,8 @@ $ faas build -f issue-bot.yml \
 
 Now try it out by creating some new issues in the `bot-tester` repository. Check whether `positive` and `review` labels were properly applied and consult the GitHub Webhooks page if you are not sure that the messages are getting through or if you suspect an error is being thrown.
 
-> If the labels don't appear immediately, first try refreshing the page
+![](./screenshot/bot_label_applied.png)
 
-Now return to the [main page](./README.md) for Q&A or to read the appendix.
+> Note: If the labels don't appear immediately, first try refreshing the page
+
+Now return to the [main page](./README.md).
