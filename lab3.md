@@ -382,16 +382,38 @@ In the example we used `sort` from [BusyBox](https://busybox.net/downloads/BusyB
 
 > Tip: did you know that OpenFaaS supports Windows binaries too? Like C#, VB or PowerShell?
 
-### Bonus: Combine all your functions in one yml file
+### Use the default yml file
+
+The `faas-cli` by default uses a file named `stack.yml` when executing commands.
+
+Previously, we've been using the `-f` flag to tell `faas-cli` to use a different file
+
+Using the `stack.yml` file means you no longer need to use the `-f` flag to execute the `faas-cli` commands
+
+The following commands will be performed on each of the functions defined in the `stack.yml` file
+
+```
+faas-cli build
+faas-cli deploy
+faas-cli push
+```
+
+> Pro-tip: You can also use the `--parallel n` to run the command on `n` number of threads
+
+### Combine your functions in one yml file
 
 Creating multiple functions means having a `.yml` file for each function.
 
-However, the cli uses `stack.yml` as the default. We can `append` our new functions to the `stack.yml` file and no longer need to use the `-f` flag.
+We can `append` our new functions to an existing `yml` file rather than creating new files
 
-Revisiting the `sorter` function above, if you did rename the astronaut-finder.yml to `stack.yml` you can append the `sorter` to that file and manage both functions with the single yml file.
-
-```bash
-faas-cli new --lang dockerfile sorter --append stack.yml
+* Create a new sample function
+```
+faas-cli new --lang python function-1
+```
+* Rename the `function-1.yml` to `stack.yml`
+* Create a new function and append it to the `stack.yml` using the `--append` flag
+```
+faas-cli new --lang node function-2 --append stack.yml
 ```
 
 Your `stack.yml` should now look like this:
@@ -402,45 +424,43 @@ provider:
   gateway: http://localhost:8080
 
 functions:
-  astronaut-finder:
+  function-1:
     lang: python
-    handler: ./astronaut-finder
-    image: astronaut-finder
-  sorter:
-    lang: dockerfile
-    handler: ./sorter
-    image: sorter
+    handler: ./function-1
+    image: function-1
+  function-2:
+    lang: node
+    handler: ./function-2
+    image: function-2
 
 ```
 
-Running any of the `faas-cli` commands without the `-f` flag will default to using this `stack.yml` file and will perform the actions on each of the functions listed
+Running any of the `faas-cli` commands file and will perform the actions on each of the functions listed
 
-```bash
-$ faas-cli build
-> Building astronaut-finder.
-Building: astronaut-finder with python template. Please wait..
+```
+$ faas build 
+> Building function-1.
+Building: function-1 with python template. Please wait..
 ... # build output here
-Image: astronaut-finder built.
-< Building astronaut-finder done.
-> Building sorter.
-Building: sorter with Dockerfile. Please wait..
+Image: function-1 built.
+< Building function-1 done.
+> Building function-2.
+Building: function-2 with node template. Please wait..
 ... # build output here
-Image: sorter built.
-< Building sorter done.
+Image: function-2 built.
+< Building function-2 done.
 worker done.
 ```
 
-As you can see, since there was no yml file declared with the `-f` flag, `faas-cli` used the `stack.yml` file as the default, and built both functions that are defined there
-
 You can also use the `--filter` flag to perform actions on specific functions declared in the yml file
 
-```bash
-faas-cli build --filter="sorter"                        
-> Building sorter.
-Building: sorter with Dockerfile. Please wait..
+```
+$ faas build --filter="function-2"
+> Building function-2.
+Building: function-2 with node template. Please wait..
 ... # build output here
-Image: sorter built.
-< Building sorter done.
+Image: function-2 built.
+< Building function-2 done.
 worker done.
 ```
 
