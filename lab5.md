@@ -6,7 +6,7 @@
 
 When you call a function synchronously a connection is made to the gateway through to your function and is held open for the whole execution time. Synchronous calls are *blocking* so you should see your client pause and become inactive until the function has completed its task. 
 
-* The gateway uses a route of: `/async-function/<function_name>`
+* The gateway uses a route of: `/function/<function_name>`
 * You have to wait until it has finished
 * You get the result after the call
 * You know if it passed or failed
