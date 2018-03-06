@@ -85,7 +85,7 @@ For *Content-type* select: *application/json*
 
 Leave *Secret* blank for now.
 
-And select "Send me everything"
+And select "Let me select individual events"
 
 For events select **Issues** and **Issue comment**
 
@@ -100,10 +100,11 @@ Check how many times the function has been called:
 ```
 $ faas list
 Function    Invocations
-issue-bot   1
+issue-bot   2
 ```
 
 Each time you create an issue the count will increase due to GitHub's API invoking the function.
+> _Github will invoke the function via a ping request once while setting up the webhook. That's why there are at least 2 invocations at this point_
 
 You can see the payload sent via GitHub by typing in `docker service logs -f issue-bot`.
 
@@ -119,7 +120,7 @@ The GitHub Webhooks page will also show every message sent under "Recent Deliver
 In order to use this issue-bot function, you will need to deploy the SentimentAnalysis function first.
 This is a python function that provides a rating on sentiment positive/negative (polarity -1.0-1.0) and subjectivity provided to each of the sentences sent in via the TextBlob project.
 
-You can deploy it from the **Function Store**
+You can deploy "SentimentAnalysis" from the **Function Store**
 
 and test
 
@@ -131,15 +132,9 @@ Polarity: 0.375 Subjectivity: 0.75
 Polarity: -0.316666666667 Subjectivity: 0.85
 ```
 
-### Create `issue-bot` function
+### Update the `issue-bot` function
 
-Create `issue-bot` function with
-
-```
-faas-cli new --lang python issue-bot
-```
-
-Then open `issue-bot/handler.py` and paste this code:
+Open `issue-bot/handler.py` and replace the template with this code:
 
 ```
 import requests, json, os, sys
@@ -201,20 +196,26 @@ Go to your *GitHub profile* -> *Settings/Developer settings* -> *Personal access
 
 ![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/PersonalAccessTokens.png)
 
+Tick the box for "repo" to allow access to your repositories
+
 ![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/NewPAT.png)
 
-Create a file called env.yml:
-* update the `auth_token` variable
-* update `repo`
+Click the "Generate Token" button at the bottom of the page
 
-The `positive_threshold` environmental variable is used to fine-tune whether an Issue gets the `positive` or `review` label.
+
+Create a file called `env.yml` in the directory where your `issue-bot.yml` file is located with the following content:
 
 ```
 environment:
   auth_token: <auth_token_value>
-  repo: iyovcheva/github-issue-bot
+  repo: <github_username>/bot-tester
   positive_threshold: 0.6
 ```
+Update the values to match your specifics
+* update the `auth_token` variable
+* update `repo`
+
+> The `positive_threshold` environmental variable is used to fine-tune whether an Issue gets the `positive` or `review` label.
 
 Now update your issue-bot.yml file and tell it to use the `env.yml` file:
 
@@ -257,7 +258,7 @@ This library for GitHub is provided by the community and is not official, but ap
 
 * Update your `issue-bot/requirements.txt` file and add a line for `PyGithub`
 
-* Open `issue-bot/handler.py` and update the code with:
+* Open `issue-bot/handler.py` and replace the code with this:
 
 ```python
 import requests, json, os, sys
@@ -315,5 +316,7 @@ $ faas build -f issue-bot.yml \
 ```
 
 Now try it out by creating some new issues in the `bot-tester` repository. Check whether `positive` and `review` labels were properly applied and consult the GitHub Webhooks page if you are not sure that the messages are getting through or if you suspect an error is being thrown.
+
+> If the labels don't appear immediately, first try refreshing the page
 
 Now return to the [main page](./README.md) for Q&A or to read the appendix.
