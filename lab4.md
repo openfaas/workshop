@@ -12,7 +12,7 @@ There are several places where a timeout can be configured for your function, in
 
 * `read_timeout` - time allowed fo the function to read a request over HTTP
 * `write_timeout` - time allowed for the function to write a response over HTTP
-* `hard_timeout` - the maximum duration a function can run before being terminated
+* `exec_timeout` - the maximum duration a function can run before being terminated
 
 The API Gateway has a default of 20 seconds, so let's test out setting a shorter timeout on a function.
 
@@ -54,7 +54,7 @@ functions:
       sleep_duration: 10
       read_timeout: 5
       write_timeout: 5
-      hard_timeout: 5
+      exec_timeout: 5
 ```
 
 Use the CLI to build, push, deploy and invoke the function.
@@ -88,7 +88,7 @@ It is useful to be able to control how a function behaves at runtime, we can do 
 
 * Set environmental variables at deployment time
 
-We did this with `write_debug` and `hard_timeout` - you can also set any custom environmental variables you want here too - for instance if you wanted to configure a language for your *hello world* function you may introduce a `spoken_language` variable.
+We did this with `write_debug` and `exec_timeout` - you can also set any custom environmental variables you want here too - for instance if you wanted to configure a language for your *hello world* function you may introduce a `spoken_language` variable.
 
 ### Use HTTP context - querystring / headers
 
