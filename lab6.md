@@ -97,6 +97,7 @@ Now create a new function in Python and it all together
 ```python
 import os
 import requests
+import sys
 
 def handle(req):
     """handle a request to the function
@@ -109,6 +110,10 @@ def handle(req):
     test_sentence = req
 
     r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", data= test_sentence)
+
+    if r.status_code != 200:
+        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, r.status_code))
+        sys.exit(1)
 
     result = r.json()
     if result["polarity"] > 0.45:

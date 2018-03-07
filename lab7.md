@@ -132,7 +132,7 @@ Polarity: -0.316666666667 Subjectivity: 0.85
 
 Open `issue-bot/handler.py` and replace the template with this code:
 
-```
+```python
 import requests, json, os, sys
 
 def handle(req):
@@ -140,6 +140,7 @@ def handle(req):
     event_header = os.getenv("Http_X_Github_Event")
 
     if not event_header == "issues":
+        print("Unable to handle X-GitHub-Event: " + event_header)
         sys.exit(1)
         return
 
@@ -164,7 +165,7 @@ requests
 
 The following line from the code above posts the GitHub Issue's title and body to the `sentimentanalysis` function as text. The response will be in JSON format.
 
-```
+```python
 res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
 ```
 
@@ -242,7 +243,7 @@ You can use the API to perform many different tasks, the [documentation is avail
 
 Here's a sample of Python code that we could use to apply a label, but you do not add it to your function yet.
 
-```
+```python
 issue_number = 1
 repo_name = "alexellis/issue_bot"
 auth_token = "xyz"
