@@ -60,7 +60,7 @@ We will create a hello-world function in Python, then move onto something that u
 $ faas-cli new --lang python hello-openfaas --prefix="<your-docker-username-here>"
 ```
 
-The `--prefix` parameter will update `image: ` value in `hello-openfaas.yml` with a prefix which should be your Docker Hub account. For [OpenFaaS](https://hub.docker.com/r/openfaas) this is `image: openfaas/hello-openfaas` and the parameter will be `--prefix="openfaas"`.
+The `--prefix` parameter will update `image: ` value in `hello-openfaas.yml` with a prefix which should be your Docker Hub account. For [OpenFaaS](https://hub.docker.com/r/functions) this is `image: functions/hello-openfaas` and the parameter will be `--prefix="functions"`.
 
 If you don't specify a prefix when you create the function then edit the YAML file after creating it.
 
