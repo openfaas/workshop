@@ -154,6 +154,10 @@ def handle(req):
     #sentimentanalysis
     res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=payload["issue"]["title"]+" "+payload["issue"]["body"])
 
+    if res.status_code != 200:
+        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, res.status_code))
+        sys.exit(1)
+
     print(res.json())
 ```
 
@@ -290,6 +294,10 @@ def handle(req):
     # Call sentimentanalysis
     res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', 
                         data= payload["issue"]["title"]+" "+payload["issue"]["body"])
+
+    if res.status_code != 200:
+        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, res.status_code))
+        sys.exit(1)
 
     # Read the positive_threshold from configuration
     positive_threshold = float(os.getenv("positive_threshold", "0.2"))
