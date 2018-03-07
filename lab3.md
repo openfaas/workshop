@@ -53,6 +53,9 @@ We will create a hello-world function in Python, then move onto something that u
 $ faas-cli new --lang python hello-openfaas --prefix="<your-docker-username-here>"
 ```
 
+The `--prefix` parameter will update `image: ` value in `hello-openfaas.yml` with a prefix which should be your Docker Hub account. For Alex Ellis this is `image: alexellis2/hello-openfaas` and the parameter will be `--prefix="alexellis2"`. 
+Update this for your name every time you create a new function.
+
 This will create three files for us:
 
 ```
