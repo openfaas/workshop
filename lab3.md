@@ -11,14 +11,15 @@ There are two ways to create a new function:
 
 ### Scaffold or generate a new function
 
-Before being able to create a new function, you have to pull the templates before by typing:
+Before creating a new function from a template make sure you pull the [templates from GitHub](https://github.com/openfaas/templates):
 
 ```
 $ faas template pull
+
 Fetch templates from repository: https://github.com/openfaas/templates.git
  Attempting to expand templates from https://github.com/openfaas/templates.git
- Fetched 11 template(s) : [csharp dockerfile go go-armhf node node-arm64 node-armhf python python-armhf python3 ruby] from https://github.com/openfaas/templates.git
-```
+ Fetched 11 template(s) : [csharp dockerfile go go-armhf node node-arm64 node-armhf python python-armhf python3 ruby]
+ ```
 
 After that, to find out which languages are available type in:
 
@@ -42,6 +43,12 @@ the "Dockerfile" lang type in your YAML file.
 ```
 
 At this point you can create a new function for Python, Python 3, Ruby, Go, Node, CSharp etc.
+
+* A note on our examples
+
+All of our examples for this workshop have been thoroughly tested by the OpenFaaS community with *Python 2.7*, but should be compatible with *Python 3* also.
+
+If you'd prefer to use Python 3 instead of Python 2.7 then swap `faas-cli new --lang python` for `faas-cli new --lang python3`.
 
 ### Hello world in Python
 
@@ -80,6 +87,13 @@ functions:
     image: hello-openfaas
 ```
 
+* The name of the function is represented by the key under `functions` i.e. `hello-openfaas`
+* The language is represented by the `lang` field
+* The folder used to build from is called `handler`, this must be a folder not a file
+* The Docker image name to be used is under the field `image`
+
+For ease of use the `gateway` URL can be overriden in the YAML file or on the CLI.
+
 Here is the contents of the `handler.py` file:
 
 ```python
@@ -99,6 +113,8 @@ Edit the message so it prints `hello world` instead i.e.
 ```
     print("Hello World")
 ```
+
+Any strings printed to stdout via `print()` will be returned to the calling program. You can also avoid the `print()` statement and return a value from the `handle` method.
 
 This is the local developer-workflow for functions:
 
