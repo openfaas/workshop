@@ -92,3 +92,7 @@ If you're taking an instructor-led workshop, we'll now take Q&A and cover some a
 * Customisations for templates
 
 The [appendix](./appendix.md) contains some additional content.
+
+## Acknowledgements
+
+Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan  for testing and contributing to the labs.
