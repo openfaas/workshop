@@ -86,7 +86,7 @@ Since the result is always in JSON format we can make use of the helper function
 
 ```python
     result = r.json()
-    if result["polarity" > 0.45]:
+    if result["polarity"] > 0.45:
         print("That was probably positive")
     else:
         print("That was neutral or negative")
@@ -99,7 +99,7 @@ Now create a new function in Python and it all together
     test_sentence = "California is great, it's always sunny there."
     r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", text= test_sentence)
     result = r.json()
-    if result["polarity" > 0.45]:
+    if result["polarity"] > 0.45:
         print("That was probably positive")
     else:
         print("That was neutral or negative")
