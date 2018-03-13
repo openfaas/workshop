@@ -76,13 +76,14 @@ This will create three files for us:
 The YAML (.yml) file is used to configure the CLI for building, pushing and deploying your function.
 
 > Note: Whenever you need to deploy a function on Kubernetes or on a remote OpenFaaS instance you must always push your function after building it.
+>       In this case you can also override the default gateway URL of `127.0.0.1:8080` with an environmental variable: `export OPENFAAS_URL=127.0.0.1:31112`.
 
 Here's the contents of the YAML file:
 
 ```yaml
 provider:
   name: faas
-  gateway: http://localhost:8080
+  gateway: http://127.0.0.1:8080
 
 functions:
   hello-openfaas:
@@ -133,9 +134,9 @@ Followed by invoking the function via the UI, CLI, `curl` or another application
 The function will always get a route, for example:
 
 ```
-http://localhost:8080/function/<function_name>
-http://localhost:8080/function/figlet
-http://localhost:8080/function/hello-openfaas
+http://127.0.0.1:8080/function/<function_name>
+http://127.0.0.1:8080/function/figlet
+http://127.0.0.1:8080/function/hello-openfaas
 ```
 
 > Pro-tip: if you rename your YAML file to `stack.yml` then you will not need to pass a `-f` flag to any commands.
@@ -252,7 +253,7 @@ This is the standard YAML configuration:
 ```yaml
 provider:
   name: faas
-  gateway: http://localhost:8080
+  gateway: http://127.0.0.1:8080
 
 functions:
   astronaut-finder:
@@ -312,7 +313,7 @@ Now look at the file:
 ```
 provider:
   name: faas
-  gateway: http://localhost:8080
+  gateway: http://127.0.0.1:8080
 
 functions:
   first:

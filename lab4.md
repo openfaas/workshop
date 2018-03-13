@@ -43,7 +43,7 @@ Now edit the `sleep-for.yml` file and add these environmental variables:
 ```yaml
 provider:
   name: faas
-  gateway: http://localhost:8080
+  gateway: http://127.0.0.1:8080
 
 functions:
   sleep-for:
