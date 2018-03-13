@@ -40,7 +40,7 @@ $ faas-cli list --gateway http://fuh83fhfj.ngrok.io/
 ## Create an webhook receiver `issue-bot`
 
 ```
-$ faas-cli new --lang python issue-bot --prefix="<your-docker-username-here>"
+$ faas-cli new --lang python3 issue-bot --prefix="<your-docker-username-here>"
 $ faas-cli build -f ./issue-bot.yml
 $ faas-cli push -f ./issue-bot.yml
 ```
@@ -54,7 +54,7 @@ provider:
 
 functions:
   issue-bot:
-    lang: python
+    lang: python3
     handler: ./issue-bot
     image: <user-name>/issue-bot
     environment:
@@ -224,7 +224,7 @@ provider:
 
 functions:
   issue-bot:
-    lang: python
+    lang: python3
     handler: ./issue-bot
     image: <your-username>/issue-bot
     environment:

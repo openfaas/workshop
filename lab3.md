@@ -46,9 +46,9 @@ At this point you can create a new function for Python, Python 3, Ruby, Go, Node
 
 * A note on our examples
 
-All of our examples for this workshop have been thoroughly tested by the OpenFaaS community with *Python 2.7*, but should be compatible with *Python 3* also.
+All of our examples for this workshop have been thoroughly tested by the OpenFaaS community with *Python 3*, but should be compatible with *Python 2.7* also.
 
-If you'd prefer to use Python 3 instead of Python 2.7 then swap `faas-cli new --lang python` for `faas-cli new --lang python3`.
+If you'd prefer to use Python 2.7 instead of Python 3 then swap `faas-cli new --lang python3` for `faas-cli new --lang python`.
 
 ### Hello world in Python
 
@@ -57,7 +57,7 @@ We will create a hello-world function in Python, then move onto something that u
 * Scaffold the function
 
 ```
-$ faas-cli new --lang python hello-openfaas --prefix="<your-docker-username-here>"
+$ faas-cli new --lang python3 hello-openfaas --prefix="<your-docker-username-here>"
 ```
 
 The `--prefix` parameter will update `image: ` value in `hello-openfaas.yml` with a prefix which should be your Docker Hub account. For [OpenFaaS](https://hub.docker.com/r/functions) this is `image: functions/hello-openfaas` and the parameter will be `--prefix="functions"`.
@@ -86,7 +86,7 @@ provider:
 
 functions:
   hello-openfaas:
-    lang: python
+    lang: python3
     handler: ./hello-openfaas
     image: hello-openfaas
 ```
@@ -151,7 +151,7 @@ Test out the function with `faas-cli invoke`, check `faas-cli invoke --help` for
 We'll create a function called `astronaut-finder` that pulls in a random name of someone in space aboard the International Space Station (ISS).
 
 ```
-$ faas-cli new --lang python astronaut-finder --prefix="<your-docker-username-here>"
+$ faas-cli new --lang python3 astronaut-finder --prefix="<your-docker-username-here>"
 ```
 
 This will write three files for us:
@@ -256,7 +256,7 @@ provider:
 
 functions:
   astronaut-finder:
-    lang: python
+    lang: python3
     handler: ./astronaut-finder
     image: astronaut-finder
 ```
@@ -265,7 +265,7 @@ Edit your YAML file for the function and add an "environment" section.
 
 ```yaml
   astronaut-finder:
-    lang: python
+    lang: python3
     handler: ./astronaut-finder
     image: astronaut-finder
     environment:
@@ -292,13 +292,13 @@ The YAML file for the CLI allows functions to be grouped together into stacks, t
 To see how this works generate two functions:
 
 ```
-$ faas-cli new --lang python first
+$ faas-cli new --lang python3 first
 ```
 
 For the second function use the `--append` flag:
 
 ```
-$ faas-cli new --lang python second --append=./first.yml
+$ faas-cli new --lang python3 second --append=./first.yml
 ```
 
 For convenience let's rename `first.yml` to `example.yml`.
@@ -316,11 +316,11 @@ provider:
 
 functions:
   first:
-    lang: python
+    lang: python3
     handler: ./first
     image: first
   second:
-    lang: python
+    lang: python3
     handler: ./second
     image: second
 ```
