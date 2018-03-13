@@ -27,9 +27,9 @@ $ docker run -p 4040:4040 -d --name=ngrok --net=func_functions \
   alexellis2/ngrok-admin http gateway:8080
 ```
 
-Use the built-in UI of `ngrok` at http://localhost:4040 to find your HTTP URL. You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
+Use the built-in UI of `ngrok` at http://127.0.0.1:4040 to find your HTTP URL. You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
 
-> Note: `ngrok` also provides a JSON API at `http://localhost:4040/api/tunnels`
+> Note: `ngrok` also provides a JSON API at `http://127.0.0.1:4040/api/tunnels`
 
 Test the URL such as http://fuh83fhfj.ngrok.io
 
@@ -50,7 +50,7 @@ Now edit the function's YAML file `issue-bot.yml` and add an environmental varia
 ```
 provider:
   name: faas
-  gateway: http://localhost:8080
+  gateway: http://127.0.0.1:8080
 
 functions:
   issue-bot:
@@ -220,7 +220,7 @@ Now update your issue-bot.yml file and tell it to use the `env.yml` file:
 ```yaml
 provider:
   name: faas
-  gateway: http://localhost:8080
+  gateway: http://127.0.0.1:8080
 
 functions:
   issue-bot:

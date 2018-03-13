@@ -4,9 +4,9 @@
 
 ## Use the UI Portal
 
-You can now test out the OpenFaaS UI by going to http://localhost:8080 or http://127.0.0.1:8080 - if you're deploying to a Linux VM then replace localhost with the IP address from the output you see on the `ifconfig` command.
+You can now test out the OpenFaaS UI by going to http://127.0.0.1:8080 - if you're deploying to a Linux VM then replace 127.0.0.1 with the IP address from the output you see on the `ifconfig` command.
 
-Note: on some Linux distributions accessing `localhost` may hang, if that happens then please use `127.0.0.1` instead and replace it wherever you see `localhost`.
+> Note that we are using `127.0.0.1` instead of `localhost`, which may hang on some Linux distributions due to conflicts between IPv4/IPv6 networking.
 
 In the default stack we deploy several sample functions.
 
@@ -60,7 +60,7 @@ You'll see an ASCII logo generated like this:
 
 You can now test out the CLI, but first a note on alternate gateways URLs:
 
-If your gateway is not deployed at http://localhost:8080 then you will need to specify the `--gateway` flag followed by the alternate URL such as http://127.0.0.1:8080/. 
+If your gateway is not deployed at http://127.0.0.1:8080 then you will need to specify the `--gateway` flag followed by the alternate URL such as http://127.0.0.1:8080/. 
 
 > A shorter versions of flags are available most of the time so `--gateway` can be shortened to `-g` too. Check `faas-cli --help` for more information.
 
@@ -127,7 +127,7 @@ stefanprodan/faas-grafana:4.6.3
 
 After the service has been created open Grafana in your browser, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at:
 
-[http://localhost:3000/dashboard/db/openfaas](http://localhost:3000/dashboard/db/openfaas)
+[http://127.0.0.1:3000/dashboard/db/openfaas](http://127.0.0.1:3000/dashboard/db/openfaas)
 
 
 <a href="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765"><img src="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765" width="600px" /></a>
