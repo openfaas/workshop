@@ -81,6 +81,10 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 
 You can start with the first lab [Lab 1](lab1.md).
 
+## Tear down / Clear up
+
+You can find how to stop and remove OpenFaaS [here](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md#stop-and-remove-openfaas)
+
 ## Wrapping up
 
 If you're taking an instructor-led workshop, we'll now take Q&A and cover some advanced topics:

@@ -103,8 +103,4 @@ $ docker service ls
 
 If you run into any problems, please consult the [Deployment guide](https://github.com/openfaas/faas/blob/master/guide/deployment_swarm.md) for Docker Swarm.
 
-## Tear down / Clear up
-
-You can find how to stop and remove OpenFaaS [here](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md#stop-and-remove-openfaas)
-
 Now move onto [Lab 2](./lab2.md)
