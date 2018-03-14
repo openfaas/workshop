@@ -349,8 +349,4 @@ Now try it out by creating some new issues in the `bot-tester` repository. Check
 
 > Note: If the labels don't appear immediately, first try refreshing the page
 
-## Tear down / Clear up
-
-You can find how to stop and remove OpenFaaS [here](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md#stop-and-remove-openfaas)
-
 Now return to the [main page](./README.md).
