@@ -158,6 +158,69 @@ In Python code you'd type in `os.getenv("Http_X_Output_Mode")`.
 
 You can see that all other HTTP context is also provided such as `Content-Length` when the `Http_Method` is a `POST`, the `User_Agent`, Cookies and anything else you'd expect to see from a HTTP request.
 
+### Making use of logging
+
+The way OpenFaaS watchdog works is that it passses in the HTTP request and reads a HTTP response via the standard I/O streams `stdin` and `stdout` accordingly.
+This means that your process does not need to know anything about the web or HTTP.
+
+An interesting case is when it finishes with a non-zero exit code and `stderr` is not empty.
+By default function `stdout/stderr` is combined and `stderr` is not printed to the logs.
+
+Lets check that with the `hello-openfaas` function from Lab 3.
+
+Change the `handler.py` code to
+
+```python
+import sys
+import json
+
+def handle(req):
+
+    sys.stderr.write("This should be an error message.\n")
+    return json.dumps({"hello": "world"})
+```
+
+Now invoke the function with
+
+```bash
+echo | faas invoke hello-openfaas
+```
+
+You should see the combined output:
+
+```
+This should be an error message.
+{"hello": "world"}
+```
+
+> Note: If you check the container logs with `docker service logs hello-openfaas` you should not see the stderr output.
+
+In the example we need the function to return valid JSON that can be parsed. Unfortunately the log message makes the output invalid,
+so we need to redirect the messages from stderr to the container's logs.
+OpenFaaS provides a solution so you can print the error messages to the logs and keep the function response clear, returning only `stdout`.
+You should use the `combine_output` flag for that purposes.
+
+Let's try it. Open the `hello-openfaas.yaml` file and add those lines:
+
+```yaml
+    environment:
+      combine_output: false
+```
+
+Push, deploy and invoke the function.
+
+The output should be:
+
+```
+{"hello": "world"}
+```
+
+Check the container logs for `stderr`. You should see a message like:
+
+```
+hello-openfaas.1.2xtrr2ckkkth@linuxkit-025000000001    | 2018/04/03 08:35:24 stderr: This should be an error message.
+```
+
 ### Summarising environmental variables.
 
 In Python you can find environmental variables through the `os.getenv(key, default_value)` function or `os.environ` array after importing the `os` package. The OpenFaaS watchdog provides all HTTP context to your function through environmental variables. They can be used at deployment time or at runtime to alter the behaviour of your code.
