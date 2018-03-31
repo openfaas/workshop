@@ -54,13 +54,13 @@ You'll see an ASCII logo generated like this:
 | | | | | | | |/ / 
 | | |_| | |_| / /_ 
 |_|\___/ \___/_/(_)
-``` 
+```
 
 ## Learn about the CLI
 
 You can now test out the CLI, but first a note on alternate gateways URLs:
 
-If your gateway is not deployed at http://127.0.0.1:8080 then you will need to specify the `--gateway` flag followed by the alternate URL such as http://127.0.0.1:8080/. 
+If your gateway is not deployed at http://127.0.0.1:8080 then you will need to specify the `--gateway` flag followed by the alternate URL.
 
 > A shorter versions of flags are available most of the time so `--gateway` can be shortened to `-g` too. Check `faas-cli --help` for more information.
 
