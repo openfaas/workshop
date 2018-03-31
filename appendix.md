@@ -9,7 +9,7 @@ Now we saw that there are already two ways to get a function's invocation count:
 
 The third option is to use the Prometheus UI which is baked-in as part of the OpenFaaS project.
 
-http://localhost:9090 - if you are using a remote server replace localhost for your public IP address
+http://127.0.0.1:9090 - if you are using a remote server replace 127.0.0.1 for your public IP address
 
 Into "Expression" type:
 
@@ -27,7 +27,7 @@ Type in:
 $ echo test | faas-cli invoke non-existing-function
 ```
 
-Now give it a few seconds and check what you see on the UI. There should be a 500 error for the function name `non-existing-function.
+Now give it a few seconds and check what you see on the UI. There should be a 404 error for the function name `non-existing-function`.
 
 To only see statistics from HTTP 200 type in:
 
@@ -43,7 +43,7 @@ rate ( gateway_function_invocation_total{function_name="figlet"} [20s] )
 
 ## The Director pattern (for function chaining)
 
-The *Director pattern* as [documented here](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) is where one function *the director* exists only to call another function and return the result. It is a mixture of the two techniques we explored above.
+The *Director pattern* as [documented here](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) is where one function *the director* exists only to call another function and return the result. It is a mixture of the two techniques we explored in [Lab 6](./lab6.md).
 
 ![](./diagram/director_function.png)
 

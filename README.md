@@ -4,7 +4,7 @@ This is a self-paced workshop for learning how to build, deploy and run OpenFaaS
 
 ![](https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png)
 
-> This workshop starts by deploying OpenFaaS to your laptop with Docker for Mac or Windows and then shows how to build, deploy and invoke Serverless functions in Python. Topics will include: managing dependencies with pip, dealing with API tokens through secure secrets, monitoring functions with Prometheus, invoking functions asynchronously and chaining functions together to create applications. We finish by connecting to online event-streams through IFTTT.com - this will enable you to build bots, auto-responders and integrations with social media and IoT devices.
+> This workshop starts by deploying OpenFaaS to your laptop with Docker for Mac or Windows and then shows how to build, deploy and invoke Serverless functions in Python. Topics will include: managing dependencies with pip, dealing with API tokens through secure secrets, monitoring functions with Prometheus, invoking functions asynchronously and chaining functions together to create applications. We finish by creating a GitHub bot which automatically respond to issues. The same method could be applied by connecting to online event-streams through IFTTT.com - this will enable you to build bots, auto-responders and integrations with social media and IoT devices.
 
 ## Requirements:
 
@@ -26,19 +26,19 @@ Docker:
 
 If you're taking an instructor-led workshops then a link will be shared to join the OpenFaaS Slack community. Use the designated channel for the workshop to discuss comments, questions and suggestions.
 
-## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
+## [Lab 1 - Preparing OpenFaaS](./lab1.md)
 
 * Install pre-requisites
+* Set up a single-node cluster with Docker Swarm
 * Docker Hub account
 * OpenFaaS CLI
-* Set up a single-node cluster with Docker Swarm
 * Deploy OpenFaaS
 
-## [Lab 2 - Test things out](./lab2.md)
+## [Lab 2 - Testing things out](./lab2.md)
 
 * Use the UI Portal
-* Learn about the CLI
 * Deploy via the Function Store
+* Learn about the CLI
 * Find metrics with Prometheus
 
 ## [Lab 3 - Introduction to Functions](./lab3.md)
@@ -46,8 +46,8 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 * Scaffold or generate a new function
 * Build the astronaut-finder function
  * Add dependencies with `pip`
+ * Troubleshooting: find the container's logs
 * Troubleshooting: verbose output with `write_debug`
-* Troubleshooting: find the container's logs
 * Use third-party language templates
 
 ## [Lab 4 - Go deeper with functions](./lab4.md)
@@ -58,7 +58,7 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 
 ## [Lab 5 - Asynchronous Functions](./lab5.md)
 
-* Call a function asynchronously vs synchronously
+* Call a function synchronously vs asynchronously
 * View the queue-worker's logs
 * Use an `X-Callback-Url` with requestbin and ngrok
 

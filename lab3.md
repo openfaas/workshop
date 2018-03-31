@@ -19,7 +19,7 @@ $ faas template pull
 Fetch templates from repository: https://github.com/openfaas/templates.git
  Attempting to expand templates from https://github.com/openfaas/templates.git
  Fetched 11 template(s) : [csharp dockerfile go go-armhf node node-arm64 node-armhf python python-armhf python3 ruby]
- ```
+```
 
 After that, to find out which languages are available type in:
 
@@ -382,7 +382,7 @@ Now build, push and deploy the function:
 
 ```
 $ faas-cli build -f sorter.yml \
-  && faas-cli push -f sorter.yml
+  && faas-cli push -f sorter.yml \
   && faas-cli deploy -f sorter.yml
 ```
 
