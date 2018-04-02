@@ -1,4 +1,4 @@
-# Lab 1 - Preparing OpenFaaS
+# Lab 1 - Prepare for OpenFaaS
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 

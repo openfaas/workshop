@@ -27,7 +27,7 @@ Type in:
 $ echo test | faas-cli invoke non-existing-function
 ```
 
-Now give it a few seconds and check what you see on the UI. There should be a 404 error for the function name `non-existing-function`.
+Now give it a few seconds and check what you see on the UI. There should be a HTTP error code for the function name `non-existing-function`.
 
 To only see statistics from HTTP 200 type in:
 
