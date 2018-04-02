@@ -26,7 +26,7 @@ Docker:
 
 If you're taking an instructor-led workshops then a link will be shared to join the OpenFaaS Slack community. Use the designated channel for the workshop to discuss comments, questions and suggestions.
 
-## [Lab 1 - Preparing OpenFaaS](./lab1.md)
+## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
 * Install pre-requisites
 * Set up a single-node cluster with Docker Swarm
