@@ -95,7 +95,7 @@ $ git clone https://github.com/openfaas/faas && \
 
 You should now have OpenFaaS deployed. If you are on a shared WiFi connection at an event then it may take several minutes to pull down all the Docker images and start them.
 
-Check the services show `1/1` and `running` on this screen:
+Check the services show `1/1` on this screen:
 
 ```
 $ docker service ls
