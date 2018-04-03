@@ -14,7 +14,7 @@ There are two ways to create a new function:
 Before creating a new function from a template make sure you pull the [templates from GitHub](https://github.com/openfaas/templates):
 
 ```
-$ faas template pull
+$ faas-cli template pull
 
 Fetch templates from repository: https://github.com/openfaas/templates.git
  Attempting to expand templates from https://github.com/openfaas/templates.git

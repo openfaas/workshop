@@ -20,7 +20,7 @@ Docker:
 * Docker CE for [Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)/[Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows) **Edge edition**
 * Docker CE for Linux
 
-> Note: As a last resort if you have an incompatible PC you can run the workshop on [https://labs.play-with-docker.com/](play-with-docker.com).
+> Note: As a last resort if you have an incompatible PC you can run the workshop on https://labs.play-with-docker.com/.
 
 ## Instructor-led workshops
 
