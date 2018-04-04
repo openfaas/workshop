@@ -1,0 +1,15 @@
+maintainers:
+ - alexellis
+ - rgee0
+ - johnmccabe
+ - jockdarock
+ - ericstoekl
+ - itscaro
+ - kenfdev
+ - BurtonR
+ - iyovcheva
+ - stefanprodan
+
+features:
+ - dco_check
+ - comments
