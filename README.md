@@ -34,7 +34,7 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 * OpenFaaS CLI
 * Deploy OpenFaaS
 
-## [Lab 2 - Testing things out](./lab2.md)
+## [Lab 2 - Test things out](./lab2.md)
 
 * Use the UI Portal
 * Deploy via the Function Store

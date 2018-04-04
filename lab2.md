@@ -1,4 +1,4 @@
-# Lab 2 - Testing things out
+# Lab 2 - Test things out
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
