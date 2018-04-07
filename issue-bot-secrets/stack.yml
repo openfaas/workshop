@@ -1,0 +1,15 @@
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  issue-bot:
+    lang: python
+    handler: ./issue-bot
+    image: <your-username>/issue-bot
+    environment:
+      write_debug: true
+      positive_threshold: 0.25
+      gateway_hostname: "gateway"
+    secrets:
+      - auth-token
