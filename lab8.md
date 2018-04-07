@@ -61,6 +61,4 @@ You should now be able to see the increase of invocation for the `func_nodeinfo`
 
  ![](./screenshot/prometheus_firing.png)
 
-Now you can verify using `$ docker ps` that new instances of `func_nodeinfo` got spawned.
-
- ![](./screenshot/scaling_replicas_added.png)
+Now you can verify using `$ docker ps` that new instances of `func_nodeinfo` got spawned. Which also concludes this lab on auto-scaling. Now you can return to the [main page](./README.md).
