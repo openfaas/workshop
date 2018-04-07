@@ -85,6 +85,13 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 * Apply labels via the GitHub API
 * Complete the function
 
+## [Lab 7b - Using secrets](./lab7b.md)
+
+> Adapt `issue-bot` to store sensitive information in secrets
+
+* Create a Swarm secret
+* Access the secret within the function
+
 ## [Lab 8 - Auto-scaling in action](./lab8.md)
 
 > See auto-scaling in action
@@ -115,4 +122,4 @@ The [appendix](./appendix.md) contains some additional content.
 
 ## Acknowledgements
 
-Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan, @kenfdev & @templum  for testing and contributing to the labs.
+Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan, @kenfdev, @templum & rgee0 for testing and contributing to the labs.

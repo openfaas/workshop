@@ -121,10 +121,10 @@ This is a python function that provides a rating on sentiment positive/negative 
 You can deploy "SentimentAnalysis" from the **Function Store**
 
 ```
-# echo -n "I am really excited to participate in the OpenFaaS workshop." | faas-cli invoke sentimentanalysis
+$ echo -n "I am really excited to participate in the OpenFaaS workshop." | faas-cli invoke sentimentanalysis
 Polarity: 0.375 Subjectivity: 0.75
 
-# echo -n "The hotel was clean, but the area was terrible" | faas-cli invoke sentimentanalysis
+$ echo -n "The hotel was clean, but the area was terrible" | faas-cli invoke sentimentanalysis
 Polarity: -0.316666666667 Subjectivity: 0.85
 ```
 
@@ -239,7 +239,7 @@ functions:
 
 Any sensitive information is placed in an external file (i.e. `env.yml`) so that it can be included in a `.gitignore` file which will help prevent that information getting stored in a public Git repository.
 
-OpenFaaS supports the use of native Docker and Kubernetes secrets, but we do not cover this in the workshop.
+OpenFaaS also supports the use of native Docker and Kubernetes secrets, details can be found in [Lab 7b](lab7b.md)
 
 ### Apply labels via the GitHub API
 
@@ -349,4 +349,4 @@ Now try it out by creating some new issues in the `bot-tester` repository. Check
 
 > Note: If the labels don't appear immediately, first try refreshing the page
 
-Now move onto [Lab 8](lab8.md)
+Now move on to [Lab 7b](lab7b.md).
