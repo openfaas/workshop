@@ -120,8 +120,6 @@ $ faas-cli build -f show-html.yml \
 
 Open your browser and access http://127.0.0.1:8080/function/show-html. You should see a "Here's a new page!" HTML page rendered in the browser.
 
-
-
 ## Read the query string and return different HTML
 
 Now that we've understood how to serve html via functions, let's dynamically change the HTML to serve via query strings. As we learned in [Lab 4](./lab4.md), query strings can be retrieved via an environment variable called `Http_Query`. Suppose we made a query that looks like this:
@@ -206,7 +204,7 @@ http://127.0.0.1:8080/function/show-html?action=list
 
 You should see a HTML showing a list.
 
-## Collaborating with other functions
+## Collaborate with other functions
 
 Finally, let's see how we can collaborate with another function (e.g. the *figlet* function) from the HTML function by taking advantage of JavaScript and Ajax.
 
@@ -303,6 +301,6 @@ http://127.0.0.1:8080/function/show-html?action=figlet
 
 You should see the "Figlet" page and should see an input. Type any text you want to and click the "Generate" button. If the request succeeds, the `textarea` should contain the figlet you typed inside the `input`. This is a trivial example, but by using this technique you can even create powerful SPAs (Single Page Application) with functions, too.
 
-
-
 In this lab you learned how you can serve HTML from your function and set the `Content-Type` of the response. In addition, you have also learned how you can call other functions with HTML + JavaScript and create a dynamic page with functions, too.
+
+Now move onto [Lab 5](lab5.md)

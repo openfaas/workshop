@@ -56,6 +56,12 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 * Inject configuration through environmental variables
 * Use HTTP context - querystring / headers etc
 
+## [Lab 4b - HTML for your functions](./lab4b.md)
+
+* Generate and return basic HTML from a function
+* Read and return a static HTML file from disk
+* Collaborate with other functions
+
 ## [Lab 5 - Asynchronous Functions](./lab5.md)
 
 * Call a function synchronously vs asynchronously
