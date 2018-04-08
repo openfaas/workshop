@@ -14,3 +14,5 @@ functions:
       gateway_hostname: "gateway"
     environment_file:
       - env.yml
+    secrets:
+      - alexellis_github_auth_token

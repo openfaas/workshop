@@ -22,6 +22,10 @@ def handle(req):
     res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', 
                         data= payload["issue"]["title"]+" "+payload["issue"]["body"])
 
+    if res.status_code != 200:
+        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, res.status_code))
+        sys.exit(1)
+
     # Read the positive_threshold from configuration
     positive_threshold = float(os.getenv("positive_threshold", "0.2"))
 
@@ -36,7 +40,14 @@ def handle(req):
     print("Repo: %s, issue: %s, polarity: %f" % (payload["repository"]["full_name"], payload["issue"]["number"], polarity))
 
 def apply_label(polarity, issue_number, repo, positive_threshold):
-    g = Github(os.getenv("auth_token"))
+    token = os.getenv("auth_token")
+
+    if len(token) == 0:
+        with open("/run/secrets/alexellis_github_auth_token") as f:
+            token = f.read().strip()
+            f.close()
+
+    g = Github(token)
     repo = g.get_repo(repo)
     issue = repo.get_issue(issue_number)
 
