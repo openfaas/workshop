@@ -86,7 +86,7 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 * Some insights on min and max replicas
 * Discover and visit local Prometheus
 * Execute and Prometheus query
-* Invoke a lambda using curl
+* Invoke a function using curl
 * Observe auto-scaling kicking in
 
 You can start with the first lab [Lab 1](lab1.md).
@@ -109,4 +109,4 @@ The [appendix](./appendix.md) contains some additional content.
 
 ## Acknowledgements
 
-Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan & @templum  for testing and contributing to the labs.
+Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan, @kenfdev & @templum  for testing and contributing to the labs.

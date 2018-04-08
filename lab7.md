@@ -349,4 +349,4 @@ Now try it out by creating some new issues in the `bot-tester` repository. Check
 
 > Note: If the labels don't appear immediately, first try refreshing the page
 
-Now return to the [main page](./README.md).
+Now move onto [Lab 8](lab8.md)
