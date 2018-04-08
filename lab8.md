@@ -17,11 +17,11 @@ Before dive into a hands-on session, we will have a brief look how we can config
 
 Out of the box OpenFaaS is set up in a way that it will auto-scale based on the received `request per seconds`. If the defined threshold for the `request per seconds` is exceeded the AlertManager will fire. 
 
-For each fired alarm the auto-scaler will add 5 instances to the affected function. OpenFaaS has two configuration options that allow to specify the starting/minimum amount of instances and also allows to ceil the maximum amount of instances:
+For each fired alarm the auto-scaler will add 5 replicas to the affected function. OpenFaaS has two configuration options that allow to specify the starting/minimum amount of replicas and also allows to ceil the maximum amount of replicas:
 
-You can control the minimum amount of instances for function by setting `com.openfaas.scale.min`, the default value is currently `1`. 
+You can control the minimum amount of replicas for function by setting `com.openfaas.scale.min`, the default value is currently `1`. 
 
-You can control the maximum amount of instances that can spawn for a function by setting `com.openfaas.scale.max`, the default value is currently `20`. 
+You can control the maximum amount of replicas that can spawn for a function by setting `com.openfaas.scale.max`, the default value is currently `20`. 
 
 > Note: If you set `com.openfaas.scale.min` and `com.openfaas.scale.max` to the same value you are disabling the auto-scaling feature. So pay attention to not do this accidentally. 
 
@@ -53,6 +53,6 @@ You should now be able to see an increase of invocation for the `func_nodeinfo` 
 
  ![](./screenshot/prometheus_firing.png)
 
-Now you can verify using `$ docker ps` that new instances of `func_nodeinfo` got spawned. Which also concludes this lab on auto-scaling. 
+Now you can verify using `$ docker ps` that new replicas of `func_nodeinfo` got spawned. Which also concludes this lab on auto-scaling. 
 
 You can return to the [main page](./README.md).
