@@ -60,9 +60,11 @@ You'll see an ASCII logo generated like this:
 
 You can now test out the CLI, but first a note on alternate gateways URLs:
 
-If your gateway is not deployed at http://127.0.0.1:8080 then you will need to specify the `--gateway` flag followed by the alternate URL.
+If your gateway is not deployed at http://127.0.0.1:8080 then you will need to specify the alternative location. There are several ways to accomplish this:
 
-> A shorter versions of flags are available most of the time so `--gateway` can be shortened to `-g` too. Check `faas-cli --help` for more information.
+1. Set the environment variable `OPENFAAS_URL` and the `faas-cli` will point to that endpoint in your current shell session. For example: `export OPENFAAS_URL=http://openfaas.endpoint.com:8080`
+2. Specify the correct endpoint inline with the `-g` or `--gateway` flag: `faas deploy --gateway http://openfaas.endpoint.com:8080`
+3. In your deployment YAML file, change the value specified by the `gateway:` object under `provider:`.
 
 ### List the deployed functions
 
