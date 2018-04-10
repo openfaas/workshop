@@ -86,11 +86,25 @@ $ faas-cli version
 
 The instructions for deploying OpenFaaS change from time to time as we strive to make this easier. The following will get OpenFaaS deployed in around 60 seconds:
 
+* First clone the repo:
+
 ```
-$ git clone https://github.com/openfaas/faas && \
-  cd faas && \
-  git checkout 0.7.3 && \
-  ./deploy_stack.sh
+$ git clone https://github.com/openfaas/faas
+```
+
+* Now checkout the latest version with Git
+
+```
+$ cd faas && \
+  git checkout 0.7.8
+```
+
+> Note: you can see the latest releases on the [project release page](https://github.com/openfaas/faas/releases).
+
+* Now deploy the stack with Docker Swarm:
+
+```
+$  ./deploy_stack.sh
 ```
 
 You should now have OpenFaaS deployed. If you are on a shared WiFi connection at an event then it may take several minutes to pull down all the Docker images and start them.
