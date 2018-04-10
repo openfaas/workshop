@@ -97,7 +97,7 @@ functions:
 * The folder used to build from is called `handler`, this must be a folder not a file
 * The Docker image name to be used is under the field `image`
 
-For ease of use the `gateway` URL can be overriden in the YAML file or on the CLI.
+Remember that the `gateway` URL can be overriden in the YAML file (by editing the `gateway:` value under `provider:`) or on the CLI (by using `--gateway` or setting the `OPENFAAS_URL` environment variable).
 
 Here is the contents of the `handler.py` file:
 
