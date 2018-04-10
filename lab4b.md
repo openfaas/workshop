@@ -106,7 +106,7 @@ def handle(req):
     with(open(path, 'r')) as file:
         html = file.read()
 
-    html
+    return html
 
 ```
 
