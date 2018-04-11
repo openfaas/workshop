@@ -108,18 +108,18 @@ def handle(req):
         req (str): request body
     """
 
-    print(req)
+    return req
 ```
 
-This function will just print the input, so it's effectively an `echo` function.
+This function will just echo the input, so it's effectively an `echo` function.
 
-Edit the message so it prints `hello world` instead i.e.
+Edit the message so it returns `hello world` instead i.e.
 
 ```
-    print("Hello World")
+    return "Hello World"
 ```
 
-Any strings printed to stdout via `print()` will be returned to the calling program. You can also avoid the `print()` statement and return a value from the `handle` method.
+Any values returned will also be returned to the calling program, you can also avoid the `return val` and use `print("your string here")` which prints to stdout and returned as well to the calling program. 
 
 This is the local developer-workflow for functions:
 
@@ -205,7 +205,7 @@ def handle(req):
     index = random.randint(0, len(result["people"])-1)
     name = result["people"][index]["name"]
 
-    print (name + " is in space") 
+    return name + " is in space"
 ```
 
 > Note: in this example we do not make use of the parameter `req` but must keep it in the function's header.
