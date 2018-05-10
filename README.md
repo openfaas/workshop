@@ -52,28 +52,15 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 
 ## [Lab 4 - Go deeper with functions](./lab4.md)
 
-* Extend timeouts with `read_timeout`
-* Inject configuration through environmental variables
-* Use HTTP context - querystring / headers etc
+* [Inject configuration through environmental variables](lab4.md#inject-configuration-through-environmental-variables)
+  * At deployment using yaml
+  * Dynamically using HTTP context - querystring / headers etc
+* [Making use of logging](lab4.md#making-use-of-logging)
+* [Create Workflows](lab4.md#create-workflows)
+  * Chaining functions on the client-side
+  * Call one function from another
 
-## [Lab 4b - HTML for your functions](./lab4b.md)
-
-* Generate and return basic HTML from a function
-* Read and return a static HTML file from disk
-* Collaborate with other functions
-
-## [Lab 5 - Asynchronous Functions](./lab5.md)
-
-* Call a function synchronously vs asynchronously
-* View the queue-worker's logs
-* Use an `X-Callback-Url` with requestbin and ngrok
-
-## [Lab 6 - Chain or combine Functions into workflows](./lab6.md)
-
-* Chaining functions on the client-side
-* Call one function from another
-
-## [Lab 7 - Put it all together](./lab7.md)
+## [Lab 5 - Create a Gitbot](./lab5.md)
 
 > Build `issue-bot` - an auto-responder for GitHub Issues
 
@@ -85,22 +72,34 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 * Apply labels via the GitHub API
 * Complete the function
 
-## [Lab 7b - Using secrets](./lab7b.md)
+## [Lab 6 - HTML for your functions](./lab6.md)
 
-> Adapt `issue-bot` to store sensitive information in secrets
+* Generate and return basic HTML from a function
+* Read and return a static HTML file from disk
+* Collaborate with other functions
 
-* Create a Swarm secret
-* Access the secret within the function
+## [Lab 7 - Asynchronous Functions](./lab7.md)
 
-## [Lab 8 - Auto-scaling in action](./lab8.md)
+* Call a function synchronously vs asynchronously
+* View the queue-worker's logs
+* Use an `X-Callback-Url` with requestbin and ngrok
 
-> See auto-scaling in action
+## [Lab 8 - Advanced Function Features](./lab8.md)
 
-* Some insights on min and max replicas
-* Discover and visit local Prometheus
-* Execute and Prometheus query
-* Invoke a function using curl
-* Observe auto-scaling kicking in
+* [Adjust timeouts with `read_timeout`](lab8.md#extend-timeouts-with-read_timeout)
+  * Accommodate longer running functions
+
+* [Use of Secrets](./lab8#use-of-secrets)
+  * Adapt issue-bot to use a secret
+  * Create a Swarm secret
+  * Access the secret within the function
+
+* [See auto-scaling in action](./lab8#auto-scaling-in-action)
+  * Some insights on min and max replicas
+  * Discover and visit local Prometheus
+  * Execute and Prometheus query
+  * Invoke a function using curl
+  * Observe auto-scaling kicking in
 
 You can start with the first lab [Lab 1](lab1.md).
 
