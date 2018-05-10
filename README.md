@@ -84,22 +84,24 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 * View the queue-worker's logs
 * Use an `X-Callback-Url` with requestbin and ngrok
 
-## [Lab 8 - Advanced Function Features](./lab8.md)
+## [Lab 8 - Advanced Feature - Timeouts](./lab8.md)
 
-* [Adjust timeouts with `read_timeout`](lab8.md#extend-timeouts-with-read_timeout)
-  * Accommodate longer running functions
+* Adjust timeouts with `read_timeout`
+* Accommodate longer running functions
 
-* [Use of Secrets](./lab8#use-of-secrets)
-  * Adapt issue-bot to use a secret
-  * Create a Swarm secret
-  * Access the secret within the function
+## [Lab 9 - Advanced Feature - Auto-scaling](./lab9.md)
 
-* [See auto-scaling in action](./lab8#auto-scaling-in-action)
+* See auto-scaling in action
   * Some insights on min and max replicas
   * Discover and visit local Prometheus
   * Execute and Prometheus query
   * Invoke a function using curl
   * Observe auto-scaling kicking in
+
+## [Lab 10 - Advanced Feature - Secrets](./lab10.md)
+* Adapt issue-bot to use a secret
+  * Create a Swarm secret
+  * Access the secret within the function
 
 You can start with the first lab [Lab 1](lab1.md).
 

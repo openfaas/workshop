@@ -239,7 +239,7 @@ functions:
 
 Any sensitive information is placed in an external file (i.e. `env.yml`) so that it can be included in a `.gitignore` file which will help prevent that information getting stored in a public Git repository.
 
-OpenFaaS also supports the use of native Docker and Kubernetes secrets, details can be found in [Lab 8](lab8.md#use-of-secrets)
+OpenFaaS also supports the use of native Docker and Kubernetes secrets, details can be found in [Lab 10](lab10.md)
 
 ### Apply labels via the GitHub API
 
