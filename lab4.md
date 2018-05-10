@@ -2,84 +2,6 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
-## Extend timeouts with `read_timeout`
-
-The *timeout* corresponds to how long a function can run for until it is executed. It is important for preventing misuse in distributed systems.
-
-There are several places where a timeout can be configured for your function, in each place this is done through the use of environmental variables.
-
-* Function timeout
-
-* `read_timeout` - time allowed fo the function to read a request over HTTP
-* `write_timeout` - time allowed for the function to write a response over HTTP
-* `exec_timeout` - the maximum duration a function can run before being terminated
-
-The API Gateway has a default of 20 seconds, so let's test out setting a shorter timeout on a function.
-
-```
-$ faas-cli new --lang python3 sleep-for --prefix="<your-docker-username-here>"
-```
-
-Edit `handler.py`:
-
-```python
-import time
-import os
-
-def handle(req):
-    """handle a request to the function
-    Args:
-        req (str): request body
-    """
-
-    sleep_duration = int(os.getenv("sleep_duration", "10"))
-    print("Starting to sleep for %d" % sleep_duration)
-    time.sleep(sleep_duration)  # Sleep for a number of seconds
-    print("Finished the sleep")
-```
-
-Now edit the `sleep-for.yml` file and add these environmental variables:
-
-```yaml
-provider:
-  name: faas
-  gateway: http://127.0.0.1:8080
-
-functions:
-  sleep-for:
-    lang: python3
-    handler: ./sleep-for
-    image: <your-docker-username-here>/sleep-for:0.1
-    environment:
-      sleep_duration: 10
-      read_timeout: 5
-      write_timeout: 5
-      exec_timeout: 5
-```
-
-Use the CLI to build, push, deploy and invoke the function.
-
-```
-$ echo | faas-cli invoke sleep-for
-Server returned unexpected status code: 500 - Can't reach service: sleep-for
-```
-
-You should see it terminate without printing the message.
-
-Now set `sleep_duration` to a lower number like `2` and run `faas-cli deploy` again. You don't need to rebuild the function when editing the function's YAML file.
-
-```
-$ echo | faas-cli invoke sleep-for
-Starting to sleep for 2
-Finished the sleep
-```
-
-* API Gateway
-
-This is the maximum timeout duration as set at the gateway, it will override the function timeout. At the time of writing the maximum timeout is configured at "20s", but can be configured to a longer or shorter value.
-
-To update the gateway value set `read_timeout` and `write_timeout` in the `docker-compose.yml` file for the `gateway` and `faas-swarm` service then run `./deploy_stack.sh`.
-
 ## Inject configuration through environmental variables
 
 It is useful to be able to control how a function behaves at runtime, we can do that in at least two ways:
@@ -88,7 +10,7 @@ It is useful to be able to control how a function behaves at runtime, we can do 
 
 * Set environmental variables at deployment time
 
-We did this with `write_debug` and `exec_timeout` - you can also set any custom environmental variables you want here too - for instance if you wanted to configure a language for your *hello world* function you may introduce a `spoken_language` variable.
+We did this with `write_debug` in [Lab 3](./lab3.md) - you can also set any custom environmental variables you want here too - for instance if you wanted to configure a language for your *hello world* function you may introduce a `spoken_language` variable.
 
 ### Use HTTP context - querystring / headers
 
@@ -158,15 +80,14 @@ In Python code you'd type in `os.getenv("Http_X_Output_Mode")`.
 
 You can see that all other HTTP context is also provided such as `Content-Length` when the `Http_Method` is a `POST`, the `User_Agent`, Cookies and anything else you'd expect to see from a HTTP request.
 
-### Making use of logging
+## Making use of logging
 
-The way OpenFaaS watchdog works is that it passses in the HTTP request and reads a HTTP response via the standard I/O streams `stdin` and `stdout` accordingly.
-This means that your process does not need to know anything about the web or HTTP.
+The OpenFaaS watchdog operates by passing in the HTTP request and reading an HTTP response via the standard I/O streams `stdin` and `stdout`. This means that the process running as a function does not need to know anything about the web or HTTP.
 
-An interesting case is when it finishes with a non-zero exit code and `stderr` is not empty.
-By default function `stdout/stderr` is combined and `stderr` is not printed to the logs.
+An interesting case is when a function exits with a non-zero exit code and `stderr` is not empty.
+By default a function's `stdout/stderr` is combined and `stderr` is not printed to the logs.
 
-Lets check that with the `hello-openfaas` function from Lab 3.
+Lets check that with the `hello-openfaas` function from [Lab 3](./lab3.md#hello-world-in-python).
 
 Change the `handler.py` code to
 
@@ -221,20 +142,132 @@ Check the container logs for `stderr`. You should see a message like:
 hello-openfaas.1.2xtrr2ckkkth@linuxkit-025000000001    | 2018/04/03 08:35:24 stderr: This should be an error message.
 ```
 
-### Summarising environmental variables.
+## Create Workflows
 
-In Python you can find environmental variables through the `os.getenv(key, default_value)` function or `os.environ` array after importing the `os` package. The OpenFaaS watchdog provides all HTTP context to your function through environmental variables. They can be used at deployment time or at runtime to alter the behaviour of your code.
+There will be situations where it will be useful to take the output of one function and use it as an input to another.  This is achievable both client-side and via the API Gateway. 
 
-i.e.
+### Chaining functions on the client-side
+
+You can pipe the result of one function into another using `curl`, the `faas-cli` or some of your own code. Here's an example:
+
+Pros:
+
+* requires no code - can be done with CLI programs
+* fast for development and testing
+* easy to model in code
+
+Cons:
+
+* additional latency - each function goes back to the server
+* chatty (more messages)
+
+Example:
+
+* Deploy the NodeInfo function from the *Function Store*
+
+* Then push the output from NodeInfo through the Markdown converter
+
+```
+$ echo -n "" | faas-cli invoke nodeinfo | faas-cli invoke func_markdown
+<p>Hostname: 64767782518c</p>
+
+<p>Platform: linux
+Arch: x64
+CPU count: 4
+Uptime: 1121466</p>
+```
+
+You will now see the output of the NodeInfo function decorated with HTML tags such as: `<p>`.
+
+Another example of client-side chaining of functions may be to invoke a function that generates an image, then send that image into another function which adds a watermark.
+
+### Call one function from another
+
+The easiest way to call one function from another is make a call over HTTP via the OpenFaaS *API Gateway*. This call does not need to know the external domain name or IP address, it can simply refer to the API Gateway as `gateway` through a DNS entry.
+
+When accessing a service such as the API gateway from a function it's best practice to use an environmental variable to configure the hostname, this is important for two reasons - the name may change and in Kubernetes a suffix is sometimes needed.
+
+Pros:
+
+* functions can make use of each other directly
+* low latency since the functions can access each other on the same network
+
+Cons:
+
+* requires a code library for making the HTTP request
+
+Example:
+
+In [Lab 3](./lab3.md) we introduced the requests module and used it to call a remote API to get the name of an astronaut aboard the ISS. We can use the same technique to call another function deployed on OpenFaaS.
+
+* Go to the *Function Store* and deploy the *Sentiment Analysis* function. 
+
+The Sentiment Analysis function will tell you the subjectivity and polarity (positivity rating) of any sentence. The result of the function is formatted in JSON as per the example below:
+
+```
+echo -n "California is great, it's always sunny there." | faas-cli invoke sentimentanalysis
+{"polarity": 0.8, "sentence_count": 1, "subjectivity": 0.75}
+```
+
+So the result shows us that our test sentence was both very subjective (75%) and very positive (80%). The values for these two fields are always between `-1.00` and `1.00`.
+
+The following code can be used to call the *Sentiment Analysis* function or any other function:
+
+```python
+    test_sentence = "California is great, it's always sunny there."
+    r = requests.get("http://gateway:8080/function/sentimentanalysis", text= test_sentence)
+```
+
+Or via an environmental variable:
+
+```python
+    gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
+    test_sentence = "California is great, it's always sunny there."
+    r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", text= test_sentence)
+```
+
+Since the result is always in JSON format we can make use of the helper function `.json()` to convert the response:
+
+```python
+    result = r.json()
+    if result["polarity"] > 0.45:
+       return "That was probably positive"
+    else:
+        return "That was neutral or negative"
+```
+
+Now create a new function in Python and it all together
 
 ```python
 import os
+import requests
+import sys
 
-def handle(st):
-    print os.getenv("Http_Method")          # will be "NoneType" if empty
-    print os.getenv("Http_Method", "GET")   # provide a default of "GET" if empty
-    print os.environ["Http_Method"]         # throws an exception is not present
-    print os.environ                        # array of environment
+def handle(req):
+    """handle a request to the function
+    Args:
+        req (str): request body
+    """
+
+    gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
+
+    test_sentence = req
+
+    r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", data= test_sentence)
+
+    if r.status_code != 200:
+        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, r.status_code))
+        sys.exit(1)
+
+    result = r.json()
+    if result["polarity"] > 0.45:
+        return "That was probably positive"
+    else:
+        return "That was neutral or negative"
 ```
 
-Now move onto [Lab 4b](lab4b.md)
+* Remember to add `requests` to your `requirements.txt` file
+
+Note: you do not need to modify or alter the source for the SentimentAnalysis function, we have already deployed it and will access it via the API gateway.
+
+Now move on to [Lab 5](lab5.md).

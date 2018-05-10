@@ -1,103 +1,98 @@
-# Lab 6 - Chain or combine Functions into workflows
+# Lab 6 - HTML for your functions
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
-## Chaining functions on the client-side
+## Generate and return basic HTML from a function
 
-You can pipe the result of one function into another using `curl`, the `faas-cli` or some of your own code. Here's an example:
-
-Pros:
-
-* requires no code - can be done with CLI programs
-* fast for development and testing
-* easy to model in code
-
-Cons:
-
-* additional latency - each function goes back to the server
-* chatty (more messages)
-
-Example:
-
-* Deploy the NodeInfo function from the *Function Store*
-
-* Then push the output from NodeInfo through the Markdown converter
+Functions can return HTML and also set the `Content-Type` to `text/html`. Hence the HTML returned by the function can be rendered via a browser. Let's create a simple function who generates and returns a basic HTML.
 
 ```
-$ echo -n "" | faas-cli invoke nodeinfo | faas-cli invoke func_markdown
-<p>Hostname: 64767782518c</p>
-
-<p>Platform: linux
-Arch: x64
-CPU count: 4
-Uptime: 1121466</p>
+$ faas-cli new --lang python3 show-html --prefix="<your-docker-username-here>"
 ```
 
-You will now see the output of the NodeInfo function decorated with HTML tags such as: `<p>`.
-
-Another example of client-side chaining of functions may be to invoke a function that generates an image, then send that image into another function which adds a watermark.
-
-## Call one function from another
-
-The easiest way to call one function from another is make a call over HTTP via the OpenFaaS *API Gateway*. This call does not need to know the external domain name or IP address, it can simply refer to the API Gateway as `gateway` through a DNS entry.
-
-When accessing a service such as the API gateway from a function it's best practice to use an environmental variable to configure the hostname, this is important for two reasons - the name may change and in Kubernetes a suffix is sometimes needed.
-
-Pros:
-
-* functions can make use of each other directly
-* low latency since the functions can access each other on the same network
-
-Cons:
-
-* requires a code library for making the HTTP request
-
-Example:
-
-In Lab 3 we introduced the requests module and used it to call a remote API to get the name of an astronaut aboard the ISS. We can use the same technique to call another function deployed on OpenFaaS.
-
-* Go to the *Function Store* and deploy the *Sentiment Analysis* function. 
-
-The Sentiment Analysis function will tell you the subjectivity and polarity (positivity rating) of any sentence. The result of the function is formatted in JSON as per the example below:
-
-```
-echo -n "California is great, it's always sunny there." | faas-cli invoke sentimentanalysis
-{"polarity": 0.8, "sentence_count": 1, "subjectivity": 0.75}
-```
-
-So the result shows us that our test sentence was both very subjective (75%) and very positive (80%). The values for these two fields are always between `-1.00` and `1.00`.
-
-The following code can be used to call the *Sentiment Analysis* function or any other function:
+Edit `handler.py`:
 
 ```python
-    test_sentence = "California is great, it's always sunny there."
-    r = requests.get("http://gateway:8080/function/sentimentanalysis", text= test_sentence)
+def handle(req):
+    """handle a request to the function
+    Args:
+        req (str): request body
+    """
+
+    html = '<html><h2>Hi, from your function!</h2></html>'
+
+    return html
+
 ```
 
-Or via an environmental variable:
+This will return HTML to the caller.  One more thing we should do is to set the `Content-Type` of the response. We are 100% sure that this function will return an HTML so the `Content-Type` should always be `text/html`. We can set this by taking advantage of the `environment` section of the `show-html.yml` file.
 
-```python
-    gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
-    test_sentence = "California is great, it's always sunny there."
-    r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", text= test_sentence)
+Edit `show-html.yml`:
+
+```yams
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  show-html:
+    lang: python3
+    handler: ./show-html
+    image: <your-docker-username-here>/show-html
+    environment:
+      content_type: text/html
+
 ```
 
-Since the result is always in JSON format we can make use of the helper function `.json()` to convert the response:
+The `content_type` key inside `environment` will set the `Content-Type` of the response.
 
-```python
-    result = r.json()
-    if result["polarity"] > 0.45:
-        print("That was probably positive")
-    else:
-        print("That was neutral or negative")
+Now build, push and deploy the function:
+
+```
+$ faas-cli build -f show-html.yml \
+  && faas-cli push -f show-html.yml \
+  && faas-cli deploy -f show-html.yml
 ```
 
-Now create a new function in Python and it all together
+Open your browser and access http://127.0.0.1:8080/function/show-html. The HTML should be properly rendered.
+
+## Read and return a static HTML file from disk
+
+Typically, when you serve HTML you have a static HTML file upfront. Let's see how we can pack HTML file inside the function and serve the contents from the HTML file.
+
+First, let's create a HTML file:
+
+Create a directory called `html` and put a file called `new.html` so that the structure looks like as follows:
+
+```
+├── show-html
+│   ├── __init__.py
+│   ├── handler.py
+│   ├── html
+│   │   └── new.html
+│   └── requirements.txt
+└── show-html.yml
+```
+
+Edit `new.html` :
+
+```html
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>OpenFaaS</title>
+</head>
+<body>
+  <h2>Here's a new page!</h2>
+</body>
+</html>
+```
+
+Now change your `handler.py` to the following:
 
 ```python
 import os
-import requests
-import sys
 
 def handle(req):
     """handle a request to the function
@@ -105,25 +100,207 @@ def handle(req):
         req (str): request body
     """
 
-    gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
+    dirname = os.path.dirname(__file__)
+    path = os.path.join(dirname, 'html', 'new.html')
 
-    test_sentence = req
+    with(open(path, 'r')) as file:
+        html = file.read()
 
-    r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", data= test_sentence)
+    return html
 
-    if r.status_code != 200:
-        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, r.status_code))
-        sys.exit(1)
-
-    result = r.json()
-    if result["polarity"] > 0.45:
-        print("That was probably positive")
-    else:
-        print("That was neutral or negative")
 ```
 
-* Remember to add `requests` to your `requirements.txt` file
+Now build, push and deploy the function:
 
-Note: you do not need to modify or alter the source for the SentimentAnalysis function, we have already deployed it and will access it via the API gateway.
+```
+$ faas-cli build -f show-html.yml \
+  && faas-cli push -f show-html.yml \
+  && faas-cli deploy -f show-html.yml
+```
+
+Open your browser and access http://127.0.0.1:8080/function/show-html. You should see a "Here's a new page!" HTML page rendered in the browser.
+
+## Read the query string and return different HTML
+
+Now that we've understood how to serve html via functions, let's dynamically change the HTML to serve via query strings. As we learned in [Lab 4](./lab4.md), query strings can be retrieved via an environment variable called `Http_Query`. Suppose we made a query that looks like this:
+
+ http://127.0.0.1:8080/function/show-html?action=new
+
+The query string is `action=new`, hence the value of `Http_Query` would be `action=new`. We can also use the `parse_qs` function from the `urllib.parse` package and easily parse this query string.
+
+First of all, let's create a new HTML file inside called `list.html`. So the structure should look like the following now:
+
+```
+├── show-html
+│   ├── __init__.py
+│   ├── handler.py
+│   ├── html
+│   │   ├── list.html
+│   │   └── new.html
+│   └── requirements.txt
+└── show-html.yml
+```
+
+Edit `list.html`:
+
+```html
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>OpenFaaS</title>
+</head>
+<body>
+  <h2>This is a list!</h2>
+  <ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ul>
+</body>
+</html>
+```
+
+Change your `handler.py`: 
+
+```python
+import os
+from urllib.parse import parse_qs
+
+def handle(req):
+    """handle a request to the function
+    Args:
+        req (str): request body
+    """
+
+    query = os.environ['Http_Query']
+    params = parse_qs(query)
+    action = params['action'][0]
+
+    dirname = os.path.dirname(__file__)
+    path = os.path.join(dirname, 'html', action + '.html')
+
+    with(open(path, 'r')) as file:
+        html = file.read()
+
+    return html
+```
+
+Now build, push and deploy the function:
+
+```
+$ faas-cli build -f show-html.yml \
+  && faas-cli push -f show-html.yml \
+  && faas-cli deploy -f show-html.yml
+```
+
+Open your browser and first access:
+
+http://127.0.0.1:8080/function/show-html?action=new
+
+You should see the "Here's a new page!" as you saw in the previous section. Now access:
+
+http://127.0.0.1:8080/function/show-html?action=list
+
+You should see a HTML showing a list.
+
+## Collaborate with other functions
+
+Finally, let's see how we can collaborate with another function (e.g. the *figlet* function) from the HTML function by taking advantage of JavaScript and Ajax.
+
+First of all, let's create another HTML file called `figlet.html`. So the structure should look like the following now:
+
+```
+├── show-html
+│   ├── __init__.py
+│   ├── handler.py
+│   ├── html
+│   │   ├── figlet.html
+│   │   ├── list.html
+│   │   └── new.html
+│   └── requirements.txt
+└── show-html.yml
+```
+
+Edit`figlet.html`:
+
+```html
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>OpenFaaS</title>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <style>
+    .result {
+        font-family: 'Roboto Mono', monospace;
+    }
+    </style>
+</head>
+<body>
+  <h2>Figlet</h2>
+  <p>
+    Text: <input type="text" name="text" id="text"> 
+    <button id="generate">Generate</button>
+  </p>
+  
+  <textarea class="result" cols="80" rows="10"></textarea>
+
+  <script type="text/javascript">
+    $(function(){
+      // Generate button click
+      $('#generate').on('click', function() {
+        // Execute ajax request
+        $.ajax({
+          url:'./figlet',
+          type:'POST',
+          data:$('#text').val()
+        })
+        .done(function(data) {
+          // ajax success
+          $('.result').val(data);
+          console.log(data);
+        })
+        .fail(function(data) {
+          // ajax failure
+          $('.result').val(data);
+          console.log(data);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+```
+
+Don't worry if you don't understand JavaScript much. All this page does is:
+
+* Type text inside the `input`
+* Press the `Generate` button
+* Create an Ajax request to the *figlet* function endpoint (`/function/figlet`)
+* Apply the result to the `textarea`
+
+There is no need to change the `handler.py` because it can dynamically serve HTML from the previous section. Despite not changing the `handler.py` , we need to build and push the function image because we need to pack the new `figlet.html` inside the function container.
+
+Now build, push and deploy the function:
+
+```
+$ faas-cli build -f show-html.yml \
+  && faas-cli push -f show-html.yml \
+  && faas-cli deploy -f show-html.yml
+```
+
+This section assumes you have already deployed the *figlet* function from [Lab 2](./lab2.md).  
+
+Open your browser and first access:
+
+http://127.0.0.1:8080/function/show-html?action=figlet
+
+You should see the "Figlet" page and should see an input. Type any text you want to and click the "Generate" button. If the request succeeds, the `textarea` should contain the figlet you typed inside the `input`. This is a trivial example, but by using this technique you can even create powerful SPAs (Single Page Application) with functions, too.
+
+In this lab you learned how you can serve HTML from your function and set the `Content-Type` of the response. In addition, you have also learned how you can call other functions with HTML + JavaScript and create a dynamic page with functions, too.
 
 Now move onto [Lab 7](lab7.md)

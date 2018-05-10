@@ -37,7 +37,7 @@ def handle(req):
         payload["repository"]["full_name"],
         positive_threshold)
 
-    print("Repo: %s, issue: %s, polarity: %f" % (payload["repository"]["full_name"], payload["issue"]["number"], polarity))
+    return "Repo: %s, issue: %s, polarity: %f" % (payload["repository"]["full_name"], payload["issue"]["number"], polarity)
 
 def apply_label(polarity, issue_number, repo, positive_threshold):
 

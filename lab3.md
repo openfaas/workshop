@@ -1,4 +1,4 @@
-# Lab 3 - Introduction to Functions
+# Lab 3 - Introduction to functions
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
@@ -64,7 +64,7 @@ The `--prefix` parameter will update `image: ` value in `hello-openfaas.yml` wit
 
 If you don't specify a prefix when you create the function then edit the YAML file after creating it.
 
-This will create three files for us:
+This will create three files and a directory:
 
 ```
 ./hello-openfaas.yml
@@ -108,18 +108,18 @@ def handle(req):
         req (str): request body
     """
 
-    print(req)
+    return req
 ```
 
-This function will just print the input, so it's effectively an `echo` function.
+This function will just return the input, so it's effectively an `echo` function.
 
-Edit the message so it prints `hello world` instead i.e.
+Edit the message so it returns `hello world` instead i.e.
 
 ```
-    print("Hello World")
+    return "Hello World"
 ```
 
-Any strings printed to stdout via `print()` will be returned to the calling program. You can also avoid the `print()` statement and return a value from the `handle` method.
+Any values returned to stdout will subsequently be returned to the calling program. Alternatively a `print()` statement could be employed which would exhibit a similar flow through to the calling program.
 
 This is the local developer-workflow for functions:
 
@@ -139,7 +139,7 @@ http://127.0.0.1:8080/function/figlet
 http://127.0.0.1:8080/function/hello-openfaas
 ```
 
-> Pro-tip: if you rename your YAML file to `stack.yml` then you will not need to pass a `-f` flag to any commands.
+> Pro-tip: if you rename your YAML file to `stack.yml` then you need not pass the `-f` flag to any of the commands.
 
 Functions can be invoked via a `GET` or `POST` method only.
 
@@ -167,7 +167,7 @@ The handler for the function - you get a `req` object with the raw request and c
 ./astronaut-finder/requirements.txt
 ```
 
-This file lists any `pip` modules you want to install, such as `requests` or `urllib`
+Use this file to list any `pip` modules you want to install, such as `requests` or `urllib`
 
 ```
 ./astronaut-finder.yml
@@ -205,7 +205,7 @@ def handle(req):
     index = random.randint(0, len(result["people"])-1)
     name = result["people"][index]["name"]
 
-    print (name + " is in space") 
+    return name + " is in space"
 ```
 
 > Note: in this example we do not make use of the parameter `req` but must keep it in the function's header.
@@ -216,7 +216,7 @@ Now build the function:
 $ faas-cli build -f ./astronaut-finder.yml
 ```
 
-> Tip: If you rename astronaut-finder.yml to `stack.yml` then you can leave off the `-f` argument. `stack.yml` is the default file-name for the CLI.
+> Tip: Try renaming astronaut-finder.yml to `stack.yml` and calling just `faas-cli build`. `stack.yml` is the default file-name for the CLI.
 
 Deploy the function:
 
@@ -358,7 +358,7 @@ faas-cli new --list|grep php
 
 A list of community templates is maintained on the [OpenFaaS CLI README page](https://github.com/openfaas/faas-cli).
 
-Continue to the optional exercise or go move onto [Lab 4](lab4.md).
+Continue to the optional exercise or move onto [Lab 4](lab4.md).
 
 ### Custom binaries as functions (optional)
 
