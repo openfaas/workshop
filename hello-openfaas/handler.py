@@ -1,2 +1,2 @@
-def handle(st):
-    print(st)
+def handle(req):
+    return req

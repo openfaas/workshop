@@ -8,4 +8,4 @@ def handle(req):
     index = random.randint(0, len(result["people"])-1)
     name = result["people"][index]["name"]
 
-    print("%s is in space" % name)
+    return "%s is in space" % (name)
