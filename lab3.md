@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files:
+
+```
+$ mkdir -p lab3 \
+   && cd lab3
+```
+
 ## Creating a new function
 
 There are two ways to create a new function:
@@ -113,10 +120,10 @@ def handle(req):
 
 This function will just return the input, so it's effectively an `echo` function.
 
-Edit the message so it returns `hello world` instead i.e.
+Edit the message so it returns `Hello OpenFaaS` instead i.e.
 
 ```
-    return "Hello World"
+    return "Hello OpenFaaS"
 ```
 
 Any values returned to stdout will subsequently be returned to the calling program. Alternatively a `print()` statement could be employed which would exhibit a similar flow through to the calling program.
@@ -330,12 +337,15 @@ Here are several flags that help when working with a stack of functions:
 
 * Build in parallel:
 
-`faas-cli build -f ./example.yml --parallel=2`
+```sh
+$ faas-cli build -f ./example.yml --parallel=2
+```
 
 * Build / push only one function:
 
-`faas-cli build -f ./example.yml --filter=second`
-
+```sh
+$ faas-cli build -f ./example.yml --filter=second
+```
 Look at the options for `faas-cli build --help` and `faas-cli push --help` for more information.
 
 > Pro-tip: `stack.yml` is the default name the faas-cli will look for if you don't want to pass a `-f` parameter.
@@ -351,7 +361,7 @@ $ faas-cli template pull https://github.com/itscaro/openfaas-template-php
 
 ...
 
-faas-cli new --list|grep php
+$ faas-cli new --list | grep php
 - php
 - php5
 ```
@@ -394,7 +404,7 @@ elephant
 zebra
 horse
 ardvark
-monkey'| faas-cli invoke sorter -g 127.0.0.1:8080
+monkey'| faas-cli invoke sorter
 
 ardvark
 elephant

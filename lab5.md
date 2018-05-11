@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files:
+
+```
+$ mkdir -p lab5 \
+   && cd lab5
+```
+
 We're going to use OpenFaaS functions to create a GitHub bot named `issue-bot`.
 
 The job of issue-bot is to triage new issues by analysing the sentiment of the "description" field, it will then apply a label of *positive* or *review*. This will help the maintainers with their busy schedule so they can prioritize which issues to look at first.

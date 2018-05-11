@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files. As this lab builds on an earlier lab make a copy of lab5:
+
+```
+$ cp -r lab5 lab10 \
+   && cd lab10
+```
+
 ## Using Secrets
 
 [Lab 5](./lab5.md) looked at how the `issue-bot` could obtain the GitHub *Personal Access Token* from an environment variable (`auth_token`).  An alternative approach is to use a **secret** to store sensitive information.

@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files:
+
+```
+$ mkdir -p lab6 \
+   && cd lab6
+```
+
 ## Generate and return basic HTML from a function
 
 Functions can return HTML and also set the `Content-Type` to `text/html`. Hence the HTML returned by the function can be rendered via a browser. Let's create a simple function who generates and returns a basic HTML.

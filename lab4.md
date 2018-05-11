@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files. As this lab builds on an earlier lab make a copy of lab3:
+
+```
+$ cp -r lab3 lab4 \
+   && cd lab4
+```
+
 ## Inject configuration through environmental variables
 
 It is useful to be able to control how a function behaves at runtime, we can do that in at least two ways:
@@ -98,20 +105,28 @@ import json
 def handle(req):
 
     sys.stderr.write("This should be an error message.\n")
-    return json.dumps({"hello": "world"})
+    return json.dumps({"Hello": "OpenFaaS"})
+```
+
+Build and deploy
+
+```sh
+$ faas-cli build -f issue-bot.yml \
+  && faas-cli push -f issue-bot.yml \
+  && faas-cli deploy -f issue-bot.yml
 ```
 
 Now invoke the function with
 
-```bash
-echo | faas invoke hello-openfaas
+```sh
+$ echo | faas invoke hello-openfaas
 ```
 
 You should see the combined output:
 
 ```
 This should be an error message.
-{"hello": "world"}
+{"Hello": "OpenFaaS"}
 ```
 
 > Note: If you check the container logs with `docker service logs hello-openfaas` you should not see the stderr output.
@@ -133,7 +148,7 @@ Push, deploy and invoke the function.
 The output should be:
 
 ```
-{"hello": "world"}
+{"Hello": "OpenFaaS"}
 ```
 
 Check the container logs for `stderr`. You should see a message like:
@@ -167,7 +182,7 @@ Example:
 
 * Then push the output from NodeInfo through the Markdown converter
 
-```
+```sh
 $ echo -n "" | faas-cli invoke nodeinfo | faas-cli invoke func_markdown
 <p>Hostname: 64767782518c</p>
 
@@ -204,8 +219,8 @@ In [Lab 3](./lab3.md) we introduced the requests module and used it to call a re
 
 The Sentiment Analysis function will tell you the subjectivity and polarity (positivity rating) of any sentence. The result of the function is formatted in JSON as per the example below:
 
-```
-echo -n "California is great, it's always sunny there." | faas-cli invoke sentimentanalysis
+```sh
+$ echo -n "California is great, it's always sunny there." | faas-cli invoke sentimentanalysis
 {"polarity": 0.8, "sentence_count": 1, "subjectivity": 0.75}
 ```
 
@@ -236,7 +251,7 @@ Since the result is always in JSON format we can make use of the helper function
         return "That was neutral or negative"
 ```
 
-Now create a new function in Python and it all together
+Now create a new function in Python and bring it all together
 
 ```python
 import os
