@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files:
+
+```
+$ mkdir -p lab7 \
+   && cd lab7
+```
+
 ## Call a function synchronously vs asynchronously
 
 When you call a function synchronously a connection is made to the gateway through to your function and is held open for the whole execution time. Synchronous calls are *blocking* so you should see your client pause and become inactive until the function has completed its task. 

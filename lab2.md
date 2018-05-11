@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files:
+
+```
+$ mkdir -p lab2 \
+   && cd lab2
+```
+
 ## Use the UI Portal
 
 You can now test out the OpenFaaS UI by going to http://127.0.0.1:8080 - if you're deploying to a Linux VM then replace 127.0.0.1 with the IP address from the output you see on the `ifconfig` command.
@@ -30,6 +37,7 @@ I.e.
 
 You will see the following fields displayed:
 
+* Status - whether the function is ready to run. You will not be able to invoke the function from the UI until the status shows Ready.
 * Replicas - the amount of replicas of your function running in the swarm cluster
 * Image - the Docker image name and version as published to the Docker Hub or Docker repository
 * Invocation count - this shows how many times the function has been invoked and is updated every 5 seconds
@@ -101,7 +109,7 @@ You'll now be asked to type in some text. Hit Control + D when you're done.
 
 Alternatively you can use a command such as `echo` or `uname -a` as input to the `invoke` command which works through the use of pipes.
 
-```
+```sh
 $ echo Hi | faas-cli invoke func_markdown
 
 $ uname -a | faas-cli invoke func_markdown
@@ -109,7 +117,10 @@ $ uname -a | faas-cli invoke func_markdown
 
 You can even generate a HTML file from this lab's markdown file with the following:
 
-```
+```sh
+$ git clone https://github.com/openfaas/workshop \
+   && cd workshop
+
 $ cat lab2.md | faas-cli invoke func_markdown
 ```
 

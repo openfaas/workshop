@@ -2,6 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+Before starting this lab, create a new folder for your files:
+
+```
+$ mkdir -p lab8 \
+   && cd lab8
+```
+
 ## Extend timeouts with `read_timeout`
 
 The *timeout* corresponds to how long a function can run for until it is executed. It is important for preventing misuse in distributed systems.

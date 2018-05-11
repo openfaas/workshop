@@ -96,7 +96,7 @@ $ git clone https://github.com/openfaas/faas
 
 ```
 $ cd faas && \
-  git checkout 0.7.8
+  git checkout master
 ```
 
 > Note: you can see the latest releases on the [project release page](https://github.com/openfaas/faas/releases).
