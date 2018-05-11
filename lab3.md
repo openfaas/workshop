@@ -205,7 +205,7 @@ def handle(req):
     index = random.randint(0, len(result["people"])-1)
     name = result["people"][index]["name"]
 
-    return name + " is in space"
+    return "%s is in space" % (name)
 ```
 
 > Note: in this example we do not make use of the parameter `req` but must keep it in the function's header.

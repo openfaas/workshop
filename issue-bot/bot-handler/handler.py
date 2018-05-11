@@ -5,8 +5,7 @@ def handle(req):
     event_header = os.getenv("Http_X_Github_Event")
 
     if not event_header == "issues":
-        print("Unable to handle X-GitHub-Event: " + event_header)
-        sys.exit(1)
+        sys.exit("Unable to handle X-GitHub-Event: " + event_header)
         return
 
     gateway_hostname = os.getenv("gateway_hostname", "gateway")
@@ -14,8 +13,7 @@ def handle(req):
     payload = json.loads(req)
 
     if not payload["action"] == "opened":
-        print("Action not supported: " + payload["action"])
-        sys.exit(1)
+        sys.exit("Action not supported: " + payload["action"])
         return
 
     # Call sentimentanalysis
@@ -23,8 +21,7 @@ def handle(req):
                         data= payload["issue"]["title"]+" "+payload["issue"]["body"])
 
     if res.status_code != 200:
-        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, res.status_code))
-        sys.exit(1)
+        sys.exit("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, res.status_code))
 
     # Read the positive_threshold from configuration
     positive_threshold = float(os.getenv("positive_threshold", "0.2"))

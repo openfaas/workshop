@@ -256,8 +256,7 @@ def handle(req):
     r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", data= test_sentence)
 
     if r.status_code != 200:
-        print("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, r.status_code))
-        sys.exit(1)
+        sys.exit("Error with sentimentanalysis, expected: %d, got: %d\n" % (200, r.status_code))
 
     result = r.json()
     if result["polarity"] > 0.45:

@@ -33,9 +33,10 @@ def handle(req):
     """
 
     sleep_duration = int(os.getenv("sleep_duration", "10"))
-    print("Starting to sleep for %d" % sleep_duration)
+    preSleep = "Starting to sleep for %d" % sleep_duration
     time.sleep(sleep_duration)  # Sleep for a number of seconds
-    print("Finished the sleep")
+    postSleep = "Finished the sleep"
+    return preSleep + "\n" + postSleep
 ```
 
 Now edit the `sleep-for.yml` file and add these environmental variables:
