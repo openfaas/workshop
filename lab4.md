@@ -119,7 +119,7 @@ $ faas-cli build -f issue-bot.yml \
 Now invoke the function with
 
 ```sh
-$ echo | faas invoke hello-openfaas
+$ echo | faas-cli invoke hello-openfaas
 ```
 
 You should see the combined output:
