@@ -15,7 +15,11 @@ You can now test out the OpenFaaS UI by going to http://127.0.0.1:8080 - if you'
 
 > Note that we are using `127.0.0.1` instead of `localhost`, which may hang on some Linux distributions due to conflicts between IPv4/IPv6 networking.
 
-In the default stack we deploy several sample functions.
+We can deploy some sample functions and then use them to test things out:
+
+```
+$ faas-cli deploy -f https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
+```
 
 ![](./screenshot/markdown_portal.png)
 
@@ -82,7 +86,7 @@ This will show the functions, how many replicas you have and the invocation coun
 $ faas-cli list
 ```
 
-You should see the *markdown* function as `func_markdown` and the *figlet* function listed too along with how many times you've invoked them.
+You should see the *markdown* function as `markdown` and the *figlet* function listed too along with how many times you've invoked them.
 
 Now try the verbose flag
 
@@ -99,10 +103,10 @@ You can now see the Docker image along with the names of the functions.
 
 ### Invoke a function
 
-Pick one of the functions you saw appear on `faas-cli list` such as `func_markdown`:
+Pick one of the functions you saw appear on `faas-cli list` such as `markdown`:
 
 ```
-$ faas-cli invoke func_markdown
+$ faas-cli invoke markdown
 ```
 
 You'll now be asked to type in some text. Hit Control + D when you're done.
@@ -110,9 +114,9 @@ You'll now be asked to type in some text. Hit Control + D when you're done.
 Alternatively you can use a command such as `echo` or `uname -a` as input to the `invoke` command which works through the use of pipes.
 
 ```sh
-$ echo Hi | faas-cli invoke func_markdown
+$ echo Hi | faas-cli invoke markdown
 
-$ uname -a | faas-cli invoke func_markdown
+$ uname -a | faas-cli invoke markdown
 ```
 
 You can even generate a HTML file from this lab's markdown file with the following:
@@ -121,7 +125,7 @@ You can even generate a HTML file from this lab's markdown file with the followi
 $ git clone https://github.com/openfaas/workshop \
    && cd workshop
 
-$ cat lab2.md | faas-cli invoke func_markdown
+$ cat lab2.md | faas-cli invoke markdown
 ```
 
 ## Monitoring dashboard
@@ -132,7 +136,7 @@ Deploy OpenFaaS Grafana with:
 
 ```bash
 $ docker service create -d \
---name=func_grafana \
+--name=grafana \
 --publish=3000:3000 \
 --network=func_functions \
 stefanprodan/faas-grafana:4.6.3
