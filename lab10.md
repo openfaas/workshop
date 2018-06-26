@@ -33,8 +33,9 @@ Test that the secret was created:
 ```
 $ docker secret inspect auth-token
 ```
+> Note: If you are deploying your function on a remote gateway make sure you create your secret on the virtual machine you use for the gateway.
 
-When the secret is mounted by a function it will be presented as a file under `/run/secrets/auth-token`. This can be read by `handler.py` to obtain the GitHub *Personal Access Token*.
+When the secret is mounted by a function it will be presented as a file under `/var/openfaas/secrets/auth-token`. This can be read by `handler.py` to obtain the GitHub *Personal Access Token*.
 
 ### Update issue-bot.yml
 
