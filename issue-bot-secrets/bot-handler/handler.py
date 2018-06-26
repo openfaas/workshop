@@ -41,7 +41,7 @@ def handle(req):
 
 def apply_label(polarity, issue_number, repo, positive_threshold):
 
-    with open("/run/secrets/auth-token","r") as authToken:  
+    with open("/var/openfaas/secrets/auth-token","r") as authToken:
         g = Github(authToken.read())
     
     repo = g.get_repo(repo)
