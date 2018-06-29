@@ -69,7 +69,7 @@ g = Github(os.getenv("auth_token"))
 ``` 
 is replaced with 
 ```python
-with open("/run/secrets/auth-token","r") as authToken:  
+with open("/var/openfaas/secrets/auth-token","r") as authToken:  
     g = Github(authToken.read())
 ```
 

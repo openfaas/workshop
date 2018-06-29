@@ -40,7 +40,7 @@ def apply_label(polarity, issue_number, repo, positive_threshold):
     token = os.getenv("auth_token")
 
     if len(token) == 0:
-        with open("/run/secrets/alexellis_github_auth_token") as f:
+        with open("/var/openfaas/secrets/alexellis_github_auth_token") as f:
             token = f.read().strip()
             f.close()
 
