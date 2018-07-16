@@ -69,10 +69,10 @@ Use the CLI to build, push, deploy and invoke the function.
 
 ```
 $ echo | faas-cli invoke sleep-for
-Server returned unexpected status code: 500 - Can't reach service: sleep-for
+Server returned unexpected status code: 502 -
 ```
 
-You should see it terminate without printing the message.
+You should see it terminate without printing the message, because the `sleep_duration` is higher than the timeout values.
 
 Now set `sleep_duration` to a lower number like `2` and run `faas-cli deploy` again. You don't need to rebuild the function when editing the function's YAML file.
 
