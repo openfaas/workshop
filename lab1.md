@@ -56,6 +56,8 @@ Open a Terminal or Git Bash window and log into the Docker Hub using the usernam
 $ docker login
 ```
 
+> Note: Tip from community - if you get an error while trying to run this command on a Windows machine, then click on the Docker for Windows icon in the taskbar and log into Docker there instead "Sign in / Create Docker ID".
+
 ### OpenFaaS CLI
 
 You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script on Mac or Linux:
@@ -66,7 +68,7 @@ Using a Terminal on Mac or Linux:
 $ curl -sL cli.openfaas.com | sudo sh
 ```
 
-On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli). You can place it in a local directory or in the `C:\Windows\` path so that it's available from a command prompt.
+On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli/releases). You can place it in a local directory or in the `C:\Windows\` path so that it's available from a command prompt.
 
 > If you're an advanced Windows user, place the CLI in a directory of your choice and then add that folder to your PATH environmental variable.
 
