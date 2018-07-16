@@ -55,6 +55,7 @@ Open a Terminal or Git Bash window and log into the Docker Hub using the usernam
 ```
 $ docker login
 ```
+> On Windows if you see 'Error: Cannot perform an interactive login from a non TTY device' try running 'winpty docker login'
 
 ### OpenFaaS CLI
 
