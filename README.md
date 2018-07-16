@@ -26,6 +26,15 @@ Docker:
 
 If you're taking an instructor-led workshops then a link will be shared to join the OpenFaaS Slack community. Use the designated channel for the workshop to discuss comments, questions and suggestions.
 
+**Before you arrive on-site for the instructor-led workshop, please make sure you have run the following commands:**
+
+```
+$ git clone https://github.com/openfaas/workshop
+$ git clone https://github.com/openfaas/faas
+$ cd faas \
+  && docker-compose pull
+```
+
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
 * Install pre-requisites
