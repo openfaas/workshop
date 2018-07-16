@@ -104,7 +104,7 @@ $ cd faas && \
 * Now deploy the stack with Docker Swarm:
 
 ```
-$  ./deploy_stack.sh
+$ ./deploy_stack.sh --no-auth
 ```
 
 You should now have OpenFaaS deployed. If you are on a shared WiFi connection at an event then it may take several minutes to pull down all the Docker images and start them.
