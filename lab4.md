@@ -183,7 +183,7 @@ Example:
 * Then push the output from NodeInfo through the Markdown converter
 
 ```sh
-$ echo -n "" | faas-cli invoke nodeinfo | faas-cli invoke func_markdown
+$ echo -n "" | faas-cli invoke nodeinfo | faas-cli invoke markdown
 <p>Hostname: 64767782518c</p>
 
 <p>Platform: linux
