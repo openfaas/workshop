@@ -30,9 +30,11 @@ Linux - Ubuntu or Debian
 
 Note: As a last resort if you have an incompatible PC you can run the workshop on https://labs.play-with-docker.com/.
 
-### Setup a single-node Docker Swarm
+### Setup a single-node cluster
 
-OpenFaaS works with Docker Swarm and Kubernetes. For this workshop we will use Docker Swarm because it's easier to set up but there are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
+#### Docker Swarm
+
+OpenFaaS works both with Kubernetes and Docker Swarm. If you're taking part in a workshop event then the organiser will probably ask you to use Docker Swarm because it's much easier to set up in a short period of time. There are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
 
 On your laptop or VM setup a single-node Docker Swarm:
 
@@ -41,6 +43,12 @@ $ docker swarm init
 ```
 
 > If you receive an error then pass the `--advertise-addr` parameter along with your laptop's IP address.
+
+#### Kubernetes
+
+You can follow the labs whilst using Kubernetes, but you may need to make some small changes along the way. The service address for the gateway changes from `http://gateway:8080` to `http://gateway.openfaas:8080`.
+
+If using a `NodePort` then the gateway address for the OpenFaaS CLI is normally http://IP_ADDRESS:31112/
 
 ### Docker Hub
 
