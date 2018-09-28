@@ -33,7 +33,7 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
 * Install pre-requisites
-* Set up a single-node cluster with Docker Swarm
+* Set up a single-node cluster with Docker Swarm or Kubernetes
 * Docker Hub account
 * OpenFaaS CLI
 * Deploy OpenFaaS

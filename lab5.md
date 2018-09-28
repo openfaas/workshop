@@ -29,9 +29,26 @@ You will need to receive incoming webhooks from GitHub. In production you will h
 
 Open a new Terminal and type in:
 
+### _Docker Swarm_
+
 ```
 $ docker run -p 4040:4040 -d --name=ngrok --net=func_functions \
   alexellis2/ngrok-admin http gateway:8080
+```
+
+#### _Kubernetes_
+
+```
+$ kubectl -n openfaas run \
+--image=alexellis2/ngrok-admin \
+--port=4040 \
+ngrok -- http gateway:8080
+
+$ kubectl -n openfaas expose deployment ngrok \
+--type=NodePort \
+--name=ngrok
+
+$ kubectl port-forward deployment/ngrok 4040:4040 -n openfaas
 ```
 
 Use the built-in UI of `ngrok` at http://127.0.0.1:4040 to find your HTTP URL. You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
@@ -112,7 +129,7 @@ issue-bot   2
 
 Each time you create an issue the count will increase due to GitHub's API invoking the function.
 
-You can see the payload sent via GitHub by typing in `docker service logs -f issue-bot`.
+You can see the payload sent via GitHub by typing in `docker service logs -f issue-bot` (or `kubectl logs deployment/issue-bot -n openfaas-fn`).
 
 The GitHub Webhooks page will also show every message sent under "Recent Deliveries", you can replay a message here and see the response returned by your function.
 
@@ -235,6 +252,11 @@ functions:
     environment_file:
     - env.yml
 ```
+
+> Note: If you're running on Kubernetes, suffix the `gateway_hostname` with `openfaas` namespace:
+> ```
+> gateway_hostname: "gateway.openfaas"
+> ```
 
 > The `positive_threshold` environmental variable is used to fine-tune whether an Issue gets the `positive` or `review` label.
 
