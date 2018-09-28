@@ -56,9 +56,7 @@ The `content_type` key inside `environment` will set the `Content-Type` of the r
 Now build, push and deploy the function:
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 Open your browser and access http://127.0.0.1:8080/function/show-html. The HTML should be properly rendered.
@@ -120,9 +118,7 @@ def handle(req):
 Now build, push and deploy the function:
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 Open your browser and access http://127.0.0.1:8080/function/show-html. You should see a "Here's a new page!" HTML page rendered in the browser.
@@ -196,9 +192,7 @@ def handle(req):
 Now build, push and deploy the function:
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 Open your browser and first access:
@@ -295,9 +289,7 @@ There is no need to change the `handler.py` because it can dynamically serve HTM
 Now build, push and deploy the function:
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 This section assumes you have already deployed the *figlet* function from [Lab 2](./lab2.md).  
