@@ -74,8 +74,16 @@ Asynchronous function calls are well-suited to tasks where you can defer the exe
 
 The default stack for OpenFaaS uses NATS Streaming for queueing and deferred execution. You can view the logs with the following command:
 
+#### _Docker Swarm_
+
 ```
 docker service logs -f func_queue-worker
+```
+
+#### _Kubernetes_
+
+```
+kubectl logs deployment/queue-worker -n openfaas`
 ```
 
 ## Use an `X-Callback-Url` with requestbin

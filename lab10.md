@@ -24,16 +24,34 @@ This is a more secure alternative to environmental variables. Environmental vari
 
 From a terminal run the following command:
 
+#### _Docker Swarm_
+
 ```
 $ echo -n <auth_token> | faas-cli secret create auth-token
 ```
 
+#### _Kubernetes_
+
+```
+kubectl create secret generic auth-token --from-literal=auth-token=<auth-token> --namespace openfaas-fn
+```
+
 Test that the secret was created:
+
+#### _Docker Swarm_
 
 ```
 $ faas-cli secret ls
 ```
 > Note: Remember that the `-g` flag enables easy switching between gateways.  This works for secrets too.
+
+#### _Kubernetes_
+
+```
+kubectl get secret auth-token -n openfaas-fn -o json
+```
+
+> Note: If you are deploying your function on a remote gateway make sure you create your secret on the virtual machine you use for the gateway.
 
 When the secret is mounted by a function it will be presented as a file under `/var/openfaas/secrets/auth-token`. This can be read by `handler.py` to obtain the GitHub *Personal Access Token*.
 
@@ -59,6 +77,11 @@ functions:
       - auth-token
 
 ```
+
+> Note: If you're running on Kubernetes, suffix the `gateway_hostname` with `openfaas` namespace:
+> ```
+> gateway_hostname: "gateway.openfaas"
+> ```
 
 ### Update the `issue-bot` function
 
