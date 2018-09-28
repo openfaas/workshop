@@ -131,9 +131,7 @@ Any values returned to stdout will subsequently be returned to the calling progr
 This is the local developer-workflow for functions:
 
 ```
-$ faas-cli build -f ./hello-openfaas.yml
-$ faas-cli push -f ./hello-openfaas.yml
-$ faas-cli deploy -f ./hello-openfaas.yml
+$ faas-cli up -f hello-openfaas.yml
 ```
 
 Followed by invoking the function via the UI, CLI, `curl` or another application.
@@ -347,6 +345,7 @@ $ faas-cli build -f ./example.yml --parallel=2
 $ faas-cli build -f ./example.yml --filter=second
 ```
 Look at the options for `faas-cli build --help` and `faas-cli push --help` for more information.
+To run `faas-cli build && faas-cli push && faas-cli deploy` together, use `faas-cli up` instead.
 
 > Pro-tip: `stack.yml` is the default name the faas-cli will look for if you don't want to pass a `-f` parameter.
 
@@ -391,9 +390,7 @@ ENV fprocess="sort"
 Now build, push and deploy the function:
 
 ```
-$ faas-cli build -f sorter.yml \
-  && faas-cli push -f sorter.yml \
-  && faas-cli deploy -f sorter.yml
+$ faas-cli up -f sorter.yml
 ```
 
 Now invoke the function through the UI or via the CLI:

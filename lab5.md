@@ -48,8 +48,6 @@ $ faas-cli list --gateway http://fuh83fhfj.ngrok.io/
 
 ```
 $ faas-cli new --lang python3 issue-bot --prefix="<your-docker-username-here>"
-$ faas-cli build -f ./issue-bot.yml
-$ faas-cli push -f ./issue-bot.yml
 ```
 
 Now edit the function's YAML file `issue-bot.yml` and add an environmental variable of `write_debug: true`:
@@ -68,10 +66,10 @@ functions:
       write_debug: true
 ```
 
-* Deploy the function
+* Build, push and deploy the function with
 
 ```
-$ faas-cli deploy -f ./issue-bot.yml
+$ faas-cli up -f ./issue-bot.yml
 ```
 
 ## Receive webhooks from GitHub
@@ -183,9 +181,7 @@ res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanal
 Use the CLI to build and deploy the function:
 
 ```
-$ faas-cli build -f issue-bot.yml \
-  && faas-cli push -f issue-bot.yml \
-  && faas-cli deploy -f issue-bot.yml
+$ faas-cli up -f issue-bot.yml
 ```
 
 Now create a new issue in the `bot-tester` repository. GitHub will respond by sending a JSON payload to your function via the Ngrok tunnel we set up at the start.
@@ -340,9 +336,7 @@ def apply_label(polarity, issue_number, repo, positive_threshold):
 Use the CLI to build and deploy the function:
 
 ```
-$ faas-cli build -f issue-bot.yml \
-  && faas-cli push -f issue-bot.yml \
-  && faas-cli deploy -f issue-bot.yml
+$ faas-cli up -f issue-bot.yml
 ```
 
 Now try it out by creating some new issues in the `bot-tester` repository. Check whether `positive` and `review` labels were properly applied and consult the GitHub Webhooks page if you are not sure that the messages are getting through or if you suspect an error is being thrown.

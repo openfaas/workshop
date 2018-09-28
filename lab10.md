@@ -80,9 +80,7 @@ with open("/var/openfaas/secrets/auth-token","r") as authToken:
 Use the CLI to build and deploy the function:
 
 ```
-$ faas-cli build -f issue-bot.yml \
-  && faas-cli push -f issue-bot.yml \
-  && faas-cli deploy -f issue-bot.yml
+$ faas-cli up -f issue-bot.yml
 ```
 
 You can return to the [main page](./README.md).
