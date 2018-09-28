@@ -31,8 +31,16 @@ Let's try it out with a querystring and a function that lists off all environmen
 
 * Deploy a function that prints environmental variables using a built-in BusyBox command:
 
+#### _Docker Swarm_
+
 ```
 $ faas-cli deploy --name env --fprocess="env" --image="functions/alpine:latest" --network=func_functions
+```
+
+#### _Kubernetes_
+
+```
+$ faas-cli deploy --name env --fprocess="env" --image="functions/alpine:latest"
 ```
 
 * Invoke the function with a querystring:
@@ -154,7 +162,7 @@ This should be an error message.
 {"Hello": "OpenFaaS"}
 ```
 
-> Note: If you check the container logs with `docker service logs hello-openfaas` you should not see the stderr output.
+> Note: If you check the container logs with `docker service logs hello-openfaas` (or `kubectl logs deployment/hello-openfaas -n openfaas-fn`) you should not see the stderr output.
 
 In the example we need the function to return valid JSON that can be parsed. Unfortunately the log message makes the output invalid,
 so we need to redirect the messages from stderr to the container's logs.
@@ -253,9 +261,18 @@ So the result shows us that our test sentence was both very subjective (75%) and
 
 The following code can be used to call the *Sentiment Analysis* function or any other function:
 
+#### _Docker Swarm_
+
 ```python
     test_sentence = "California is great, it's always sunny there."
     r = requests.get("http://gateway:8080/function/sentimentanalysis", data= test_sentence)
+```
+
+#### _Kubernetes_
+
+Suffix the gateway host with `openfaas` namespace:
+```python
+    r = requests.get("http://gateway.openfaas:8080/function/sentimentanalysis", text= test_sentence)
 ```
 
 Or via an environmental variable:

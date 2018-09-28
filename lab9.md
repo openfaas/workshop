@@ -28,7 +28,18 @@ You can control the maximum amount of replicas that can spawn for a function by 
 
 ### Check out Prometheus
 
-Open Prometheus in a web-browser: `http://127.0.0.1:9090/graph`
+Open Prometheus in a web-browser:
+
+#### _Docker Swarm_
+
+`http://127.0.0.1:9090/graph`
+
+#### _Kubernetes_
+
+You will need to run this port-forwarding command in order to be able to access Prometheus on `http://127.0.0.1:9090`:
+```
+$ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
+```
 
 Now add a graph with all successful invocation of the deployed functions. We can do this by executing `rate( gateway_function_invocation_total{code="200"} [20s])` as a query. Resulting in a page that looks like this:
 
@@ -61,6 +72,8 @@ do
     curl -XPOST --data-binary "Post $i" http://127.0.0.1:8080/function/go-echo && echo;
 done;
  ```
+
+> Note: If you're running on Kubernetes, use `$OPENFAAS_URL` instead of `http://127.0.0.1:8080`
 
 ### Monitor for alerts
 

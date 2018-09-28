@@ -43,7 +43,7 @@ You can also learn about OpenFaaS through Kubernetes. We have a preview availabl
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
 * Install pre-requisites
-* Set up a single-node cluster with Docker Swarm
+* Set up a single-node cluster with Docker Swarm or Kubernetes
 * Docker Hub account
 * OpenFaaS CLI
 * Deploy OpenFaaS

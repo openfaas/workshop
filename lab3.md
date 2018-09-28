@@ -243,10 +243,18 @@ Joe Acaba is in space
 
 You can find out high-level information on every invocation of your function via the container's logs:
 
+#### _Docker Swarm_
+
 ```
 $ docker service logs -f astronaut-finder
 astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
 astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Wrote 18 Bytes - Duration: 0.063269 seconds
+```
+
+#### _Kubernetes_
+
+```
+$ kubectl logs deployment/astronaut-finder -n openfaas-fn
 ```
 
 ## Troubleshooting: verbose output with `write_debug`
