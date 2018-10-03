@@ -1,0 +1,13 @@
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  hmac-protected:
+    lang: python3
+    handler: ./hmac-protected
+    image: hmac-protected:latest
+    environment:
+      write_debug: true
+    secrets:
+      - payload-secret
