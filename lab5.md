@@ -345,4 +345,8 @@ Now try it out by creating some new issues in the `bot-tester` repository. Check
 
 > Note: If the labels don't appear immediately, first try refreshing the page
 
+## Validate payload with HMAC
+
+To further protect your function with HMAC head over to [lab11](url when merged)
+
 Now move on to [Lab 6](lab6.md).
