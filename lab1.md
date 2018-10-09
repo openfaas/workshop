@@ -18,6 +18,9 @@ For Windows
 
 * Use Windows 10 Pro or Enterprise only
 * Install [Docker CE for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
+
+> Please ensure you use the **Linux** containers Docker daemon by using the Docker menu in the Windows task bar notification area.
+
 * Install [Git Bash](https://git-scm.com/downloads)
 
 > Note: please use Git Bash for all steps: do not attempt to use *WSL* or *Bash for Windows*.
