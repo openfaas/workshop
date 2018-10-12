@@ -123,6 +123,49 @@ $ faas-cli up -f show-html.yml
 
 Open your browser and access http://127.0.0.1:8080/function/show-html. You should see a "Here's a new page!" HTML page rendered in the browser.
 
+Now we're going to add a path to the function URL.
+
+Edit your `handler.py` to the following:
+
+```python
+import os
+
+def handle(req):
+    
+    path = os.environ['Http_Path']
+    pathArr = path.split("/")
+    pageName = pathArr[1]
+    
+    dirname = os.path.dirname(__file__)
+    page = os.path.join(dirname, 'html', pageName + '.html')
+
+    with(open(page, 'r')) as file:
+        html = file.read()
+
+    return html
+```
+
+Build, push and deploy the function:
+
+```
+$ faas-cli up -f show-html.yml
+```
+
+Now open your web page on http://127.0.0.1:8080/function/show-html/new or http://127.0.0.1:8080/function/show-html/list.
+This will output:
+```html
+<h2>Here's a new page!</h2>
+```
+and
+```html
+<h2>This is a list!</h2>
+  <ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ul>
+```
+
 ## Read the query string and return different HTML
 
 Now that we've understood how to serve html via functions, let's dynamically change the HTML to serve via query strings. As we learned in [Lab 4](./lab4.md), query strings can be retrieved via an environment variable called `Http_Query`. Suppose we made a query that looks like this:

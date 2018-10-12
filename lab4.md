@@ -52,7 +52,7 @@ Http_User_Agent=Go-http-client/1.1
 Http_Accept_Encoding=gzip
 Http_Method=POST
 Http_ContentLength=-1
-Http_Path=/function/env
+Http_Path=/
 ...
 Http_Query=workshop=1
 ...
@@ -60,10 +60,37 @@ Http_Query=workshop=1
 
 In Python code you'd type in `os.getenv("Http_Query")`.
 
+* Append the path to your function URL
+
+Invoke the env function with:
+
+```
+$ curl -X GET http://127.0.0.1:8080/function/env/some/path -d ""
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=fae2ac4b75f9
+fprocess=env
+HOME=/root
+Http_X_Forwarded_Host=127.0.0.1:8080
+Http_X_Start_Time=1539370471902481800
+Http_Accept_Encoding=gzip
+Http_User_Agent=curl/7.54.0
+Http_Accept=*/*
+Http_X_Forwarded_For=10.255.0.2:60460
+Http_X_Call_Id=bb86b4fb-641b-463d-ae45-af68c1aa0d42
+Http_Method=GET
+Http_ContentLength=0
+...
+Http_Path=/some/path
+...
+```
+
+As you can see the `Http_Path` header contains your path.
+If you'd like to use it in your code, just get it with `os.getenv("Http_Path")`
+
 * Now invoke it with a header:
 
 ```
-$ echo "" | curl http://127.0.0.1:8080/function/env --header "X-Output-Mode: json"
+$ curl http://127.0.0.1:8080/function/env --header "X-Output-Mode: json" -d ""
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=05e8db360c5a
 fprocess=env
@@ -77,7 +104,7 @@ Http_Connection=close
 Http_User_Agent=curl/7.55.1
 Http_Method=GET
 Http_ContentLength=0
-Http_Path=/function/env
+Http_Path=/
 ...
 Http_X_Output_Mode=json
 ...
