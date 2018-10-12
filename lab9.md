@@ -64,4 +64,26 @@ Now you can verify using `$ docker service ps figlet` that new replicas of `figl
 
 Now stop the bash script and you will see the replica count return to 1 replica after a few seconds.
 
+### Try scale from zero
+
+If you scale down your function to 0 replicas, you can still invoke it. The invocation will trigger the gateway into scaling the function to a non-zero value.
+
+Try it out with the following commands:
+
+Docker Swarm:
+```
+$ docker service scale nodeinfo=0
+```
+
+Kubernetes:
+```
+$ kubectl scale deployment --replicas=0 astronaut-finder -n openfaas-fn
+```
+
+Open the OpenFaaS UI and check that nodeinfo has 0 replicas, or by `docker service ls | grep nodeinfo`.
+
+> For Kubernetes use `kubectl get deployment nodeinfo -n openfaas-fn`
+
+Now invoke the function and check back that it scaled to 1 replicas.
+
 Now move onto [Lab 10](lab10.md).
