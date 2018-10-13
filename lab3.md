@@ -223,13 +223,19 @@ $ faas-cli build -f ./astronaut-finder.yml
 
 > Tip: Try renaming astronaut-finder.yml to `stack.yml` and calling just `faas-cli build`. `stack.yml` is the default file-name for the CLI.
 
+Push the docker image to the remote docker registry: 
+
+```
+$ faas-cli push -f ./astronaut-finder.yml
+```
+
 Deploy the function:
 
 ```
 $ faas-cli deploy -f ./astronaut-finder.yml
 ```
 
-Invoke the function
+Invoke the function:
 
 ```
 $ echo | faas-cli invoke astronaut-finder
