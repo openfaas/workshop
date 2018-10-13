@@ -133,9 +133,7 @@ def handle(req):
 以下がfunction開発時のデベロッパーのワークフローになります：
 
 ```
-$ faas-cli build -f ./hello-openfaas.yml
-$ faas-cli push -f ./hello-openfaas.yml
-$ faas-cli deploy -f ./hello-openfaas.yml
+$ faas-cli up -f hello-openfaas.yml
 ```
 
 このあとUI、CLI、 `curl` やアプリケーションからfunctionを呼び出すことになります。
@@ -353,6 +351,8 @@ $ faas-cli build -f ./example.yml --filter=second
 
 他にも `faas-cli build --help` や `faas-cli push --help` をCLIで実行することでオプションを確認することができます。
 
+`faas-cli build && faas-cli push && faas-cli deploy` を一緒に実行するには `faas-cli up` を使ってください。
+
 > 注: CLIがデフォルトで探しにいくファイルは `stack.yml` です。 `-f` パラメータでファイルを指定するのが煩わしい場合は活用しましょう。
 
 デプロイ対象のfunctionのYAMLはHTTP(s)ごしでも指定することができます `faas-cli -f https://....`。
@@ -396,9 +396,7 @@ ENV fprocess="sort"
 では build, push そして deployしましょう：
 
 ```
-$ faas-cli build -f sorter.yml \
-  && faas-cli push -f sorter.yml \
-  && faas-cli deploy -f sorter.yml
+$ faas-cli up -f sorter.yml
 ```
 
 UIまたはCLIからfunctionを実行しましょう：
