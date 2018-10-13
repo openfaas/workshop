@@ -56,9 +56,7 @@ functions:
 それではfunctionのbuild, push, deployをしましょう：
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 ブラウザを開いて http://127.0.0.1:8080/function/show-html にアクセスしましょう。functionで生成したHTMLが表示されているのが確認できます。
@@ -120,9 +118,7 @@ def handle(req):
 functionをbuild、push、deployしましょう：
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 ブラウザを開いて http://127.0.0.1:8080/function/show-html にアクセスしましょう。ファイルであらかじめ用意していたHTMLが表示されるのが確認できます。
@@ -196,9 +192,7 @@ def handle(req):
 functionをbuild、push、deployしましょう：
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 ブラウザを開いてまずは以下にアクセスしましょう：
@@ -295,9 +289,7 @@ JavaScriptについてあまりわからない人も気にしないでくださ�
 それではfunctionのbuild、push、deployをしましょう：
 
 ```
-$ faas-cli build -f show-html.yml \
-  && faas-cli push -f show-html.yml \
-  && faas-cli deploy -f show-html.yml
+$ faas-cli up -f show-html.yml
 ```
 
 ここでは [Lab 2](./lab2.md) での *figlet* functionをデプロイ済みであるとします。

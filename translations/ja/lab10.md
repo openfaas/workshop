@@ -78,9 +78,7 @@ with open("/var/openfaas/secrets/auth-token","r") as authToken:
 * build、push、deployしましょう
 
 ```
-$ faas-cli build -f issue-bot.yml \
-  && faas-cli push -f issue-bot.yml \
-  && faas-cli deploy -f issue-bot.yml
+$ faas-cli up -f issue-bot.yml
 ```
 
 それでは [目次](./README.md) に戻りましょう。

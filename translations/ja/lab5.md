@@ -47,8 +47,6 @@ $ faas-cli list --gateway http://fuh83fhfj.ngrok.io/
 
 ```
 $ faas-cli new --lang python3 issue-bot --prefix="<DockerHubのユーザー名>"
-$ faas-cli build -f ./issue-bot.yml
-$ faas-cli push -f ./issue-bot.yml
 ```
 
 functionのYAMLファイル `issue-bot.yml` を開いて `write_debug: true` という環境変数を増やしましょう：
@@ -67,10 +65,10 @@ functions:
       write_debug: true
 ```
 
-* functionをデプロイします
+* functionをbuild、push、deployしましょう
 
 ```
-$ faas-cli deploy -f ./issue-bot.yml
+$ faas-cli up -f ./issue-bot.yml
 ```
 
 ## GitHubからwebhookを受け取る
@@ -181,9 +179,7 @@ res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanal
 CLIを使ってfunctionのbuildとdeployをしましょう：
 
 ```
-$ faas-cli build -f issue-bot.yml \
-  && faas-cli push -f issue-bot.yml \
-  && faas-cli deploy -f issue-bot.yml
+$ faas-cli up -f issue-bot.yml
 ```
 
 それでは `bot-tester` リポジトリに新しいIssueを作ってみましょう。GitHubはJSONのペイロードを上で作ったNgrokのトンネルを経由して function に渡します。
@@ -337,9 +333,7 @@ def apply_label(polarity, issue_number, repo, positive_threshold):
 CLIを使ってfunctionをbuildしてdeployします：
 
 ```
-$ faas-cli build -f issue-bot.yml \
-  && faas-cli push -f issue-bot.yml \
-  && faas-cli deploy -f issue-bot.yml
+$ faas-cli up -f issue-bot.yml
 ```
 
 それでは `bot-tester` のリポジトリにIssueを作ってテストしてみましょう。 `positive` または `review` のラベルが付与されるかどうか確認しましょう。正常に動作しない場合はGitHubのWebhooksのページでメッセージを確認し、エラーが発生していないかみてみましょう。

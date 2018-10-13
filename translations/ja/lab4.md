@@ -111,9 +111,7 @@ def handle(req):
 buildしてdeployしましょう
 
 ```sh
-$ faas-cli build -f hello-openfaas.yml \
-  && faas-cli push -f hello-openfaas.yml \
-  && faas-cli deploy -f hello-openfaas.yml
+$ faas-cli up -f hello-openfaas.yml
 ```
 
 では、functionを呼び出してみましょう
