@@ -89,6 +89,7 @@ This option may not be suitable in all circumstances and involves writing additi
 * Make use of the built-in behaviour of callbacks
 
 The built-in callbacks allow a call to a function to provide a URL where the queue-worker will automatically report the success or failure of a function along with the result.
+Some additional request headers are sent to the callback, for a complete list see [https://github.com/openfaas/docs/blob/master/docs/deployment/troubleshooting.md#callback-request-headers]
 
 Head over to requestbin and create a new "bin" - this will be a URL on the public internet that can receive your function's result.
 
