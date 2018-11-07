@@ -83,4 +83,4 @@ Use the CLI to build and deploy the function:
 $ faas-cli up -f issue-bot.yml
 ```
 
-You can return to the [main page](./README.md).
+Now move onto [Lab 11](lab11.md).

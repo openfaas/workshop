@@ -2,7 +2,8 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
-Before starting this lab create new folder
+Before starting this lab create a new folder
+
 ```
 mkdir -p lab11 \
    && cd lab11
@@ -10,7 +11,7 @@ mkdir -p lab11 \
 
 ## What is HMAC
 
-Currently there are no limitations on who can make use of our functions. As long as connectivity allows, our functions can be invoked without any restriction. By default they trust any supplied information to be genuine. However, if we want to control access to functions we can use Hash-based Message Authentication Code (HMAC) to validate the source of information.
+Without any form of authentication or trust our functions may be exposed to anyone who can guess their URL. If our functions are accessible on the Internet or the local network then they could be invoked by a bad actor. By default functions respond to any request. However, if we want to control access to functions we can use Hash-based Message Authentication Code (HMAC) to validate the source of information.
 
 From [alexellis/hmac](https://github.com/alexellis/hmac):
 > HMAC uses a symmetric key that both sender/receiver share ahead of time. The sender will generate a hash when wanting to transmit a message - this data is sent along with the payload. The recipient will then sign payload with the shared key and if the hash matches then the payload is assumed to be from the sender.
@@ -184,5 +185,6 @@ $ echo -n "This is a message" | faas-cli invoke hmac-protected --sign hmac --key
 HMAC validation failed.
 ```
 
-Now you can secure your payload on `issue-bot` from [lab5](https://github.com/openfaas/workshop/blob/7f1b0246376b7e4380bb5874655f28254c15f749/lab5.md)
+As a follow-up task you could apply HMAC to secure your endpoint on `issue-bot` from [lab 5](https://github.com/openfaas/workshop/blob/7f1b0246376b7e4380bb5874655f28254c15f749/lab5.md)
 
+You have completed the labs and can return to the [main page](./README.md).

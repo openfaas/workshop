@@ -347,6 +347,6 @@ Now try it out by creating some new issues in the `bot-tester` repository. Check
 
 ## Validate payload with HMAC
 
-To further protect your function with HMAC head over to [lab11](url when merged)
+In [Lab 11](lab11.md) we will learn how to protect a serverless function from tampering through the use of HMAC.
 
 Now move on to [Lab 6](lab6.md).

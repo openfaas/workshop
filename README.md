@@ -103,11 +103,16 @@ If you're taking an instructor-led workshops then a link will be shared to join 
   * Observe auto-scaling kicking in
 
 ## [Lab 10 - Advanced Feature - Secrets](./lab10.md)
+
 * Adapt issue-bot to use a secret
   * Create a Swarm secret
   * Access the secret within the function
 
 You can start with the first lab [Lab 1](lab1.md).
+
+# [Lab 11 - Advanced feature - Trust with HMAC](./lab11.md)
+
+* Apply trust to functions using HMAC
 
 ## Tear down / Clear up
 
