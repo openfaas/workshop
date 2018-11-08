@@ -4,9 +4,15 @@
 
 Before starting this lab create a new folder
 
-```
+```bash
 mkdir -p lab11 \
    && cd lab11
+```
+
+also make sure your `faas-cli` version is `0.7.4` or above with the following command:
+
+```
+$ faas-cli version
 ```
 
 ## What is HMAC
@@ -26,7 +32,7 @@ We will use the `--sign` flag provided by faas-cli to send a header containing t
 
 Let's first inspect what the flag does by deploying the `env` function which will print all of the environmental variables accessible inside the function:
 
-```
+```bash
 $ faas-cli deploy --name env --fprocess="env" --image="functions/alpine:latest"
 ```
 
@@ -71,7 +77,7 @@ We see the `HMAC` being provided as the environmental variable `Http_Hmac`. The 
 
 For our purpose we are going to create a new Python 3 function. Let’s call it `hmac-protected`:
 
-```
+```bash
 $ faas-cli new --lang python3 hmac-protected --prefix="<your-docker-username>"
 ```
 
@@ -79,7 +85,7 @@ Add `payload-secret` which will serve as the key that will hash the payload.
 
 Create `payload-secret` like we did in [lab10](https://github.com/openfaas/workshop/blob/master/lab10.md):
 
-```
+```bash
 $ echo -n "<your-secret>" | docker secret create payload-secret -
 ```
 
@@ -87,7 +93,7 @@ $ echo -n "<your-secret>" | docker secret create payload-secret -
 
 Our `hmac-protected.yml` should look like:
 
-```
+```yml
 provider:
   name: faas
   gateway: http://127.0.0.1:8080
@@ -103,23 +109,21 @@ functions:
 
 Replace the content of the `handler.py` with the following code:
 
-```
+```python
 import os, hmac, hashlib
 
 def validateHMAC(message, secret, hash):
 
     # GitHub and the sign flag prefix the hash with "sha1="
-    receivedHash = clearHash(hash)
-    encodedSecret = secret.encode()
-    encodedMessage = message.encode()
+    receivedHash = getHash(hash)
 
     # Hash message with secret
-    expectedMAC = hmac.new(encodedSecret,encodedMessage,hashlib.sha1)
+    expectedMAC = hmac.new(secret.encode(), message.encode(), hashlib.sha1)
     createdHash = expectedMAC.hexdigest()
 
     return receivedHash == createdHash
 
-def clearHash(hash):
+def getHash(hash):
     if "sha1=" in hash:
         hash=hash[5:]
     return hash
@@ -158,7 +162,7 @@ On receipt of the request, the function will use `payload-secret` to sign the re
 
 Here we compare the generated and received hashes:
 
-```
+```python
 ...
     if hmacDigest == cleanHash:
         return True
@@ -168,7 +172,7 @@ Here we compare the generated and received hashes:
 
 * Invoke the function with the flag:
 
-```
+```bash
 $ echo -n "This is a message" | faas-cli invoke hmac-protected --sign hmac --key=<your-secret>
 ```
 
