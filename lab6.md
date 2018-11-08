@@ -125,6 +125,26 @@ Open your browser and access http://127.0.0.1:8080/function/show-html. You shoul
 
 Now we're going to add a path to the function URL.
 
+Inside `html` folder add new `list.html` file with this content:
+
+```html
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>OpenFaaS</title>
+</head>
+<body>
+  <h2>This is a list!</h2>
+  <ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ul>
+</body>
+</html>
+```
+
 Edit your `handler.py` to the following:
 
 ```python
@@ -174,7 +194,7 @@ Now that we've understood how to serve html via functions, let's dynamically cha
 
 The query string is `action=new`, hence the value of `Http_Query` would be `action=new`. We can also use the `parse_qs` function from the `urllib.parse` package and easily parse this query string.
 
-First of all, let's create a new HTML file inside called `list.html`. So the structure should look like the following now:
+The structure of the directory of our function looks like this:
 
 ```
 ├── show-html
@@ -187,25 +207,7 @@ First of all, let's create a new HTML file inside called `list.html`. So the str
 └── show-html.yml
 ```
 
-Edit `list.html`:
 
-```html
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-  <meta charset='UTF-8'>
-  <title>OpenFaaS</title>
-</head>
-<body>
-  <h2>This is a list!</h2>
-  <ul>
-    <li>One</li>
-    <li>Two</li>
-    <li>Three</li>
-  </ul>
-</body>
-</html>
-```
 
 Change your `handler.py`: 
 

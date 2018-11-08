@@ -3,7 +3,7 @@ import os, hmac, hashlib
 def validateHMAC(message, secret, hash):
 
     # GitHub and the sign flag prefix the hash with "sha1="
-    receivedHash = clearHash(hash)
+    receivedHash = getHash(hash)
 
     # Hash message with secret
     expectedMAC = hmac.new(secret.encode(), message.encode(), hashlib.sha1)
@@ -11,7 +11,7 @@ def validateHMAC(message, secret, hash):
 
     return receivedHash == createdHash
 
-def clearHash(hash):
+def getHash(hash):
     if "sha1=" in hash:
         hash=hash[5:]
     return hash
