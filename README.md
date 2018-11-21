@@ -110,7 +110,7 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 
 You can start with the first lab [Lab 1](lab1.md).
 
-# [Lab 11 - Advanced feature - Trust with HMAC](./lab11.md)
+## [Lab 11 - Advanced feature - Trust with HMAC](./lab11.md)
 
 * Apply trust to functions using HMAC
 
