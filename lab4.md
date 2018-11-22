@@ -255,7 +255,7 @@ The following code can be used to call the *Sentiment Analysis* function or any 
 
 ```python
     test_sentence = "California is great, it's always sunny there."
-    r = requests.get("http://gateway:8080/function/sentimentanalysis", text= test_sentence)
+    r = requests.get("http://gateway:8080/function/sentimentanalysis", data= test_sentence)
 ```
 
 Or via an environmental variable:
@@ -263,7 +263,7 @@ Or via an environmental variable:
 ```python
     gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
     test_sentence = "California is great, it's always sunny there."
-    r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", text= test_sentence)
+    r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", data= test_sentence)
 ```
 
 Since the result is always in JSON format we can make use of the helper function `.json()` to convert the response:
