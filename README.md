@@ -12,7 +12,7 @@ This is a self-paced workshop for learning how to build, deploy and run OpenFaaS
 
 ## Requirements:
 
-We walk through how to install these requirements in [Lab 1](./lab1.md), but please do this before you attend an instructor-led workshop.
+We walk through how to install these requirements in [Lab 1](./lab1.md). Please do [Lab 1](./lab1.md) before you attend an instructor-led workshop.  At the very least you should [install Docker](./lab1.md#docker) and [pre-pull the OpenFaaS images](./lab1.md#Pre-pull-the-system-images).
 
 * Functions will be written in Python, so prior programming or scripting experience is preferred 
 * Install the recommended code-editor / IDE [VSCode](https://code.visualstudio.com/download)
@@ -132,4 +132,4 @@ The [appendix](./appendix.md) contains some additional content.
 
 ## Acknowledgements
 
-Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan, @kenfdev, @templum & rgee0 for testing and contributing to the labs.
+Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan, @kenfdev, @templum & @rgee0 for contributing to, testing and translating the labs.
