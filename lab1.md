@@ -33,6 +33,16 @@ Linux - Ubuntu or Debian
 
 Note: As a last resort if you have an incompatible PC you can run the workshop on https://labs.play-with-docker.com/.
 
+### Pre-pull the system images
+
+Pull the most recent OpenFaaS images. 
+
+```
+curl -sSL https://raw.githubusercontent.com/openfaas/faas/master/docker-compose.yml | grep image | awk -F " " '{print $NF}' | xargs -L1 docker pull
+```
+
+This should offset the impact on the workshop WiFi of multiple attendees trying to pull the images at the same time.
+
 ### Setup a single-node cluster
 
 #### Docker Swarm
