@@ -33,12 +33,10 @@ $ echo -n <auth_token> | faas-cli secret create auth-token
 #### _Kubernetes_
 
 ```
-kubectl create secret generic auth-token --from-literal=auth-token=<auth-token> --namespace openfaas-fn
+$ echo -n <auth_token> | faas-cli secret create auth-token
 ```
 
 Test that the secret was created:
-
-#### _Docker Swarm_
 
 ```
 $ faas-cli secret ls
