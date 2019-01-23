@@ -27,7 +27,7 @@ From a terminal run the following command:
 #### _Docker Swarm_
 
 ```
-$ echo -n <auth_token> | docker secret create auth-token -
+$ echo -n <auth_token> | faas-cli secret create auth-token
 ```
 
 #### _Kubernetes_
@@ -41,7 +41,7 @@ Test that the secret was created:
 #### _Docker Swarm_
 
 ```
-$ docker secret inspect auth-token
+$ faas-cli secret ls
 ```
 
 #### _Kubernetes_
