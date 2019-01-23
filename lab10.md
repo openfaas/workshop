@@ -25,13 +25,13 @@ This is a more secure alternative to environmental variables. Environmental vari
 From a terminal run the following command:
 
 ```
-$ echo -n <auth_token> | docker secret create auth-token -
+$ echo -n <auth_token> | faas-cli secret create auth-token
 ```
 
 Test that the secret was created:
 
 ```
-$ docker secret inspect auth-token
+$ faas-cli secret ls
 ```
 > Note: If you are deploying your function on a remote gateway make sure you create your secret on the virtual machine you use for the gateway.
 
