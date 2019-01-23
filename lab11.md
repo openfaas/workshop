@@ -86,7 +86,7 @@ Add `payload-secret` which will serve as the key that will hash the payload.
 Create `payload-secret` like we did in [lab10](https://github.com/openfaas/workshop/blob/master/lab10.md):
 
 ```bash
-$ echo -n "<your-secret>" | docker secret create payload-secret -
+$ echo -n "<your-secret>" | faas-cli secret create payload-secret
 ```
 
 > Note: Remember the string you put in place of  `<your-secret>`
