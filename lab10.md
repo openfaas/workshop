@@ -33,7 +33,7 @@ $ echo -n <auth_token> | docker secret create auth-token -
 #### _Kubernetes_
 
 ```
-kubectl create secret generic auth-token --from-literal=auth-token=<auth-token> --namespace openfaas-fn
+echo -n <auth_token> | faas-cli secret create auth-token
 ```
 
 Test that the secret was created:
@@ -47,7 +47,7 @@ $ docker secret inspect auth-token
 #### _Kubernetes_
 
 ```
-kubectl get secret auth-token -n openfaas-fn -o json
+faas-cli secret ls
 ```
 
 > Note: If you are deploying your function on a remote gateway make sure you create your secret on the virtual machine you use for the gateway.
