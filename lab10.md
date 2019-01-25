@@ -20,7 +20,7 @@ This is a more secure alternative to environmental variables. Environmental vari
 
 ### Create a secret
 
-> Use of underscores (_) in secret names should be avoided to make it easier to move between Docker Swarm and Kubernetes. 
+> Secret names must follow the DNS-1123 convention and consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character 
 
 From a terminal run the following command:
 
@@ -33,7 +33,7 @@ Test that the secret was created:
 ```
 $ faas-cli secret ls
 ```
-> Note: If you are deploying your function on a remote gateway make sure you create your secret on the virtual machine you use for the gateway.
+> Note: Remember that the `-g` flag enables easy switching between gateways.  This works for secrets too.
 
 When the secret is mounted by a function it will be presented as a file under `/var/openfaas/secrets/auth-token`. This can be read by `handler.py` to obtain the GitHub *Personal Access Token*.
 
