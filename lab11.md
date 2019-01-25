@@ -189,6 +189,6 @@ $ echo -n "This is a message" | faas-cli invoke hmac-protected --sign hmac --key
 HMAC validation failed.
 ```
 
-As a follow-up task you could apply HMAC to secure your endpoint on `issue-bot` from [lab 5](https://github.com/openfaas/workshop/blob/7f1b0246376b7e4380bb5874655f28254c15f749/lab5.md)
+As a follow-up task you could apply HMAC to secure your endpoint on `issue-bot` from [lab 5](https://github.com/openfaas/workshop/blob/7f1b0246376b7e4380bb5874655f28254c15f749/lab5.md) (pay attention to the environment variable used by GitHub to pass the secret value).
 
 You have completed the labs and can return to the [main page](./README.md).
