@@ -9,7 +9,7 @@ $ cp -r lab5 lab10 \
    && cd lab10
 ```
 
-[Lab 7](./lab7) では `issue-bot` がGitHubの *Personal Access Token* を環境変数（ `auth_token` ）から取得する方法についてみました。違う方法として **secret** を使って機密性の高い情報を扱うやり方があります。
+[Lab 5](./lab5.md) では `issue-bot` がGitHubの *Personal Access Token* を環境変数（ `auth_token` ）から取得する方法についてみました。違う方法として **secret** を使って機密性の高い情報を扱うやり方があります。
 
 Dockerのドキュメントでは：
 
