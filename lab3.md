@@ -215,19 +215,13 @@ def handle(req):
 
 > Note: in this example we do not make use of the parameter `req` but must keep it in the function's header.
 
-Now build the function:
+Now build, push and deploy the function:
 
 ```
-$ faas-cli build -f ./astronaut-finder.yml
+$ faas-cli up -f ./astronaut-finder.yml
 ```
 
 > Tip: Try renaming astronaut-finder.yml to `stack.yml` and calling just `faas-cli build`. `stack.yml` is the default file-name for the CLI.
-
-Deploy the function:
-
-```
-$ faas-cli deploy -f ./astronaut-finder.yml
-```
 
 Invoke the function
 
