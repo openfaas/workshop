@@ -59,7 +59,7 @@ functions:
   sleep-for:
     lang: python3
     handler: ./sleep-for
-    image: <Docker Hubのユーザー名>/sleep-for:0.1
+    image: <Docker Hubのユーザー名>/sleep-for:latest
     environment:
       sleep_duration: 10
       read_timeout: 5

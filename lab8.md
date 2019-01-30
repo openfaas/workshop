@@ -57,7 +57,7 @@ functions:
   sleep-for:
     lang: python3
     handler: ./sleep-for
-    image: <your-docker-username-here>/sleep-for:0.1
+    image: <your-docker-username-here>/sleep-for:latest
     environment:
       sleep_duration: 10
       read_timeout: 5
