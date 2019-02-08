@@ -38,31 +38,48 @@ Now add a graph with all successful invocation of the deployed functions. We can
 
  ![](./screenshot/prometheus_alerts.png)
 
-### Trigger scaling of Figlet
+### Trigger scaling of a Go function
 
-First deploy figlet via the store:
+First the "echo-fn" function from Alex Ellis:
 
 ```bash
-$ faas store deploy figlet
+$ git clone https://github.com/alexellis/echo-fn \
+ && cd echo-fn \
+ && faas-cli template store pull golang-http \
+ && faas-cli deploy \
+  --label com.openfaas.scale.max=10 \
+  --label com.openfaas.scale.min=1
 ```
 
-Now check the UI to see when the figlet function becomes available.
+Now check the UI to see when the `go-echo` function goes from `Not Ready` to `Ready`. You can also check this with `faas-cli describe go-echo`
 
-Use this script to invoke the `figlet` function over and over until you see the replica count go from 1 to 5 and so on. You can monitor this value in Prometheus by adding a graph for `gateway_service_count` or by viewing the API Gateway with the function selected.
+Use this script to invoke the `go-echo` function over and over until you see the replica count go from 1 to 5 and so on. You can monitor this value in Prometheus by adding a graph for `gateway_service_count` or by viewing the API Gateway with the function selected.
 
  ```bash
-$ while [ true ]; do curl -X POST http://127.0.0.1:8080/function/figlet; done;
+$ for i in {0..10000};
+do
+    curl -XPOST --data-binary "Post $i" http://127.0.0.1:8080/function/go-echo && echo;
+done;
  ```
 
 ### Monitor for alerts
 
-You should now be able to see an increase in invocations of the `figlet` function in the graph that was created earlier. Move over to the tab where you have open the alerts page. After a time period, you should start seeing that the `APIHighInvocationRate` state (and colour) changes to `Pending` before then once again changing to `Firing`. You are also able to see the auto-scaling using the `$ faas-cli list` or over the [ui](http://127.0.0.1:8080)
+You should now be able to see an increase in invocations of the `go-echo` function in the graph that was created earlier. Move over to the tab where you have open the alerts page. After a time period, you should start seeing that the `APIHighInvocationRate` state (and colour) changes to `Pending` before then once again changing to `Firing`. You are also able to see the auto-scaling using the `$ faas-cli list` or over the [ui](http://127.0.0.1:8080)
 
  ![](./screenshot/prometheus_firing.png)
 
-Now you can verify using `$ docker service ps figlet` that new replicas of `figlet` have been started.
+Now you can verify using `$ docker service ps go-echo` that new replicas of `go-echo` have been started.
 
 Now stop the bash script and you will see the replica count return to 1 replica after a few seconds.
+
+### Troubleshooting
+
+If you believe that your auto-scaling is not triggering, then check the following:
+
+* The Alerts page in Prometheus - this should be red/pink and say "FIRING" - i.e. at http://127.0.0.1:9090/alerts
+* Check the logs of the core services i.e. the gateway, Prometheus / AlertManager
+
+To get logs for the core services run `docker service ls` then `docker service logs <service-name>`.
 
 ### Try scale from zero
 
