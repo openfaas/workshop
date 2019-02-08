@@ -81,6 +81,68 @@ If you believe that your auto-scaling is not triggering, then check the followin
 
 To get logs for the core services run `docker service ls` then `docker service logs <service-name>`.
 
+### Load-testing (optional)
+
+It is important to note that there is a difference between applying a scientific method and tooling to a controlled environment and running a Denial Of Service attack on your own laptop. Your laptop is not suitable for load-testing because generally you are running OpenFaaS in a Linux VM on a Windows or Mac host which is also a single node. This is not representative of a production deployment.
+
+See the documentation on [constructing a proper performance test](https://docs.openfaas.com/architecture/performance/).
+
+If `curl` is not generating enough traffic for your test, or you'd like to get some statistics on how things are broken down then you can try the `hey` tool. `hey` can generate a structured load by requests per second or a given duration.
+
+Here's an example of running on a 1GHz 2016 12" MacBook with Docker Desktop. This is a very low-powered computer and as described, not representative of production performance. 
+
+```bash
+$ hey -z=30s -q 5 -c 2 -m POST -d=Test http://127.0.0.1:8080/function/go-echo
+Summary:
+  Total:        30.0203 secs
+  Slowest:      0.0967 secs
+  Fastest:      0.0057 secs
+  Average:      0.0135 secs
+  Requests/sec: 9.9932
+
+  Total data:   1200 bytes
+  Size/request: 4 bytes
+
+Response time histogram:
+  0.006 [1]     |
+  0.015 [244]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.024 [38]    |■■■■■■
+  0.033 [10]    |■■
+  0.042 [4]     |■
+  0.051 [1]     |
+  0.060 [0]     |
+  0.069 [0]     |
+  0.078 [0]     |
+  0.088 [0]     |
+  0.097 [2]     |
+
+
+Latency distribution:
+  10% in 0.0089 secs
+  25% in 0.0101 secs
+  50% in 0.0118 secs
+  75% in 0.0139 secs
+  90% in 0.0173 secs
+  95% in 0.0265 secs
+  99% in 0.0428 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:   0.0000 secs, 0.0057 secs, 0.0967 secs
+  DNS-lookup:   0.0000 secs, 0.0000 secs, 0.0000 secs
+  req write:    0.0001 secs, 0.0000 secs, 0.0016 secs
+  resp wait:    0.0131 secs, 0.0056 secs, 0.0936 secs
+  resp read:    0.0001 secs, 0.0000 secs, 0.0013 secs
+
+Status code distribution:
+  [200] 300 responses
+```
+
+The above simulates two active users `-c` at 5 requests per second `-q` over a duration `-z` of 30 seconds.
+
+To use `hey` you must have Golang installed on your local computer.
+
+See also: [hey on GitHub](https://github.com/rakyll/hey)
+
 ### Try scale from zero
 
 If you scale down your function to 0 replicas, you can still invoke it. The invocation will trigger the gateway into scaling the function to a non-zero value.
