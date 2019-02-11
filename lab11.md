@@ -2,6 +2,14 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
+## Pre-amble
+
+Traditional authentication strategies used with microservices work exactly the same with functions. In this lab we will discuss one of several methods available using a shared secret and Hash-based Message Authentication Code (HMAC). For additional authentication strategies and ideas see: [openfaas-function-auth](https://github.com/openfaas-incubator/openfaas-function-auth/blob/master/README.md)
+
+This is by no means an extensive list, security and authentication is a complex field and best left to the experts using tried-and-tested methods.
+
+## Prepare your environment
+
 Before starting this lab create a new folder
 
 ```bash
