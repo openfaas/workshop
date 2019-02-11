@@ -49,6 +49,7 @@ $ git clone https://github.com/alexellis/echo-fn \
  && faas-cli deploy \
   --label com.openfaas.scale.max=10 \
   --label com.openfaas.scale.min=1
+  --network func_functions
 ```
 
 Now check the UI to see when the `go-echo` function goes from `Not Ready` to `Ready`. You can also check this with `faas-cli describe go-echo`
@@ -156,7 +157,7 @@ $ docker service scale nodeinfo=0
 
 Kubernetes:
 ```
-$ kubectl scale deployment --replicas=0 astronaut-finder -n openfaas-fn
+$ kubectl scale deployment --replicas=0 nodeinfo -n openfaas-fn
 ```
 
 Open the OpenFaaS UI and check that nodeinfo has 0 replicas, or by `docker service ls | grep nodeinfo`.
