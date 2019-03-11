@@ -126,7 +126,7 @@ You can start with the first lab [Lab 1](lab1.md).
 
 ## Tear down / Clear up
 
-You can find how to stop and remove OpenFaaS [here](https://github.com/openfaas/faas/blob/master/guide/troubleshooting.md#stop-and-remove-openfaas)
+You can find how to stop and remove OpenFaaS [here](https://docs.openfaas.com/deployment/troubleshooting/#uninstall-openfaas)
 
 ## Wrapping up
 
