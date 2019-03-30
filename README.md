@@ -30,16 +30,6 @@ Docker:
 
 If you're taking an instructor-led workshops then a link will be shared to join the OpenFaaS Slack community. Use the designated channel for the workshop to discuss comments, questions and suggestions.
 
-## Pick your track
-
-* Swarm track (this page)
-
-The easiest and simplest way to learn about OpenFaaS is through Docker Swarm. The knowledge you build up and the functions you create are both transferrable and portable between Swarm and Kubernetes.
-
-* Kubernetes track (click link below)
-
-You can also learn about OpenFaaS through Kubernetes. We have a preview available for learning OpenFaaS with Kubernetes. [Switch to the Kubernetes track](https://github.com/openfaas/workshop/tree/kubernetes-preview).
-
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
 * Install pre-requisites
