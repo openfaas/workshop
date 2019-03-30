@@ -49,32 +49,133 @@ Now add a graph with all successful invocation of the deployed functions. We can
 
  ![](./screenshot/prometheus_alerts.png)
 
-### Trigger scaling of Figlet
+### Trigger scaling of a Go function
 
-First deploy figlet via the store:
+First the "echo-fn" function from Alex Ellis:
 
 ```bash
-$ faas store deploy figlet
+$ git clone https://github.com/alexellis/echo-fn \
+ && cd echo-fn \
+ && faas-cli template store pull golang-http \
+ && faas-cli deploy \
+  --label com.openfaas.scale.max=10 \
+  --label com.openfaas.scale.min=1
 ```
 
-Now check the UI to see when the figlet function becomes available.
+Now check the UI to see when the `go-echo` function goes from `Not Ready` to `Ready`. You can also check this with `faas-cli describe go-echo`
 
-Use this script to invoke the `figlet` function over and over until you see the replica count go from 1 to 5 and so on. You can monitor this value in Prometheus by adding a graph for `gateway_service_count` or by viewing the API Gateway with the function selected.
+Use this script to invoke the `go-echo` function over and over until you see the replica count go from 1 to 5 and so on. You can monitor this value in Prometheus by adding a graph for `gateway_service_count` or by viewing the API Gateway with the function selected.
 
  ```bash
-$ while [ true ]; do curl -X POST http://127.0.0.1:8080/function/figlet; done;
+$ for i in {0..10000};
+do
+    curl -XPOST --data-binary "Post $i" http://127.0.0.1:8080/function/go-echo && echo;
+done;
  ```
 
 > Note: If you're running on Kubernetes, use `$OPENFAAS_URL` instead of `http://127.0.0.1:8080`
 
 ### Monitor for alerts
 
-You should now be able to see an increase in invocations of the `figlet` function in the graph that was created earlier. Move over to the tab where you have open the alerts page. After a time period, you should start seeing that the `APIHighInvocationRate` state (and colour) changes to `Pending` before then once again changing to `Firing`. You are also able to see the auto-scaling using the `$ faas-cli list` or over the [ui](http://127.0.0.1:8080)
+You should now be able to see an increase in invocations of the `go-echo` function in the graph that was created earlier. Move over to the tab where you have open the alerts page. After a time period, you should start seeing that the `APIHighInvocationRate` state (and colour) changes to `Pending` before then once again changing to `Firing`. You are also able to see the auto-scaling using the `$ faas-cli list` or over the [ui](http://127.0.0.1:8080)
 
  ![](./screenshot/prometheus_firing.png)
 
-Now you can verify using `$ docker service ps figlet` that new replicas of `figlet` have been started.
+Now you can verify using `$ docker service ps go-echo` that new replicas of `go-echo` have been started.
 
 Now stop the bash script and you will see the replica count return to 1 replica after a few seconds.
+
+### Troubleshooting
+
+If you believe that your auto-scaling is not triggering, then check the following:
+
+* The Alerts page in Prometheus - this should be red/pink and say "FIRING" - i.e. at http://127.0.0.1:9090/alerts
+* Check the logs of the core services i.e. the gateway, Prometheus / AlertManager
+
+To get logs for the core services run `docker service ls` then `docker service logs <service-name>`.
+
+### Load-testing (optional)
+
+It is important to note that there is a difference between applying a scientific method and tooling to a controlled environment and running a Denial Of Service attack on your own laptop. Your laptop is not suitable for load-testing because generally you are running OpenFaaS in a Linux VM on a Windows or Mac host which is also a single node. This is not representative of a production deployment.
+
+See the documentation on [constructing a proper performance test](https://docs.openfaas.com/architecture/performance/).
+
+If `curl` is not generating enough traffic for your test, or you'd like to get some statistics on how things are broken down then you can try the `hey` tool. `hey` can generate a structured load by requests per second or a given duration.
+
+Here's an example of running on a 1GHz 2016 12" MacBook with Docker Desktop. This is a very low-powered computer and as described, not representative of production performance. 
+
+```bash
+$ hey -z=30s -q 5 -c 2 -m POST -d=Test http://127.0.0.1:8080/function/go-echo
+Summary:
+  Total:        30.0203 secs
+  Slowest:      0.0967 secs
+  Fastest:      0.0057 secs
+  Average:      0.0135 secs
+  Requests/sec: 9.9932
+
+  Total data:   1200 bytes
+  Size/request: 4 bytes
+
+Response time histogram:
+  0.006 [1]     |
+  0.015 [244]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.024 [38]    |■■■■■■
+  0.033 [10]    |■■
+  0.042 [4]     |■
+  0.051 [1]     |
+  0.060 [0]     |
+  0.069 [0]     |
+  0.078 [0]     |
+  0.088 [0]     |
+  0.097 [2]     |
+
+
+Latency distribution:
+  10% in 0.0089 secs
+  25% in 0.0101 secs
+  50% in 0.0118 secs
+  75% in 0.0139 secs
+  90% in 0.0173 secs
+  95% in 0.0265 secs
+  99% in 0.0428 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:   0.0000 secs, 0.0057 secs, 0.0967 secs
+  DNS-lookup:   0.0000 secs, 0.0000 secs, 0.0000 secs
+  req write:    0.0001 secs, 0.0000 secs, 0.0016 secs
+  resp wait:    0.0131 secs, 0.0056 secs, 0.0936 secs
+  resp read:    0.0001 secs, 0.0000 secs, 0.0013 secs
+
+Status code distribution:
+  [200] 300 responses
+```
+
+The above simulates two active users `-c` at 5 requests per second `-q` over a duration `-z` of 30 seconds.
+
+To use `hey` you must have Golang installed on your local computer.
+
+See also: [hey on GitHub](https://github.com/rakyll/hey)
+
+### Try scale from zero
+
+If you scale down your function to 0 replicas, you can still invoke it. The invocation will trigger the gateway into scaling the function to a non-zero value.
+
+Try it out with the following commands:
+
+Docker Swarm:
+```
+$ docker service scale nodeinfo=0
+```
+
+Kubernetes:
+```
+$ kubectl scale deployment --replicas=0 astronaut-finder -n openfaas-fn
+```
+
+Open the OpenFaaS UI and check that nodeinfo has 0 replicas, or by `docker service ls | grep nodeinfo`.
+
+> For Kubernetes use `kubectl get deployment nodeinfo -n openfaas-fn`
+
+Now invoke the function and check back that it scaled to 1 replicas.
 
 Now move onto [Lab 10](lab10.md).

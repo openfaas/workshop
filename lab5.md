@@ -61,7 +61,7 @@ Test the URL such as http://fuh83fhfj.ngrok.io
 $ faas-cli list --gateway http://fuh83fhfj.ngrok.io/
 ```
 
-## Create an webhook receiver `issue-bot`
+## Create a webhook receiver `issue-bot`
 
 ```
 $ faas-cli new --lang python3 issue-bot --prefix="<your-docker-username-here>"

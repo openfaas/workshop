@@ -12,7 +12,7 @@ This is a self-paced workshop for learning how to build, deploy and run OpenFaaS
 
 ## Requirements:
 
-We walk through how to install these requirements in [Lab 1](./lab1.md), but please do this before you attend an instructor-led workshop.
+We walk through how to install these requirements in [Lab 1](./lab1.md). Please do [Lab 1](./lab1.md) before you attend an instructor-led workshop.  At the very least you should [install Docker](./lab1.md#docker) and [pre-pull the OpenFaaS images](./lab1.md#Pre-pull-the-system-images).
 
 * Functions will be written in Python, so prior programming or scripting experience is preferred 
 * Install the recommended code-editor / IDE [VSCode](https://code.visualstudio.com/download)
@@ -29,6 +29,16 @@ Docker:
 ## Instructor-led workshops
 
 If you're taking an instructor-led workshops then a link will be shared to join the OpenFaaS Slack community. Use the designated channel for the workshop to discuss comments, questions and suggestions.
+
+## Pick your track
+
+* Swarm track (this page)
+
+The easiest and simplest way to learn about OpenFaaS is through Docker Swarm. The knowledge you build up and the functions you create are both transferrable and portable between Swarm and Kubernetes.
+
+* Kubernetes track (click link below)
+
+You can also learn about OpenFaaS through Kubernetes. We have a preview available for learning OpenFaaS with Kubernetes. [Switch to the Kubernetes track](https://github.com/openfaas/workshop/tree/kubernetes-preview).
 
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
@@ -110,7 +120,7 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 
 You can start with the first lab [Lab 1](lab1.md).
 
-# [Lab 11 - Advanced feature - Trust with HMAC](./lab11.md)
+## [Lab 11 - Advanced feature - Trust with HMAC](./lab11.md)
 
 * Apply trust to functions using HMAC
 
@@ -132,4 +142,4 @@ The [appendix](./appendix.md) contains some additional content.
 
 ## Acknowledgements
 
-Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan, @kenfdev, @templum & rgee0 for testing and contributing to the labs.
+Thanks to @iyovcheva, @BurtonR, @johnmccabe, @laurentgrangeau, @stefanprodan, @kenfdev, @templum & @rgee0 for contributing to, testing and translating the labs.
