@@ -44,7 +44,7 @@ curl -sSL https://raw.githubusercontent.com/openfaas/faas/master/docker-compose.
 This should offset the impact on the workshop WiFi of multiple attendees trying to pull the images at the same time.
 
 ### Setup a single-node cluster
-If you're taking part in a workshop event then the organiser will probably ask you to use Docker Swarm because it's much easier to set up in a short period of time. There are [deployment guides for both Swarm and Kubernetes in the documentation](https://github.com/openfaas/faas/tree/master/guide).
+If you're taking part in a workshop event then the organiser will probably ask you to use Docker Swarm because it's much easier to set up in a short period of time. 
 
 In order to set up OpenFaaS with Docker Swarm, go to [Lab 1a](./lab1a.md)
 
