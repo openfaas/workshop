@@ -32,13 +32,19 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 
 ## Pick your track
 
-* Swarm track (this page)
+In Lab 1 you will pick your track and then throughout the labs look out for any special commands needed for the container orchestrator for your track.
 
-The easiest and simplest way to learn about OpenFaaS is through Docker Swarm. The knowledge you build up and the functions you create are both transferrable and portable between Swarm and Kubernetes.
+### Docker Swarm (beginners)
 
-* Kubernetes track (click link below)
+The easiest and simplest way to learn about OpenFaaS is by deploying Docker Swarm, this is because it is already built into the Docker distribution and has more limited extensibility.
 
-You can also learn about OpenFaaS through Kubernetes. We have a preview available for learning OpenFaaS with Kubernetes. [Switch to the Kubernetes track](https://github.com/openfaas/workshop/tree/kubernetes-preview).
+The knowledge you build up and the functions you create are both transferrable and portable between Docker Swarm and Kubernetes.
+
+### Kubernetes (intermediate)
+
+You can also learn about Serverless on Kubernetes using OpenFaaS.
+
+The recommendation from the OpenFaaS community is that you run Kubernetes in production, but all the knowledge you can is transferrable and functions do not have to be rebuilt.
 
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 

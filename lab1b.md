@@ -12,7 +12,14 @@ You can choose different options to run Kubernetes on your machine.
 
 Before proceeding, [Install kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
-#### _With Minikube_
+#### Create a local cluster on your laptop
+
+##### _Docker for Mac_
+
+* [Install Docker for Mac](https://docs.docker.com/v17.12/docker-for-mac/install/)
+> Note that Kubernetes is only available in Docker for Mac 17.12 CE and higher
+
+##### _With Minikube_
 
 * To install Minikube download the proper installer from [latest release](https://github.com/kubernetes/minikube/releases) depending on your platform.
 * [Install Helm client](https://docs.helm.sh/using_helm/#installing-the-helm-client)
@@ -36,12 +43,21 @@ $ helm init
 The minikube VM is exposed to the host system via a host-only IP address. Check this IP with `minikube ip`.
 This is the IP you will later use for the gateway URL.
 
-#### _Docker for Mac_
+#### Create a remote cluster on the cloud
 
-* [Install Docker for Mac](https://docs.docker.com/v17.12/docker-for-mac/install/)
-> Note that Kubernetes is only available in Docker for Mac 17.12 CE and higher
+You can create a remote cluster in the cloud and enjoy the same experience as if you were developing locally whilst saving on RAM/CPU and battery. The costs for running a cluster for 1-2 days is minimal.
 
-#### _Run on GKE (Google Kubernetes Engine)_
+##### _Run on DigitalOcean's Kubernetes Service_
+
+You can use free credits to create a cluster through DigitalOcean's UI.
+
+The DigitalOcean dashboard will then guide you through how to configure your `kubectl` and `KUBECONFIG` file for use in the labs.
+
+* [Claim your free credits - $100 in credit over 60 days](https://m.do.co/c/8d4e75e9886f)
+
+> Note: Even if you have already claimed free credit, the running costs for a 2-3 node cluster for 24-48 hours is negligible.
+
+##### _Run on GKE (Google Kubernetes Engine)_
 
 * Install [Google Cloud SDK](https://cloud.google.com/sdk/docs)
 
