@@ -68,7 +68,8 @@ The recommendation from the OpenFaaS community is that you run Kubernetes in pro
  * Add dependencies with `pip`
  * Troubleshooting: find the container's logs
 * Troubleshooting: verbose output with `write_debug`
-* Use third-party language templates
+* Use custom and third-party language templates
+* Discover community templates using the Template Store
 
 ## [Lab 4 - Go deeper with functions](./lab4.md)
 
@@ -80,7 +81,7 @@ The recommendation from the OpenFaaS community is that you run Kubernetes in pro
   * Chaining functions on the client-side
   * Call one function from another
 
-## [Lab 5 - Create a Gitbot](./lab5.md)
+## [Lab 5 - Create a GitHub bot](./lab5.md)
 
 > Build `issue-bot` - an auto-responder for GitHub Issues
 

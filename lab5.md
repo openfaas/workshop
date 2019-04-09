@@ -1,4 +1,4 @@
-# Lab 5 - Create a Gitbot
+# Lab 5 - Create a GitHub bot
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
