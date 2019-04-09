@@ -169,7 +169,7 @@ $ docker service scale nodeinfo=0
 
 Kubernetes:
 ```
-$ kubectl scale deployment --replicas=0 astronaut-finder -n openfaas-fn
+$ kubectl scale deployment --replicas=0 nodeinfo -n openfaas-fn
 ```
 
 Open the OpenFaaS UI and check that nodeinfo has 0 replicas, or by `docker service ls | grep nodeinfo`.
