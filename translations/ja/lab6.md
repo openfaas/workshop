@@ -36,7 +36,7 @@ def handle(req):
 
 `show-html.yml` を編集します：
 
-```yams
+```yaml
 provider:
   name: faas
   gateway: http://127.0.0.1:8080

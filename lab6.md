@@ -29,14 +29,13 @@ def handle(req):
     html = '<html><h2>Hi, from your function!</h2></html>'
 
     return html
-
 ```
 
 This will return HTML to the caller.  One more thing we should do is to set the `Content-Type` of the response. We are 100% sure that this function will return an HTML so the `Content-Type` should always be `text/html`. We can set this by taking advantage of the `environment` section of the `show-html.yml` file.
 
 Edit `show-html.yml`:
 
-```yams
+```yaml
 provider:
   name: faas
   gateway: http://127.0.0.1:8080
@@ -206,7 +205,6 @@ The structure of the directory of our function looks like this:
 │   └── requirements.txt
 └── show-html.yml
 ```
-
 
 
 Change your `handler.py`: 
