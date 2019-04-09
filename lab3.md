@@ -352,32 +352,86 @@ $ faas-cli build -f ./example.yml --parallel=2
 ```sh
 $ faas-cli build -f ./example.yml --filter=second
 ```
-Look at the options for `faas-cli build --help` and `faas-cli push --help` for more information.
+
+Take a few moments to explore the options for `build`/`push` and `deploy`.
+
+* `faas-cli build --help`
+* `faas-cli push --help`
+* `faas-cli deploy --help`
+
 To run `faas-cli build && faas-cli push && faas-cli deploy` together, use `faas-cli up` instead.
 
 > Pro-tip: `stack.yml` is the default name the faas-cli will look for if you don't want to pass a `-f` parameter.
 
 You can also deploy function stack (yaml) files over HTTP(s) using `faas-cli -f https://....`.
 
-### Make use of custom templates
+### Custom templates
 
-If you have your own language template or have found a community template such as the PHP template then you can add that with the following command:
+If you have your own set of forked or custom templates, then you can pull them down for use with the CLI.
 
+Here's an example of fetching a Python 3 template which uses Debian Linux.
+
+Pull the template using the `git` URL:
+
+```sh
+$ faas-cli template pull https://github.com/openfaas-incubator/python3-debian
 ```
-$ faas-cli template pull https://github.com/itscaro/openfaas-template-php
 
+Now type in: `faas-cli new --list`
+
+```sh
+$ faas-cli new --list | grep python
+- python
+- python3
+- python3-debian
+```
+
+These new templates are saved in your current working directory in `./templates/`.
+
+#### Custom templates: Template Store
+
+The *Template Store* is a similar concept to the *Function Store*, it enables users to collaborate by sharing their templates. The template store also means that you don't have to remember any URLs for making use of your favourite community or project templates.
+
+You can Search and discover templates using the following two commands:
+
+```sh
+$ faas-cli template store list
+$ faas-cli template store list -v
+
+NAME                     SOURCE             DESCRIPTION
+csharp                   openfaas           Official C# template
+dockerfile               openfaas           Official Dockerfile template
+go                       openfaas           Official Golang template
 ...
-
-$ faas-cli new --list | grep php
-- php
-- php5
 ```
 
-A list of community templates is maintained on the [OpenFaaS CLI README page](https://github.com/openfaas/faas-cli).
+To get more details you can use the `--verbose` flag, or the `describe` command.
 
-Continue to the optional exercise or move onto [Lab 4](lab4.md).
+Let's get a template for use with Node.js which is powered by the Express.js framework.
 
-### Custom binaries as functions (optional)
+```
+$ faas-cli template store describe node10-express
+
+Name:              node10-express
+Platform:          x86_64
+Language:          NodeJS
+Source:            openfaas-incubator
+Description:       NodeJS 10 Express template
+Repository:        https://github.com/openfaas-incubator/node10-express-template
+Official Template: true
+```
+
+Pull the template down:
+
+```sh
+$ faas-cli template pull node10-express
+```
+
+You can now type in `faas-cli new --lang node10-express`.
+
+See also: [Function & Template Store](https://github.com/openfaas/store/)
+
+### Custom binaries as functions (optional exercise)
 
 Custom binaries or containers can be used as functions, but most of the time using the language templates should cover all the most common scenarios.
 
