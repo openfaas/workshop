@@ -1,2 +1,4 @@
 template
 build
+bin
+kubectx

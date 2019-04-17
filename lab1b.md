@@ -124,6 +124,39 @@ $ docker login
 
 > Note: Tip from community - if you get an error while trying to run this command on a Windows machine, then click on the Docker for Windows icon in the taskbar and log into Docker there instead "Sign in / Create Docker ID".
 
+### Supporting tools
+
+For Kubernetes there are several supporting tools that are useful for viewing logs or switching between Kubernetes clusters.
+
+* Get [kubectx](https://github.com/ahmetb/kubectx/blob/master/kubectx)
+
+`kubectx` can help you switch between clusters
+
+```sh
+curl -sSLf https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx > kubectx
+chmod +x kubectx
+sudo mv kubectx /usr/local/bin/
+```
+
+Test `kubectx` and you should see your new cluster highlighted.
+
+* Get [kail](https://github.com/boz/kail)
+
+Kail is a tool for tailing logs in Kubernetes across namespaces or various objects.
+
+```sh
+curl -sfL https://raw.githubusercontent.com/boz/kail/master/godownloader.sh | sh
+sudo mv ./bin/kail /usr/local/bin/
+```
+
+Test `kail` by running `kail -n default` and then running a Pod
+
+```sh
+kubectl run --rm -t -i kail-test --image=alpine:3.9 -- /bin/sh
+```
+
+Whatever commands you run will show up on the window running `kail`. Type `exit` when you're done.
+
 ### OpenFaaS CLI
 
 You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script on Mac or Linux:
