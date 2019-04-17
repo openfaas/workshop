@@ -84,20 +84,54 @@ $ doctl k8s cluster kubeconfig save workshop-lon1
 
 ##### _Run on GKE (Google Kubernetes Engine)_
 
-* Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs) - this will make the `gcloud` and `kubectl` commands available.
+Login into Google Cloud, create a project and enable billing for it. If you don’t have an account you can sign up [here](https://cloud.google.com/free/) for free credits.
 
-For Windows follow the instructions from the [Documentation](https://cloud.google.com/sdk/docs/#windows)
+Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs) - this will make the `gcloud` and `kubectl` commands available.
+For Windows follow the instructions from the [documentation](https://cloud.google.com/sdk/docs/#windows).
 
-*  Create a Kubernetes cluster using the Google Cloud Platform.
+After installing the gcloud command line utility, configure your project with `gcloud init` and set the default project, compute region and zone (replace `PROJECT_ID` with your own project):
 
-In the GCP console, go to *Kubernetes Engine* then *Clusters* and create new cluster.
-
-* When the cluster has been created you can download your KUBECONFIG with the following steps.
-
-(You can copy the command from the GCP console after clicking `Connect`):
-
+```sh
+$ gcloud config set project PROJECT_ID 
+$ gcloud config set compute/region us-central1
+$ gcloud config set compute/zone us-central1-a
 ```
-$ gcloud container clusters get-credentials <cluster_name> --zone <cluster_zone> --project <project_name>
+
+Enable the Kubernetes service:
+
+```sh
+$ gcloud services enable container.googleapis.com
+```
+
+Install kubectl:
+
+```sh
+gcloud components install kubectl
+```
+
+Create a Kubernetes cluster:
+
+```sh
+$ gcloud container clusters create openfaas \
+--zone=us-central1-a \
+--num-nodes=1 \
+--machine-type=n1-standard-2 \
+--disk-size=30 \
+--no-enable-cloud-logging
+```
+
+Set up credentials for `kubectl`:
+
+```sh
+$ gcloud container clusters get-credentials openfaas
+```
+
+Create a cluster admin role binding:
+
+```sh
+$ kubectl create clusterrolebinding "cluster-admin-$(whoami)" \
+--clusterrole=cluster-admin \
+--user="$(gcloud config get-value core/account)"
 ```
 
 Now verify `kubectl` is configured to the GKE cluster:
