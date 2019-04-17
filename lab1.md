@@ -23,7 +23,7 @@ For Windows
 
 * Install [Git Bash](https://git-scm.com/downloads)
 
-> Note: please use Git Bash for all steps: do not attempt to use *WSL* or *Bash for Windows*.
+> Note: please use *Git Bash* for all steps: do not attempt to use *PowerShell*, *WSL* or *Bash for Windows*.
 
 Linux - Ubuntu or Debian
 
@@ -45,8 +45,13 @@ This should offset the impact on the workshop WiFi of multiple attendees trying 
 
 ### Setup a single-node cluster
 
-If you're taking part in an instructor-lead event then the organiser may ask you to use Docker Swarm, because it's much quicker and easier to set up in a short period of time. For some workshops you will use Kubernetes, but if you are working independently then choice is entirely your own.
+If you're taking part in an instructor-lead event then the organiser may ask you to use Docker Swarm, because it's much quicker and easier to set up in a short period of time. For some workshops you will be using Kubernetes.
 
-* In order to set up OpenFaaS with Docker Swarm, go to [Lab 1a](./lab1a.md)
+If you are working independently then choice is entirely your own.
 
-* If you're going to use Kubernetes, follow [Lab 1b](./lab1b.md)
+Start the first lab by picking one of the tracks below:
+
+* Docker Swarm: [Lab 1a](./lab1a.md)
+
+* Kubernetes: [Lab 1b](./lab1b.md)
+
