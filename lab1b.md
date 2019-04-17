@@ -4,15 +4,11 @@
 
 ### Setup a single-node cluster
 
-You can follow the labs whilst using Kubernetes, but you may need to make some small changes along the way. The service address for the gateway changes from `http://gateway:8080` to `http://gateway.openfaas:8080`.
-
-If using a `NodePort` then the gateway address for the OpenFaaS CLI is normally http://IP_ADDRESS:31112/
-
-You can choose different options to run Kubernetes on your machine.
-
-Before proceeding, [Install kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+You can follow the labs whilst using Kubernetes, but you may need to make some small changes along the way. The service address for the gateway changes from `http://gateway:8080` to `http://gateway.openfaas:8080`. As far as possible these differences have been documented and alternatives are provided in each lab.
 
 #### Create a local cluster on your laptop
+
+Depending on the option you may also need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
 ##### _Docker for Mac_
 
@@ -57,47 +53,62 @@ The DigitalOcean dashboard will then guide you through how to configure your `ku
 
 > Note: Even if you have already claimed free credit, the running costs for a 2-3 node cluster for 24-48 hours is negligible.
 
+Once logged in, click the *Kubernetes* menu item and create a Cluster.
+
+It is recommended to use the latest Kubernetes version available and the to select your nearest Datacenter region to minimize latency.
+
+Under "Add node pool(s)" chance the instance type to 4GB / 2vCPU and pick between 1 and 3 nodes. More can be added at a later date.
+
+* Download the `doctl` CLI
+
+* Create an API Key in your DigitalOcean dashboard
+
+* Authenticate the CLI
+
+```sh
+$ doctl auth init
+```
+
+* Now get the cluster's name:
+
+```sh
+$ doctl k8s cluster list
+GUID    workshop-lon1      nyc1      1.13.5-do.1    provisioning    workshop-lon1-1
+```
+
+* Save a config file so that `kubectl` is pointing at the new cluster:
+
+```sh
+$ doctl k8s cluster kubeconfig save workshop-lon1
+```
+
 ##### _Run on GKE (Google Kubernetes Engine)_
 
-* Install [Google Cloud SDK](https://cloud.google.com/sdk/docs)
-
-Mac:
-```
-$ brew cask install google-cloud-sdk
-```
-
-Ubuntu:
-```
-$ sudo apt-get update && sudo apt-get install google-cloud-sdk
-```
+* Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs) - this will make the `gcloud` and `kubectl` commands available.
 
 For Windows follow the instructions from the [Documentation](https://cloud.google.com/sdk/docs/#windows)
 
-*  Create Kubernetes cluster using the Google Cloud Platform.
+*  Create a Kubernetes cluster using the Google Cloud Platform.
 
-In the GCP console, go to Kubernetes Engine -> Clusters and create new cluster.
+In the GCP console, go to *Kubernetes Engine* then *Clusters* and create new cluster.
 
-* Once you have it, configure `kubectl` command-line access by running the following command:
+* When the cluster has been created you can download your KUBECONFIG with the following steps.
+
 (You can copy the command from the GCP console after clicking `Connect`):
+
 ```
 $ gcloud container clusters get-credentials <cluster_name> --zone <cluster_zone> --project <project_name>
 ```
 
-Now verify `kubectl` is configured to the GKE cluster by
+Now verify `kubectl` is configured to the GKE cluster:
+
 ```
 $ kubectl get nodes
 NAME                                   STATUS    ROLES     AGE       VERSION
 gke-name-default-pool-eceef152-qjmt   Ready     <none>    1h        v1.10.7-gke.2
 ```
 
-* Create Load Balancer
-
-From GCP console, go to Network services -> Load balancing and create new load balancer for TCP.
-Select Instance group to match your cluster's group. Set port to `31112` and IP to `Ephemeral`.
-
-Save your load balancer IP as you will need it to set the gateway URL.
-
-### Docker Hub
+### Configure a registry - The Docker Hub
 
 Sign up for a Docker Hub account. The [Docker Hub](https://hub.docker.com) allows you to publish your Docker images on the Internet for use on multi-node clusters or to share with the wider community. We will be using the Docker Hub to publish our functions during the workshop.
 
@@ -119,7 +130,7 @@ You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script o
 
 Using a Terminal on Mac or Linux:
 
-```
+```sh
 $ curl -sL cli.openfaas.com | sudo sh
 ```
 
@@ -140,9 +151,82 @@ $ faas-cli version
 
 ### Deploy OpenFaaS
 
-The instructions for deploying OpenFaaS change from time to time as we strive to make this easier. The following will get OpenFaaS deployed in around 60 seconds:
+The instructions for deploying OpenFaaS change from time to time as we strive to make this even easier.
 
-To deploy on Kubernetes, you can run the commands from the [Documentation](https://docs.openfaas.com/deployment/kubernetes/#b-deploy-using-kubectlyaml-for-development-only)
+Deploy OpenFaaS to Kubernetes using the instructions for Helm:
+
+* Install helm
+
+You can install helm and tiller using [these instructions](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
+
+* Install the OpenFaaS helm chart
+
+We first create two namespaces `openfaas` and `openfaas-fn`:
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+```
+
+Now add the helm chart repo for the project:
+
+```sh
+helm repo add openfaas https://openfaas.github.io/faas-netes/
+```
+
+If you're running on a local cluster run the following:
+
+```sh
+helm repo update \
+ && helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas  \
+    --set basic_auth=false \
+    --set functionNamespace=openfaas-fn
+```
+
+If you're running on a remote cluster run the following:
+
+```sh
+
+# generate a random password
+PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
+
+kubectl -n openfaas create secret generic basic-auth \
+--from-literal=basic-auth-user=admin \
+--from-literal=basic-auth-password="$PASSWORD"
+
+echo $PASSWORD > gateway-password.txt
+
+helm repo update \
+ && helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas  \
+    --set basic_auth=true \
+    --set serviceType=LoadBalancer
+    --set functionNamespace=openfaas-fn
+```
+
+#### Determine your Gateway URL
+
+Depending on your installation method and Kubernetes distribution the Gateway URL may vary as will how you access it from your laptop during the workshop.
+
+#### NodePort (local Kubernetes, excluding KinD)
+
+The default installation for OpenFaaS exposes the gateway through a Kubernetes Service of type `NodePort`. The gateway address will generally be: http://IP_ADDRESS:31112/
+
+#### LoadBalancer (remote Kubernetes, or KinD)
+
+If you're using a remote cluster or KinD then you can either use a LoadBalancer or run a command to port-forward the gateway to your local computer over the internet.
+
+* A) Get the LoadBalancer address 
+
+```sh
+kubectl get svc -o wide gateway-external
+```
+
+* B) Or start port-forwarding:
+
+```sh
+kubectl port-forward svc/gateway -n openfaas 8080:8080
+```
 
 Now set the `OPENFAAS_URL` variable to link to the proper IP:
 ```bash
@@ -163,6 +247,6 @@ prometheus-7d78d54b57-nncss     1/1       Running   0          1h
 queue-worker-8698f5bb78-qfv6n   1/1       Running   0          1h
 ```
 
-If you run into any problems, please consult the [Deployment guide](https://github.com/openfaas/faas/blob/master/guide/deployment_swarm.md) for Docker Swarm.
+If you run into any problems, please consult the [helm chart README](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md).
 
 Now move onto [Lab 2](./lab2.md)
