@@ -267,7 +267,7 @@ helm repo update \
  && helm upgrade openfaas --install openfaas/openfaas \
     --namespace openfaas  \
     --set basic_auth=true \
-    --set serviceType=LoadBalancer
+    --set serviceType=LoadBalancer \
     --set functionNamespace=openfaas-fn
 ```
 
@@ -286,7 +286,7 @@ If you're using a remote cluster or KinD then you can either use a LoadBalancer 
 * A) Get the LoadBalancer address 
 
 ```sh
-kubectl get svc -o wide gateway-external
+kubectl get svc -o wide gateway-external -n openfaas
 ```
 
 * B) Or start port-forwarding:
@@ -297,7 +297,7 @@ kubectl port-forward svc/gateway -n openfaas 8080:8080
 
 Now set the `OPENFAAS_URL` variable to link to the proper IP:
 ```bash
-export OPENFAAS_URL=http://IP_ADDRESS:31112
+export OPENFAAS_URL=http://IP_ADDRESS:8080
 ```
 
 You should now have OpenFaaS deployed. If you are on a shared WiFi connection at an event then it may take several minutes to pull down all the Docker images and start them.
