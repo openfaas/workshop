@@ -8,7 +8,9 @@ This is a self-paced workshop for learning how to build, deploy and run OpenFaaS
 
 ![](https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png)
 
-> This workshop starts by deploying OpenFaaS to your laptop with Docker for Mac or Windows and then shows how to build, deploy and invoke Serverless functions in Python. Topics will include: managing dependencies with pip, dealing with API tokens through secure secrets, monitoring functions with Prometheus, invoking functions asynchronously and chaining functions together to create applications. We finish by creating a GitHub bot which automatically respond to issues. The same method could be applied by connecting to online event-streams through IFTTT.com - this will enable you to build bots, auto-responders and integrations with social media and IoT devices.
+In this workshop you begin by deploying OpenFaaS to your laptop or a remote cluster with Docker for Mac or Windows. You will then kick the tires with the OpenFaaS UI, CLI and Function Store. After building, deploying an invoking your own Serverless Functions in Python you'll go on to cover topics such as: managing dependencies with pip, dealing with API tokens through secure secrets, monitoring functions with Prometheus, invoking functions asynchronously and chaining functions together to create applications. The labs culminate by having you create your very own GitHub bot which can respond to issues automatically. The same method could be applied by connecting to online event-streams through IFTTT.com - this will enable you to build bots, auto-responders and integrations with social media and IoT devices.
+
+Finally the labs cover more advanced topics and give suggestions for further learning.
 
 ## Requirements:
 
@@ -135,15 +137,40 @@ You can start with the first lab [Lab 1](lab1.md).
 
 You can find how to stop and remove OpenFaaS [here](https://docs.openfaas.com/deployment/troubleshooting/#uninstall-openfaas)
 
-## Wrapping up
+## Next steps
 
-If you're taking an instructor-led workshop, we'll now take Q&A and cover some advanced topics:
+If you're in an instructor-led workshop and have finished the labs you may want to go back through the labs and edit/alter the code and values or carry out some of your own experiments.
 
-* Auto-scaling
-* Security
-  * TLS / Basic Authentication
-* Object storage
-* Customisations for templates
+Here are some ideas for follow-on tasks / topics:
+
+### TLS
+
+* [Enable HTTPS on your gateway with Kubernetes Ingress](https://docs.openfaas.com/reference/ssl/kubernetes-with-cert-manager/)
+
+### CI/CD
+
+Setup Jenkins, Google Cloud Build or GitLab and build and deploy your own functions using the OpenFaaS CLI:
+
+* [Intro to CI/CD](https://docs.openfaas.com/reference/cicd/intro/)
+
+### Storage / databases
+
+* [Try open-source object storage with Minio](https://blog.alexellis.io/openfaas-storage-for-your-functions/)
+
+* [Try OpenFaaS with Mongo for storing data](https://blog.alexellis.io/serverless-databases-with-openfaas-and-mongo/)
+
+### Instrumentation / monitoring
+
+* [Explore the metrics available in Prometheus](https://docs.openfaas.com/architecture/metrics/#monitoring-functions)
+
+### Additional blog posts and tutorials
+
+* [Tutorials on the OpenFaaS blog](https://www.openfaas.com/blog/)
+
+* [Community blog posts](https://github.com/openfaas/faas/blob/master/community.md)
+
+
+### Appendix
 
 The [appendix](./appendix.md) contains some additional content.
 
