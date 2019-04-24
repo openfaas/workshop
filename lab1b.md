@@ -316,4 +316,18 @@ queue-worker-8698f5bb78-qfv6n   1/1       Running   0          1h
 
 If you run into any problems, please consult the [helm chart README](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md).
 
+### Login to OpenFaaS Gateway
+
+If you are running on a remote cluster and deployed openfaas with `basic_auth=true`, then you need to log in to access openfaas gateway. 
+
+If you are accessing the gateway in the browser then it will prompt you for username and password. Username will be `admin` and password will be the value of environment variable `PASSWORD`
+
+To access openfaas gateway from openfaas CLI, you need to log in using `faas-cli login` command.
+
+Log in with the CLI and check connectivity:
+
+```
+echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
+```
+
 Now move onto [Lab 2](./lab2.md)
