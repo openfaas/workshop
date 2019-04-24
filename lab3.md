@@ -430,7 +430,7 @@ Official Template: true
 Pull the template down:
 
 ```sh
-$ faas-cli template pull https://github.com/openfaas-incubator/node10-express-template
+$ faas-cli template store pull node10-express
 ```
 
 You can now type in `faas-cli new --lang node10-express`.
