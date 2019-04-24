@@ -223,6 +223,12 @@ $ faas-cli build -f ./astronaut-finder.yml
 
 > Tip: Try renaming astronaut-finder.yml to `stack.yml` and calling just `faas-cli build`. `stack.yml` is the default file-name for the CLI.
 
+
+Push the function:
+```
+$ faas-cli push -f ./astronaut-finder.yml
+```
+
 Deploy the function:
 
 ```
@@ -424,7 +430,7 @@ Official Template: true
 Pull the template down:
 
 ```sh
-$ faas-cli template pull node10-express
+$ faas-cli template pull https://github.com/openfaas-incubator/node10-express-template
 ```
 
 You can now type in `faas-cli new --lang node10-express`.
