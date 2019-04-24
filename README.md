@@ -1,16 +1,16 @@
 # openfaas-workshop
 
-This is a self-paced workshop for learning how to build, deploy and run OpenFaaS functions.
-
-**Translations**
-
-* [日本語](./translations/ja)
+This is a self-paced workshop for learning how to build, deploy and run serverless functions with OpenFaaS.
 
 ![](https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png)
 
 In this workshop you begin by deploying OpenFaaS to your laptop or a remote cluster with Docker for Mac or Windows. You will then kick the tires with the OpenFaaS UI, CLI and Function Store. After building, deploying an invoking your own Serverless Functions in Python you'll go on to cover topics such as: managing dependencies with pip, dealing with API tokens through secure secrets, monitoring functions with Prometheus, invoking functions asynchronously and chaining functions together to create applications. The labs culminate by having you create your very own GitHub bot which can respond to issues automatically. The same method could be applied by connecting to online event-streams through IFTTT.com - this will enable you to build bots, auto-responders and integrations with social media and IoT devices.
 
 Finally the labs cover more advanced topics and give suggestions for further learning.
+
+**Translations**
+
+* [日本語](./translations/ja)
 
 ## Requirements:
 
@@ -143,6 +143,12 @@ If you're in an instructor-led workshop and have finished the labs you may want 
 
 Here are some ideas for follow-on tasks / topics:
 
+### OpenFaaS Cloud
+
+Try the multi-user, managed experience of OpenFaaS - either on the Community Cluster, or by hosting your own OpenFaaS Cloud.
+
+* [Docs: OpenFaaS Cloud](https://docs.openfaas.com/openfaas-cloud/intro/)
+
 ### TLS
 
 * [Enable HTTPS on your gateway with Kubernetes Ingress](https://docs.openfaas.com/reference/ssl/kubernetes-with-cert-manager/)
@@ -168,7 +174,6 @@ Setup Jenkins, Google Cloud Build or GitLab and build and deploy your own functi
 * [Tutorials on the OpenFaaS blog](https://www.openfaas.com/blog/)
 
 * [Community blog posts](https://github.com/openfaas/faas/blob/master/community.md)
-
 
 ### Appendix
 
