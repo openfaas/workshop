@@ -4,7 +4,7 @@
 
 Before starting this lab, create a new folder for your files:
 
-```
+```sh
 $ mkdir -p lab2 \
    && cd lab2
 ```
@@ -17,7 +17,7 @@ You can now test out the OpenFaaS UI by going to http://127.0.0.1:8080 - if you'
 
 We can deploy some sample functions and then use them to test things out:
 
-```
+```sh
 $ faas-cli deploy -f https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
 ```
 
@@ -27,7 +27,7 @@ You can try them out in the UI such as the Markdown function which converts Mark
 
 Type the below into the *Request* field:
 
-```
+```sh
 ## The **OpenFaaS** _workshop_
 ```
 
@@ -35,7 +35,7 @@ Now click *Invoke* and see the response appear in the bottom half of the screen.
 
 I.e.
 
-```
+```sh
 <h2>The <strong>OpenFaaS</strong> <em>workshop</em></h2>
 ```
 
@@ -60,7 +60,7 @@ The Figlet function will now appear in your left-hand list of functions. Give th
 
 You'll see an ASCII logo generated like this:
 
-```
+```sh
  _  ___   ___ _  __
 / |/ _ \ / _ (_)/ /
 | | | | | | | |/ / 
@@ -82,7 +82,7 @@ If your gateway is not deployed at http://127.0.0.1:8080 then you will need to s
 
 This will show the functions, how many replicas you have and the invocation count.
 
-```
+```sh
 $ faas-cli list
 ```
 
@@ -90,12 +90,12 @@ You should see the *markdown* function as `markdown` and the *figlet* function l
 
 Now try the verbose flag
 
-```
+```sh
 $ faas-cli list --verbose
 ```
 or
 
-```
+```sh
 $ faas-cli list -v
 ```
 
@@ -105,7 +105,7 @@ You can now see the Docker image along with the names of the functions.
 
 Pick one of the functions you saw appear on `faas-cli list` such as `markdown`:
 
-```
+```sh
 $ faas-cli invoke markdown
 ```
 
@@ -147,7 +147,8 @@ stefanprodan/faas-grafana:4.6.3
 #### _Kubernetes_
 
 Run Grafana in OpenFaaS Kubernetes namespace:
-```
+
+```sh
 kubectl -n openfaas run \
 --image=stefanprodan/faas-grafana:4.6.3 \
 --port=3000 \
@@ -155,21 +156,24 @@ grafana
 ```
 
 Expose Grafana with a NodePort:
-```
+
+```sh
 kubectl -n openfaas expose deployment grafana \
 --type=NodePort \
 --name=grafana
 ```
 
 Find Grafana node port address:
-```
+
+```sh
 $ GRAFANA_PORT=$(kubectl -n openfaas get svc grafana -o jsonpath="{.spec.ports[0].nodePort}")
 $ GRAFANA_URL=http://IP_ADDRESS:$GRAFANA_PORT/dashboard/db/openfaas
 ```
 where `IP_ADDRESS` is your corresponding IP for Kubernetes.
 
 Or you may run this port-forwarding command in order to be able to access Grafana on `http://127.0.0.1:3000`:
-```
+
+```sh
 $ kubectl port-forward deployment/grafana 3000:3000 -n openfaas
 ```
 
@@ -183,7 +187,6 @@ After the service has been created open Grafana in your browser, login with user
 #### _Kubernetes_
 
 Use `$GRAFANA_URL` instead
-
 
 <a href="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765"><img src="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765" width="600px" /></a>
 

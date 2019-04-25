@@ -4,7 +4,7 @@
 
 Before starting this lab, create a new folder for your files:
 
-```
+```sh
 $ mkdir -p lab3 \
    && cd lab3
 ```
@@ -20,7 +20,7 @@ There are two ways to create a new function:
 
 Before creating a new function from a template make sure you pull the [templates from GitHub](https://github.com/openfaas/templates):
 
-```
+```sh
 $ faas-cli template pull
 
 Fetch templates from repository: https://github.com/openfaas/templates.git
@@ -30,7 +30,7 @@ Fetch templates from repository: https://github.com/openfaas/templates.git
 
 After that, to find out which languages are available type in:
 
-```
+```sh
 $ faas-cli new --list
 Languages available as templates:
 - csharp
@@ -63,7 +63,7 @@ We will create a hello-world function in Python, then move onto something that u
 
 * Scaffold the function
 
-```
+```sh
 $ faas-cli new --lang python3 hello-openfaas --prefix="<your-docker-username-here>"
 ```
 
@@ -73,7 +73,7 @@ If you don't specify a prefix when you create the function then edit the YAML fi
 
 This will create three files and a directory:
 
-```
+```sh
 ./hello-openfaas.yml
 ./hello-openfaas
 ./hello-openfaas/handler.py
@@ -122,7 +122,7 @@ This function will just return the input, so it's effectively an `echo` function
 
 Edit the message so it returns `Hello OpenFaaS` instead i.e.
 
-```
+```sh
     return "Hello OpenFaaS"
 ```
 
@@ -130,7 +130,7 @@ Any values returned to stdout will subsequently be returned to the calling progr
 
 This is the local developer-workflow for functions:
 
-```
+```sh
 $ faas-cli up -f hello-openfaas.yml
 ```
 
@@ -138,7 +138,7 @@ Followed by invoking the function via the UI, CLI, `curl` or another application
 
 The function will always get a route, for example:
 
-```
+```sh
 http://127.0.0.1:8080/function/<function_name>
 http://127.0.0.1:8080/function/figlet
 http://127.0.0.1:8080/function/hello-openfaas
@@ -156,25 +156,25 @@ Test out the function with `faas-cli invoke`, check `faas-cli invoke --help` for
 
 We'll create a function called `astronaut-finder` that pulls in a random name of someone in space aboard the International Space Station (ISS).
 
-```
+```sh
 $ faas-cli new --lang python3 astronaut-finder --prefix="<your-docker-username-here>"
 ```
 
 This will write three files for us:
 
-```
+```sh
 ./astronaut-finder/handler.py
 ```
 
 The handler for the function - you get a `req` object with the raw request and can print the result of the function to the console.
 
-```
+```sh
 ./astronaut-finder/requirements.txt
 ```
 
 Use this file to list any `pip` modules you want to install, such as `requests` or `urllib`
 
-```
+```sh
 ./astronaut-finder.yml
 ```
 
@@ -182,7 +182,7 @@ This file is used to manage the function - it has the name of the function, the 
 
 * Edit `./astronaut-finder/requirements.txt`
 
-```
+```sh
 requests
 ```
 
@@ -217,7 +217,7 @@ def handle(req):
 
 Now build the function:
 
-```
+```sh
 $ faas-cli build -f ./astronaut-finder.yml
 ```
 
@@ -225,19 +225,20 @@ $ faas-cli build -f ./astronaut-finder.yml
 
 
 Push the function:
-```
+
+```sh
 $ faas-cli push -f ./astronaut-finder.yml
 ```
 
 Deploy the function:
 
-```
+```sh
 $ faas-cli deploy -f ./astronaut-finder.yml
 ```
 
 Invoke the function
 
-```
+```sh
 $ echo | faas-cli invoke astronaut-finder
 Anton Shkaplerov is in space
 
@@ -251,7 +252,7 @@ You can find out high-level information on every invocation of your function via
 
 #### _Docker Swarm_
 
-```
+```sh
 $ docker service logs -f astronaut-finder
 astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
 astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Wrote 18 Bytes - Duration: 0.063269 seconds
@@ -259,7 +260,7 @@ astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Wrote 18 Bytes - Du
 
 #### _Kubernetes_
 
-```
+```sh
 $ kubectl logs deployment/astronaut-finder -n openfaas-fn
 ```
 
@@ -296,7 +297,7 @@ Now deploy your function again with `faas-cli deploy -f ./astronaut-finder.yml`.
 
 Invoke the function and then checkout the logs again to view the function responses:
 
-```
+```sh
 $ docker service logs -f astronaut-finder
 
 astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Forking fprocess.
@@ -312,25 +313,25 @@ The YAML file for the CLI allows functions to be grouped together into stacks, t
 
 To see how this works generate two functions:
 
-```
+```sh
 $ faas-cli new --lang python3 first
 ```
 
 For the second function use the `--append` flag:
 
-```
+```sh
 $ faas-cli new --lang python3 second --append=./first.yml
 ```
 
 For convenience let's rename `first.yml` to `example.yml`.
 
-```
+```sh
 $ mv first.yml example.yml
 ```
 
 Now look at the file:
 
-```
+```yaml
 provider:
   name: openfaas
   gateway: http://127.0.0.1:8080
@@ -416,7 +417,7 @@ To get more details you can use the `--verbose` flag, or the `describe` command.
 
 Let's get a template for use with Node.js which is powered by the Express.js framework.
 
-```
+```sh
 $ faas-cli template store describe node10-express
 
 Name:              node10-express
@@ -444,7 +445,7 @@ Custom binaries or containers can be used as functions, but most of the time usi
 
 To use a custom binary or Dockerfile create a new function using the `dockerfile` language:
 
-```
+```sh
 $ faas-cli new --lang dockerfile sorter --prefix="<your-docker-username-here>"
 ```
 
@@ -452,19 +453,19 @@ You'll see a folder created named `sorter` and `sorter.yml`.
 
 Edit `sorter/Dockerfile` and update the line which sets the `fprocess`. Let's change it to the built-in bash command of `sort`. We can use this to sort a list of strings in alphanumeric order.
 
-```
+```dockerfile
 ENV fprocess="sort"
 ```
 
 Now build, push and deploy the function:
 
-```
+```sh
 $ faas-cli up -f sorter.yml
 ```
 
 Now invoke the function through the UI or via the CLI:
 
-```
+```sh
 $ echo -n '
 elephant
 zebra
