@@ -91,7 +91,7 @@ YAMLの中身は以下のようになります：
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -263,7 +263,7 @@ functionのログ出力を増やしてみましょう。functionのログを溢�
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -323,7 +323,7 @@ $ mv first.yml example.yml
 
 ```
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:

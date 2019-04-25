@@ -50,7 +50,7 @@ Now edit the `sleep-for.yml` file and add these environmental variables:
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:

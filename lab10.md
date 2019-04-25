@@ -59,7 +59,7 @@ Replace the reference to `env.yml` with an instruction to make the `auth-token` 
 
 ```yml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:

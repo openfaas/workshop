@@ -55,7 +55,7 @@ functionのYAMLファイル `issue-bot.yml` を開いて `write_debug: true` と
 
 ```
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -221,7 +221,7 @@ environment:
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:

@@ -55,11 +55,23 @@ Use the built-in UI of `ngrok` at http://127.0.0.1:4040 to find your HTTP URL. Y
 
 > Note: `ngrok` also provides a JSON API at `http://127.0.0.1:4040/api/tunnels`
 
-Test the URL such as http://fuh83fhfj.ngrok.io
+## Log into the gateway with the ngrok address
+
+Since we now have a new URL for ngrok let's save login details for the new URL:
+
+* Retrieve your password using the [troubleshooting guide](https://docs.openfaas.com/deployment/troubleshooting/#i-forgot-my-gateway-password)
+
+* Run `export PASSWORD="value-here"
+
+* Now log in: `echo $PASSWORD | faas-cli login -g http://fuh83fhfj.ngrok.io --user=admin --password-stdin`
+
+Finally * test the remote URL such as https://fuh83fhfj.ngrok.io
 
 ```
-$ faas-cli list --gateway http://fuh83fhfj.ngrok.io/
+$ faas-cli list --gateway https://fuh83fhfj.ngrok.io/
 ```
+
+> Note: you will notice that because we used the HTTPS url, that the warning about using an insecure certificate disappeared. The OpenFaaS documentation shows [how to setup Ingress with TLS for OpenFaaS](https://docs.openfaas.com/reference/ssl/kubernetes-with-cert-manager/). If you're using a remote cluster then you can try this after completing all the labs.
 
 ## Create a webhook receiver `issue-bot`
 
@@ -71,7 +83,7 @@ Now edit the function's YAML file `issue-bot.yml` and add an environmental varia
 
 ```
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -237,7 +249,7 @@ Now update your issue-bot.yml file and tell it to use the `env.yml` file:
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:

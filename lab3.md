@@ -89,7 +89,7 @@ Here's the contents of the YAML file:
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -271,7 +271,7 @@ This is the standard YAML configuration:
 
 ```yaml
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
@@ -332,7 +332,7 @@ Now look at the file:
 
 ```
 provider:
-  name: faas
+  name: openfaas
   gateway: http://127.0.0.1:8080
 
 functions:
