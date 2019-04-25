@@ -61,9 +61,9 @@ $ faas-cli up -f show-html.yml
 Run the following to get the function URL:
 
 ```sh
-faas-cli describe -f show-html show-html
+faas-cli describe -f show-html.yml show-html
 
-URL: http://127.0.0.1:8080/function/go-echo
+URL: http://127.0.0.1:8080/function/show-html
 ```
 
 The HTML should be properly rendered.
