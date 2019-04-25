@@ -8,7 +8,7 @@ OpenFaaS works both with Kubernetes and Docker Swarm. If you're taking part in a
 
 On your laptop or VM setup a single-node Docker Swarm:
 
-```
+```sh
 $ docker swarm init
 ```
 
@@ -24,7 +24,7 @@ You can sign up here: [Docker Hub](https://hub.docker.com)
 
 Open a Terminal or Git Bash window and log into the Docker Hub using the username you signed up for above.
 
-```
+```sh
 $ docker login
 ```
 
@@ -36,7 +36,7 @@ You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script o
 
 Using a Terminal on Mac or Linux:
 
-```
+```sh
 $ curl -sL cli.openfaas.com | sudo sh
 ```
 
@@ -50,11 +50,10 @@ Test the `faas-cli`
 
 Open a Terminal or Git Bash window and type in:
 
-```
+```sh
 $ faas-cli help
 $ faas-cli version
 ```
-
 
 ### Deploy OpenFaaS
 
@@ -62,13 +61,13 @@ The instructions for deploying OpenFaaS change from time to time as we strive to
 
 * First clone the repo:
 
-```
+```sh
 $ git clone https://github.com/openfaas/faas
 ```
 
 * Now checkout the latest version with Git
 
-```
+```sh
 $ cd faas && \
   git checkout master
 ```
@@ -77,11 +76,17 @@ $ cd faas && \
 
 * Now deploy the stack with Docker Swarm:
 
-```
-$ ./deploy_stack.sh --no-auth
+```sh
+$ ./deploy_stack.sh
 ```
 
-```
+Watch out for the password and then run the command you are given in the output.
+
+* Run the `faas-cli login` command
+
+* Check if the services are up and showing 1/1 for each:
+
+```sh
 $ docker service ls
 ```
 
