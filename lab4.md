@@ -73,7 +73,7 @@ In Python code you'd type in `os.getenv("Http_Query")`.
 Invoke the env function with:
 
 ```
-$ curl -X GET http://127.0.0.1:8080/function/env/some/path -d ""
+$ curl -X GET $OPENFAAS_URL/function/env/some/path -d ""
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=fae2ac4b75f9
 fprocess=env
@@ -98,7 +98,7 @@ If you'd like to use it in your code, just get it with `os.getenv("Http_Path")`
 * Now invoke it with a header:
 
 ```
-$ curl http://127.0.0.1:8080/function/env --header "X-Output-Mode: json" -d ""
+$ curl $OPENFAAS_URL/function/env --header "X-Output-Mode: json" -d ""
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOSTNAME=05e8db360c5a
 fprocess=env
@@ -248,7 +248,12 @@ Example:
 
 In [Lab 3](./lab3.md) we introduced the requests module and used it to call a remote API to get the name of an astronaut aboard the ISS. We can use the same technique to call another function deployed on OpenFaaS.
 
-* Go to the *Function Store* and deploy the *Sentiment Analysis* function. 
+* Using the UI, go to the *Function Store* and deploy the *Sentiment Analysis* function.
+
+Alternatively use the CLI:
+```
+$ faas-cli store deploy SentimentAnalysis
+```
 
 The Sentiment Analysis function will tell you the subjectivity and polarity (positivity rating) of any sentence. The result of the function is formatted in JSON as per the example below:
 
