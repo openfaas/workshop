@@ -21,19 +21,9 @@ Depending on the option you may also need to install [kubectl](https://kubernete
 * [Install Helm client](https://docs.helm.sh/using_helm/#installing-the-helm-client)
 
 * Now run Minikube with
+
 ```
 $ minikube start
-```
-
-> Note: If you're having any issues on starting minikube, try
-> ```
-> $ minikube stop && minikube delete
-> ```
-> and then run `minikube start` again.
-
-* Initialize Helm and install Tiller with
-```
-$ helm init
 ```
 
 The minikube VM is exposed to the host system via a host-only IP address. Check this IP with `minikube ip`.
@@ -240,20 +230,9 @@ Now add the helm chart repo for the project:
 helm repo add openfaas https://openfaas.github.io/faas-netes/
 ```
 
-If you're running on a local cluster run the following:
+Create a password for your OpenFaaS gateway:
 
 ```sh
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    --set basic_auth=false \
-    --set functionNamespace=openfaas-fn
-```
-
-If you're running on a remote cluster run the following:
-
-```sh
-
 # generate a random password
 PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
 
@@ -262,7 +241,21 @@ kubectl -n openfaas create secret generic basic-auth \
 --from-literal=basic-auth-password="$PASSWORD"
 
 echo $PASSWORD > gateway-password.txt
+```
 
+If you're running on a local cluster run the following:
+
+```sh
+helm repo update \
+ && helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas  \
+    --set basic_auth=true \
+    --set functionNamespace=openfaas-fn
+```
+
+If you're running on a remote cluster run the following which will also expose a LoadBalancer with a public IP so that you can access it easily from your own laptop.
+
+```sh
 helm repo update \
  && helm upgrade openfaas --install openfaas/openfaas \
     --namespace openfaas  \
