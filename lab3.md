@@ -298,11 +298,12 @@ Invoke the function and then checkout the logs again to view the function respon
 
 ```
 $ docker service logs -f astronaut-finder
-astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
-astronaut-finder.1.szobw9pt3m60@nuc    | 2018/02/26 14:49:57 Query  
-astronaut-finder.1.szobw9pt3m60@nuc    | 2018/02/26 14:49:57 Path  /function/hello-openfaas
-astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Hello World
-astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Duration: 0.063269 seconds
+
+astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Forking fprocess.
+astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Query  
+astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Path  /
+astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:37 Duration: 1.128897 seconds
+astronaut-finder.1.tp6k14i8kf6s   | Alexey Ovchinin is in space
 ```
 
 ### Managing multiple functions
@@ -369,7 +370,7 @@ To run `faas-cli build && faas-cli push && faas-cli deploy` together, use `faas-
 
 > Pro-tip: `stack.yml` is the default name the faas-cli will look for if you don't want to pass a `-f` parameter.
 
-You can also deploy function stack (yaml) files over HTTP(s) using `faas-cli -f https://....`.
+You can also deploy remote function stack (yaml) files over HTTP(s) using `faas-cli deploy -f https://....`.
 
 ### Custom templates
 
@@ -468,10 +469,10 @@ $ echo -n '
 elephant
 zebra
 horse
-ardvark
+aardvark
 monkey'| faas-cli invoke sorter
 
-ardvark
+aardvark
 elephant
 horse
 monkey
