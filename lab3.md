@@ -82,8 +82,7 @@ This will create three files and a directory:
 
 The YAML (.yml) file is used to configure the CLI for building, pushing and deploying your function.
 
-> Note: Whenever you need to deploy a function on Kubernetes or on a remote OpenFaaS instance you must always push your function after building it.
->       In this case you can also override the default gateway URL of `127.0.0.1:8080` with an environmental variable: `export OPENFAAS_URL=127.0.0.1:31112`.
+> Note: Whenever you need to deploy a function on Kubernetes or on a remote OpenFaaS instance you must always push your function after building it. In this case you can also override the default gateway URL of `127.0.0.1:8080` with an environmental variable: `export OPENFAAS_URL=127.0.0.1:31112`.
 
 Here's the contents of the YAML file:
 
@@ -139,9 +138,9 @@ Followed by invoking the function via the UI, CLI, `curl` or another application
 The function will always get a route, for example:
 
 ```sh
-http://127.0.0.1:8080/function/<function_name>
-http://127.0.0.1:8080/function/figlet
-http://127.0.0.1:8080/function/hello-openfaas
+$OPENFAAS_URL/function/<function_name>
+$OPENFAAS_URL/function/figlet
+$OPENFAAS_URL/function/hello-openfaas
 ```
 
 > Pro-tip: if you rename your YAML file to `stack.yml` then you need not pass the `-f` flag to any of the commands.

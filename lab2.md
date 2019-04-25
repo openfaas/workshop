@@ -11,12 +11,16 @@ $ mkdir -p lab2 \
 
 ## Use the UI Portal
 
-You can now test out the OpenFaaS UI by going to http://127.0.0.1:8080.
+You can now test out the OpenFaaS UI:
 
-* If using Kubernetes type `echo $OPENFAAS_URL` and go to that URL
-* If you're deploying to a Linux VM then replace 127.0.0.1 with the IP address from the output you see on the `ifconfig` command.
+If you have set an `$OPENFAAS_URL` then get the URL and then click on it:
 
-> Note that we are using `127.0.0.1` instead of `localhost`, which may hang on some Linux distributions due to conflicts between IPv4/IPv6 networking.
+```sh
+echo $OPENFAAS_URL
+http://127.0.0.1:31112
+```
+
+If you haven't set an `$OPENFAAS_URL` then the default is normally: [http://127.0.0.1:8080](http://127.0.0.1:8080).
 
 We can deploy some sample functions and then use them to test things out:
 
@@ -75,7 +79,7 @@ You'll see an ASCII logo generated like this:
 
 You can now test out the CLI, but first a note on alternate gateways URLs:
 
-If your gateway is not deployed at http://127.0.0.1:8080 then you will need to specify the alternative location. There are several ways to accomplish this:
+If your *gateway is not* deployed at http://127.0.0.1:8080 then you will need to specify the alternative location. There are several ways to accomplish this:
 
 1. Set the environment variable `OPENFAAS_URL` and the `faas-cli` will point to that endpoint in your current shell session. For example: `export OPENFAAS_URL=http://openfaas.endpoint.com:8080`. This is already set in [Lab 1](./lab1.md) if you are following the Kubernetes instructions.
 2. Specify the correct endpoint inline with the `-g` or `--gateway` flag: `faas deploy --gateway http://openfaas.endpoint.com:8080`

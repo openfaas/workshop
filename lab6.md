@@ -54,11 +54,19 @@ The `content_type` key inside `environment` will set the `Content-Type` of the r
 
 Now build, push and deploy the function:
 
-```
+```sh
 $ faas-cli up -f show-html.yml
 ```
 
-Open your browser and access http://127.0.0.1:8080/function/show-html. The HTML should be properly rendered.
+Run the following to get the function URL:
+
+```sh
+faas-cli describe -f show-html show-html
+
+URL: http://127.0.0.1:8080/function/go-echo
+```
+
+The HTML should be properly rendered.
 
 ## Read and return a static HTML file from disk
 
