@@ -87,7 +87,7 @@ GitHubに戻って先程作った *bot-tester* を開きます
 http://fuh83fhfj.ngrok.io/function/issue-bot
 ```
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookURLSettings.png)
+![](./screenshot/WebhookURLSettings.png)
 
 *Content-type* には *application/json* を選択
 
@@ -97,7 +97,7 @@ http://fuh83fhfj.ngrok.io/function/issue-bot
 
 イベントは **Issues** と **Issue comment** を選択
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookEventsSettings.png)
+![](./screenshot/WebhookEventsSettings.png)
 
 ## webhookの動作確認
 
@@ -190,7 +190,7 @@ $ faas-cli build -f issue-bot.yml \
 
 このリクエストとレスポンスはGitHubの *Settings* -> *Webhook* のページで確認できます：
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookResponse.png)
+![](./screenshot/WebhookResponse.png)
 
 ## GitHubに応答する
 
@@ -200,11 +200,11 @@ $ faas-cli build -f issue-bot.yml \
 
 *GitHub profile* -> *Settings/Developer settings* -> *Personal access tokens* で *Generate new token* をクリックします。
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/PersonalAccessTokens.png)
+![](./screenshot/PersonalAccessTokens.png)
 
 「repo」にチェックを入れてリポジトリへのアクセス権を付与します。
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/NewPAT.png)
+![](./screenshot/NewPAT.png)
 
 ページ下部の「Generate Token」ボタンをクリックします。
 
