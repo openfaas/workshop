@@ -103,7 +103,7 @@ Now enter the URL you were given from `ngrok` adding `/function/issue-bot` to th
 http://fuh83fhfj.ngrok.io/function/issue-bot
 ```
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookURLSettings.png)
+![](./screenshot/WebhookURLSettings.png)
 
 For *Content-type* select: *application/json*
 
@@ -113,7 +113,7 @@ And select "Let me select individual events"
 
 For events select **Issues** and **Issue comment**
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookEventsSettings.png)
+![](./screenshot/WebhookEventsSettings.png)
 
 ## Check it worked
 
@@ -205,7 +205,7 @@ Now create a new issue in the `bot-tester` repository. GitHub will respond by se
 
 You can view the request/response directly on GitHub - navigate to *Settings* -> *Webhook* as below:
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/WebhookResponse.png)
+![](./screenshot/WebhookResponse.png)
 
 ## Respond to GitHub
 
@@ -215,11 +215,11 @@ The next step will be for us to apply a label of `positive` or `review`, but bec
 
 Go to your *GitHub profile* -> *Settings/Developer settings* -> *Personal access tokens* and then click *Generate new token*.
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/PersonalAccessTokens.png)
+![](./screenshot/PersonalAccessTokens.png)
 
 Tick the box for "repo" to allow access to your repositories
 
-![](https://raw.githubusercontent.com/iyovcheva/github-issue-bot/master/media/NewPAT.png)
+![](./screenshot/NewPAT.png)
 
 Click the "Generate Token" button at the bottom of the page
 
