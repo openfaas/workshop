@@ -69,7 +69,7 @@ Use this script to invoke the `go-echo` function over and over until you see the
  ```bash
 $ for i in {0..10000};
 do
-    curl -XPOST --data-binary "Post $i" http://127.0.0.1:8080/function/go-echo && echo;
+    echo -n "Post $i" | faas-cli invoke go-echo && echo;
 done;
  ```
 

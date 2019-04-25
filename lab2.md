@@ -11,7 +11,10 @@ $ mkdir -p lab2 \
 
 ## Use the UI Portal
 
-You can now test out the OpenFaaS UI by going to http://127.0.0.1:8080 - if you're deploying to a Linux VM then replace 127.0.0.1 with the IP address from the output you see on the `ifconfig` command.
+You can now test out the OpenFaaS UI by going to http://127.0.0.1:8080.
+
+* If using Kubernetes type `echo $OPENFAAS_URL` and go to that URL
+* If you're deploying to a Linux VM then replace 127.0.0.1 with the IP address from the output you see on the `ifconfig` command.
 
 > Note that we are using `127.0.0.1` instead of `localhost`, which may hang on some Linux distributions due to conflicts between IPv4/IPv6 networking.
 
