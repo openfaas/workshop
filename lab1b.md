@@ -2,20 +2,70 @@
 
 <img src="https://kubernetes.io/images/kubernetes-horizontal-color.png" width="500px"></img>
 
-### Setup a single-node cluster
+## Install Supporting tools
+
+For Kubernetes there are several supporting tools that are useful for viewing logs or switching between Kubernetes clusters.
+
+* Get [kubectx](https://github.com/ahmetb/kubectx/blob/master/kubectx)
+
+`kubectx` can help you switch between clusters
+
+```sh
+curl -sSLf https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx > kubectx
+chmod +x kubectx
+sudo mv kubectx /usr/local/bin/
+```
+
+* Get [kail](https://github.com/boz/kail)
+
+Kail is a tool for tailing logs in Kubernetes across namespaces or various objects.
+
+```sh
+curl -sfL https://raw.githubusercontent.com/boz/kail/master/godownloader.sh | sh
+sudo mv ./bin/kail /usr/local/bin/
+```
+
+Whatever commands you run will show up on the window running `kail`. Type `exit` when you're done.
+
+### OpenFaaS CLI
+
+You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script on Mac or Linux:
+
+Using a Terminal on Mac or Linux:
+
+```sh
+$ curl -sL cli.openfaas.com | sudo sh
+```
+
+On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli/releases). You can place it in a local directory or in the `C:\Windows\` path so that it's available from a command prompt.
+
+> If you're an advanced Windows user, place the CLI in a directory of your choice and then add that folder to your PATH environmental variable.
+
+We will use the `faas-cli` to scaffold new functions, build, deploy and invoke functions. You can find out commands available for the cli with `faas-cli --help`.
+
+Test the `faas-cli`
+
+Open a Terminal or Git Bash window and type in:
+
+```
+$ faas-cli help
+$ faas-cli version
+```
+
+## Setup a Kubernetes cluster
 
 You can follow the labs whilst using Kubernetes, but you may need to make some small changes along the way. The service address for the gateway changes from `http://gateway:8080` to `http://gateway.openfaas:8080`. As far as possible these differences have been documented and alternatives are provided in each lab.
 
-#### Create a local cluster on your laptop
+### Create a local cluster on your laptop
 
 Depending on the option you may also need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
-##### _Docker for Mac_
+#### _Docker for Mac_
 
 * [Install Docker for Mac](https://docs.docker.com/v17.12/docker-for-mac/install/)
 > Note that Kubernetes is only available in Docker for Mac 17.12 CE and higher
 
-##### _With Minikube_
+#### _With Minikube_
 
 * To install Minikube download the proper installer from [latest release](https://github.com/kubernetes/minikube/releases) depending on your platform.
 * [Install Helm client](https://docs.helm.sh/using_helm/#installing-the-helm-client)
@@ -29,11 +79,11 @@ $ minikube start
 The minikube VM is exposed to the host system via a host-only IP address. Check this IP with `minikube ip`.
 This is the IP you will later use for the gateway URL.
 
-#### Create a remote cluster on the cloud
+### Create a remote cluster on the cloud
 
 You can create a remote cluster in the cloud and enjoy the same experience as if you were developing locally whilst saving on RAM/CPU and battery. The costs for running a cluster for 1-2 days is minimal.
 
-##### _Run on DigitalOcean's Kubernetes Service_
+#### _Run on DigitalOcean's Kubernetes Service_
 
 You can use free credits to create a cluster through DigitalOcean's UI.
 
@@ -72,7 +122,11 @@ GUID    workshop-lon1      nyc1      1.13.5-do.1    provisioning    workshop-lon
 $ doctl k8s cluster kubeconfig save workshop-lon1
 ```
 
-##### _Run on GKE (Google Kubernetes Engine)_
+You now need to switch your Kubernetes context to point at the new cluster.
+
+Find the cluster name with `kubectx`, if it's not highlighted type in `kubectx <context-name>`.
+
+#### _Run on GKE (Google Kubernetes Engine)_
 
 Login into Google Cloud, create a project and enable billing for it. If you don’t have an account you can sign up [here](https://cloud.google.com/free/) for free credits.
 
@@ -132,7 +186,19 @@ NAME                                   STATUS    ROLES     AGE       VERSION
 gke-name-default-pool-eceef152-qjmt   Ready     <none>    1h        v1.10.7-gke.2
 ```
 
-### Configure a registry - The Docker Hub
+## Test your cluster
+
+Test `kail` by running `kail -n default` and then running a Pod
+
+```sh
+$ kubectl run --rm -t -i kail-test --image=alpine:3.9 -- /bin/sh
+```
+
+This command will start a shell. Whatever commands you type in will appear in the terminal where you are running `kail`.
+
+When you've seen some output type in `exit` and hit *Control+C* on the `kail` window.
+
+## Configure a registry - The Docker Hub
 
 Sign up for a Docker Hub account. The [Docker Hub](https://hub.docker.com) allows you to publish your Docker images on the Internet for use on multi-node clusters or to share with the wider community. We will be using the Docker Hub to publish our functions during the workshop.
 
@@ -148,65 +214,7 @@ $ docker login
 
 > Note: Tip from community - if you get an error while trying to run this command on a Windows machine, then click on the Docker for Windows icon in the taskbar and log into Docker there instead "Sign in / Create Docker ID".
 
-### Supporting tools
-
-For Kubernetes there are several supporting tools that are useful for viewing logs or switching between Kubernetes clusters.
-
-* Get [kubectx](https://github.com/ahmetb/kubectx/blob/master/kubectx)
-
-`kubectx` can help you switch between clusters
-
-```sh
-curl -sSLf https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx > kubectx
-chmod +x kubectx
-sudo mv kubectx /usr/local/bin/
-```
-
-Test `kubectx` and you should see your new cluster highlighted.
-
-* Get [kail](https://github.com/boz/kail)
-
-Kail is a tool for tailing logs in Kubernetes across namespaces or various objects.
-
-```sh
-curl -sfL https://raw.githubusercontent.com/boz/kail/master/godownloader.sh | sh
-sudo mv ./bin/kail /usr/local/bin/
-```
-
-Test `kail` by running `kail -n default` and then running a Pod
-
-```sh
-kubectl run --rm -t -i kail-test --image=alpine:3.9 -- /bin/sh
-```
-
-Whatever commands you run will show up on the window running `kail`. Type `exit` when you're done.
-
-### OpenFaaS CLI
-
-You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script on Mac or Linux:
-
-Using a Terminal on Mac or Linux:
-
-```sh
-$ curl -sL cli.openfaas.com | sudo sh
-```
-
-On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli/releases). You can place it in a local directory or in the `C:\Windows\` path so that it's available from a command prompt.
-
-> If you're an advanced Windows user, place the CLI in a directory of your choice and then add that folder to your PATH environmental variable.
-
-We will use the `faas-cli` to scaffold new functions, build, deploy and invoke functions. You can find out commands available for the cli with `faas-cli --help`.
-
-Test the `faas-cli`
-
-Open a Terminal or Git Bash window and type in:
-
-```
-$ faas-cli help
-$ faas-cli version
-```
-
-### Deploy OpenFaaS
+## Deploy OpenFaaS
 
 The instructions for deploying OpenFaaS change from time to time as we strive to make this even easier.
 
@@ -264,7 +272,7 @@ helm repo update \
     --set functionNamespace=openfaas-fn
 ```
 
-#### Determine your Gateway URL
+### Determine your Gateway URL
 
 Depending on your installation method and Kubernetes distribution the Gateway URL may vary as will how you access it from your laptop during the workshop.
 
@@ -309,7 +317,7 @@ queue-worker-8698f5bb78-qfv6n   1/1       Running   0          1h
 
 If you run into any problems, please consult the [helm chart README](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md).
 
-### Login to OpenFaaS Gateway
+### Login to the OpenFaaS Gateway
 
 If you are running on a remote cluster and deployed openfaas with `basic_auth=true`, then you need to log in to access openfaas gateway. 
 
@@ -336,3 +344,4 @@ export OPENFAAS_URL=http://
 This URL will now be saved for each new terminal window that you open.
 
 Now move onto [Lab 2](./lab2.md)
+
