@@ -25,9 +25,7 @@ curl -sfL https://raw.githubusercontent.com/boz/kail/master/godownloader.sh | sh
 sudo mv ./bin/kail /usr/local/bin/
 ```
 
-Whatever commands you run will show up on the window running `kail`. Type `exit` when you're done.
-
-### OpenFaaS CLI
+## OpenFaaS CLI
 
 You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script on Mac or Linux:
 
@@ -51,6 +49,8 @@ Open a Terminal or Git Bash window and type in:
 $ faas-cli help
 $ faas-cli version
 ```
+
+Later in the lab, after setting up OpenFaaS we will run `faas-cli login` to save the password for our OpenFaaS gateway.
 
 ## Setup a Kubernetes cluster
 
@@ -204,8 +204,6 @@ Sign up for a Docker Hub account. The [Docker Hub](https://hub.docker.com) allow
 
 You can sign up here: [Docker Hub](https://hub.docker.com)
 
-> Note: The Docker Hub can also be setup to automate builds of Docker images.
-
 Open a Terminal or Git Bash window and log into the Docker Hub using the username you signed up for above.
 
 ```
@@ -251,6 +249,8 @@ kubectl -n openfaas create secret generic basic-auth \
 echo $PASSWORD > gateway-password.txt
 ```
 
+### A) For local clusters
+
 If you're running on a local cluster run the following:
 
 ```sh
@@ -260,6 +260,8 @@ helm repo update \
     --set basic_auth=true \
     --set functionNamespace=openfaas-fn
 ```
+
+### B) For remote clusters
 
 If you're running on a remote cluster run the following which will also expose a LoadBalancer with a public IP so that you can access it easily from your own laptop.
 
@@ -278,7 +280,9 @@ Depending on your installation method and Kubernetes distribution the Gateway UR
 
 #### NodePort (local Kubernetes, excluding KinD)
 
-The default installation for OpenFaaS exposes the gateway through a Kubernetes Service of type `NodePort`. The gateway address will generally be: http://IP_ADDRESS:31112/
+The default installation for OpenFaaS exposes the gateway through a Kubernetes Service of type `NodePort`. The gateway address will generally be: `http://IP_ADDRESS:31112/`
+
+The default for Docker for Mac would be `http://127.0.0.1:31112`
 
 #### LoadBalancer (remote Kubernetes, or KinD)
 

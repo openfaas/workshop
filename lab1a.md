@@ -4,7 +4,7 @@
 
 ### Setup a single-node cluster
 
-OpenFaaS works both with Kubernetes and Docker Swarm. If you're taking part in a workshop event then the organiser will probably ask you to use Docker Swarm because it's much easier to set up in a short period of time. There are [deployment guides for both options in the documentation](https://github.com/openfaas/faas/tree/master/guide).
+OpenFaaS works both with Kubernetes and Docker Swarm. If you're taking part in a workshop event then the organiser will probably ask you to use Docker Swarm because it's much easier to set up in a short period of time. There are [deployment guides for both options in the documentation](https://docs.openfaas.com/deployment/).
 
 On your laptop or VM setup a single-node Docker Swarm:
 
@@ -90,6 +90,6 @@ Watch out for the password and then run the command you are given in the output.
 $ docker service ls
 ```
 
-If you run into any problems, please consult the [Deployment guide](https://github.com/openfaas/faas/blob/master/guide/deployment_swarm.md) for Docker Swarm.
+If you run into any problems, please consult the [Deployment guide](https://docs.openfaas.com/deployment/docker-swarm/) for Docker Swarm.
 
 Now move onto [Lab 2](./lab2.md)
