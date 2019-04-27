@@ -90,6 +90,6 @@ Watch out for the password and then run the command you are given in the output.
 $ docker service ls
 ```
 
-If you run into any problems, please consult the [Deployment guide](https://github.com/openfaas/faas/blob/master/guide/deployment_swarm.md) for Docker Swarm.
+If you run into any problems, please consult the [Deployment guide](https://docs.openfaas.com/deployment/docker-swarm/) for Docker Swarm.
 
 Now move onto [Lab 2](./lab2.md)
