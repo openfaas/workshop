@@ -122,6 +122,112 @@ In Python code you'd type in `os.getenv("Http_X_Output_Mode")`.
 
 You can see that all other HTTP context is also provided such as `Content-Length` when the `Http_Method` is a `POST`, the `User_Agent`, Cookies and anything else you'd expect to see from a HTTP request.
 
+## Security: read-only filesystems
+
+One of the security features of containers which is available to OpenFaaS is the ability to make the root filesystem of our execution environment read-only. This can reduce the attack surface if a function were to become compromised.
+
+Generate a function to save files into the function's filesystem:
+
+```sh
+faas-cli new --lang python3 injest-file --prefix=your-name
+```
+
+Update the handler:
+
+```python
+import os
+import time
+
+def handle(req):
+    # Read the path or a default from environment variable
+    path = os.getenv("save_path", "/home/app/")
+
+    # generate a name using the current timestamp
+    t = time.time()
+    file_name = path + str(t)
+
+    # write a file
+    with open(file_name, "w") as f:
+        f.write(req)
+        f.close()
+
+    return file_name
+```
+
+Build the example:
+
+```sh
+faas-cli up -f injest-file.yml
+```
+
+Invoke the example:
+
+```sh
+echo "Hello function" > message.txt
+
+cat message.txt | faas-cli invoke -f injest-file.yml injest-file
+```
+
+The file will be written to the `/home/app` path.
+
+Now edit the injest-file.yml and make the function read-only.
+
+```yaml
+...
+functions:
+  injest-file:
+    lang: python3
+    handler: ./injest-file
+    image: alexellis2/injest-file:latest
+    readonly_root_filesystem: true
+```
+
+> See also: [YAML reference](https://docs.openfaas.com/reference/yaml/#function-read-only-root-filesystem)
+
+Deploy again:
+
+```sh
+faas-cli up -f injest-file.yml
+```
+
+This will now fail:
+
+```sh
+echo "Hello function" > message.txt
+
+cat message.txt | faas-cli invoke -f injest-file.yml injest-file
+```
+
+See the error:
+
+```sh
+Server returned unexpected status code: 500 - exit status 1
+Traceback (most recent call last):
+  File "index.py", line 19, in <module>
+    ret = handler.handle(st)
+  File "/home/app/function/handler.py", line 13, in handle
+    with open(file_name, "w") as f:
+OSError: [Errno 30] Read-only file system: '/home/app/1556714998.092464'
+```
+
+In order to write to a temporary area set the environment variable `save_path`
+
+```yaml
+...
+functions:
+  injest-file:
+    lang: python3
+    handler: ./injest-file
+    image: alexellis2/injest-file:latest
+    readonly_root_filesystem: true
+    environment:
+        save_path: "/tmp/"
+```
+
+You can now test the fix by running `faas-cli up` and the files will be written into `/tmp/`.
+
+We now have the ability to lock-down our function's code so that it cannot be changed accidentally or updated maliciously. 
+
 ## Making use of logging
 
 The OpenFaaS watchdog operates by passing in the HTTP request and reading an HTTP response via the standard I/O streams `stdin` and `stdout`. This means that the process running as a function does not need to know anything about the web or HTTP.

@@ -78,6 +78,7 @@ The recommendation from the OpenFaaS community is that you run Kubernetes in pro
 * [Inject configuration through environmental variables](lab4.md#inject-configuration-through-environmental-variables)
   * At deployment using yaml
   * Dynamically using HTTP context - querystring / headers etc
+* Security: read-only filesystems
 * [Making use of logging](lab4.md#making-use-of-logging)
 * [Create Workflows](lab4.md#create-workflows)
   * Chaining functions on the client-side
