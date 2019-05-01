@@ -106,28 +106,32 @@ The DigitalOcean dashboard will then guide you through how to configure your `ku
 
 * [Claim your free credits - $100 in credit over 60 days](https://m.do.co/c/8d4e75e9886f)
 
-      Even if you have already claimed free credit, the running costs for a 2-3 node cluster for 24-48 hours is negligible.
+Even if you have already claimed free credit, the running costs for a 2-3 node cluster for 24-48 hours is negligible.
 
 * Click on *Kubernetes* on the left panel of the dashboard and then click "Enable Limited Access"
 
 * Once logged in, click the *Kubernetes* menu item and create a Cluster.
 
-      It is recommended to use the latest Kubernetes version available and the to select your nearest Datacenter region to minimize latency.
+It is recommended to use the latest Kubernetes version available and the to select your nearest Datacenter region to minimize latency.
 
 * Under "Add node pool(s)"
 
-      Use 2x 4GB / 2vCPU
-      (More can be added at a later date.)
+Use 2x 4GB / 2vCPU
+(More can be added at a later date.)
 
-* Download the [doctl](https://github.com/digitalocean/doctl#installing-doctl) CLI
+* Download the [doctl](https://github.com/digitalocean/doctl#installing-doctl) CLI and place it in your path.
 
-* Create an API Key in your DigitalOcean dashboard
+* Create an [API Key in your DigitalOcean dashboard](https://cloud.digitalocean.com/account/api/tokens/new)
+
+Keep track of your API key (copy it to clipboard)
 
 * Authenticate the CLI
 
 ```sh
 $ doctl auth init
 ```
+
+Paste in your API key
 
 * Now get the cluster's name:
 
