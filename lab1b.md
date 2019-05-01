@@ -2,27 +2,42 @@
 
 <img src="https://kubernetes.io/images/kubernetes-horizontal-color.png" width="500px"></img>
 
-## Install Supporting tools
+## Install latest `kubectl`
 
-For Kubernetes there are several supporting tools that are useful for viewing logs or switching between Kubernetes clusters.
+Install kubectl for your operating system using the [official instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/). If you're on Windows use the instructions on the page and place the binary in `/usr/local/bin/` or `C:\windows\`.
 
-* Get [kubectx](https://github.com/ahmetb/kubectx/blob/master/kubectx)
+### Linux
 
-`kubectx` can help you switch between clusters
+```sh
+export VER=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$VER/bin/linux/amd64/kubectl
+chmod +x kubectl
+mv kubectl /usr/local/bin/
+```
+
+### MacOS
+
+```sh
+export VER=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$VER/bin/darwin/amd64/kubectl
+chmod +x kubectl
+mv kubectl /usr/local/bin/
+```
+
+> Note: you should install the latest version because the version you have may be out of date.
+
+## Install kubectx
+
+[kubectx](https://github.com/ahmetb/kubectx/blob/master/kubectx) can help you switch between multiple clusters.
+
+If you're using Windows then download from the [releases page](https://github.com/ahmetb/kubectx/releases) and place in `/usr/bin/` or `C:\Windows\`.
+
+On MacOS or Linux:
 
 ```sh
 curl -sSLf https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx > kubectx
 chmod +x kubectx
 sudo mv kubectx /usr/local/bin/
-```
-
-* Get [kail](https://github.com/boz/kail)
-
-Kail is a tool for tailing logs in Kubernetes across namespaces or various objects.
-
-```sh
-curl -sfL https://raw.githubusercontent.com/boz/kail/master/godownloader.sh | sh
-sudo mv ./bin/kail /usr/local/bin/
 ```
 
 ## OpenFaaS CLI
@@ -35,7 +50,7 @@ Using a Terminal on Mac or Linux:
 $ curl -sL cli.openfaas.com | sudo sh
 ```
 
-On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli/releases). You can place it in a local directory or in the `C:\Windows\` path so that it's available from a command prompt.
+On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli/releases). You can place it in `C:\Windows\` or `/usr/local/bin/`
 
 > If you're an advanced Windows user, place the CLI in a directory of your choice and then add that folder to your PATH environmental variable.
 
@@ -91,13 +106,18 @@ The DigitalOcean dashboard will then guide you through how to configure your `ku
 
 * [Claim your free credits - $100 in credit over 60 days](https://m.do.co/c/8d4e75e9886f)
 
-> Note: Even if you have already claimed free credit, the running costs for a 2-3 node cluster for 24-48 hours is negligible.
+      Even if you have already claimed free credit, the running costs for a 2-3 node cluster for 24-48 hours is negligible.
 
-Once logged in, click the *Kubernetes* menu item and create a Cluster.
+* Click on *Kubernetes* on the left panel of the dashboard and then click "Enable Limited Access"
 
-It is recommended to use the latest Kubernetes version available and the to select your nearest Datacenter region to minimize latency.
+* Once logged in, click the *Kubernetes* menu item and create a Cluster.
 
-Under "Add node pool(s)" change the instance type to 4GB / 2vCPU and pick between 1 and 3 nodes. More can be added at a later date.
+      It is recommended to use the latest Kubernetes version available and the to select your nearest Datacenter region to minimize latency.
+
+* Under "Add node pool(s)"
+
+      Use 2x 4GB / 2vCPU
+      (More can be added at a later date.)
 
 * Download the [doctl](https://github.com/digitalocean/doctl#installing-doctl) CLI
 
@@ -186,18 +206,6 @@ NAME                                   STATUS    ROLES     AGE       VERSION
 gke-name-default-pool-eceef152-qjmt   Ready     <none>    1h        v1.10.7-gke.2
 ```
 
-## Test your cluster
-
-Test `kail` by running `kail -n default` and then running a Pod
-
-```sh
-$ kubectl run --rm -t -i kail-test --image=alpine:3.9 -- /bin/sh
-```
-
-This command will start a shell. Whatever commands you type in will appear in the terminal where you are running `kail`.
-
-When you've seen some output type in `exit` and hit *Control+C* on the `kail` window.
-
 ## Configure a registry - The Docker Hub
 
 Sign up for a Docker Hub account. The [Docker Hub](https://hub.docker.com) allows you to publish your Docker images on the Internet for use on multi-node clusters or to share with the wider community. We will be using the Docker Hub to publish our functions during the workshop.
@@ -227,11 +235,15 @@ Instructions for latest Helm install
 
 * On Linux and Mac/Darwin:
 
-      curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+```sh
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+```
 
 * Or via Homebrew on Mac:
 
-      brew install kubernetes-helm
+```sh
+brew install kubernetes-helm
+```
       
 On Windows [download the helm.exe file](https://helm.sh) and place it in $PATH or /usr/bin/.
 
@@ -281,6 +293,8 @@ kubectl -n openfaas create secret generic basic-auth \
 echo $PASSWORD > gateway-password.txt
 ```
 
+>Note: If you get any issues with `helm upgrade` then you can reset it with `helm delete --purge openfaas`
+
 ### A) For local clusters
 
 If you're running on a local cluster run the following:
@@ -305,6 +319,7 @@ helm repo update \
     --set serviceType=LoadBalancer \
     --set functionNamespace=openfaas-fn
 ```
+
 
 ### Determine your Gateway URL
 
