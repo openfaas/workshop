@@ -129,7 +129,7 @@ One of the security features of containers which is available to OpenFaaS is the
 Generate a function to save files into the function's filesystem:
 
 ```sh
-faas-cli new --lang python3 injest-file --prefix=your-name
+faas-cli new --lang python3 ingest-file --prefix=your-name
 ```
 
 Update the handler:
@@ -157,7 +157,7 @@ def handle(req):
 Build the example:
 
 ```sh
-faas-cli up -f injest-file.yml
+faas-cli up -f ingest-file.yml
 ```
 
 Invoke the example:
@@ -165,20 +165,20 @@ Invoke the example:
 ```sh
 echo "Hello function" > message.txt
 
-cat message.txt | faas-cli invoke -f injest-file.yml injest-file
+cat message.txt | faas-cli invoke -f ingest-file.yml ingest-file
 ```
 
 The file will be written to the `/home/app` path.
 
-Now edit the injest-file.yml and make the function read-only.
+Now edit the ingest-file.yml and make the function read-only.
 
 ```yaml
 ...
 functions:
-  injest-file:
+  ingest-file:
     lang: python3
-    handler: ./injest-file
-    image: alexellis2/injest-file:latest
+    handler: ./ingest-file
+    image: alexellis2/ingest-file:latest
     readonly_root_filesystem: true
 ```
 
@@ -187,7 +187,7 @@ functions:
 Deploy again:
 
 ```sh
-faas-cli up -f injest-file.yml
+faas-cli up -f ingest-file.yml
 ```
 
 This will now fail:
@@ -195,7 +195,7 @@ This will now fail:
 ```sh
 echo "Hello function" > message.txt
 
-cat message.txt | faas-cli invoke -f injest-file.yml injest-file
+cat message.txt | faas-cli invoke -f ingest-file.yml ingest-file
 ```
 
 See the error:
@@ -215,10 +215,10 @@ In order to write to a temporary area set the environment variable `save_path`
 ```yaml
 ...
 functions:
-  injest-file:
+  ingest-file:
     lang: python3
-    handler: ./injest-file
-    image: alexellis2/injest-file:latest
+    handler: ./ingest-file
+    image: alexellis2/ingest-file:latest
     readonly_root_filesystem: true
     environment:
         save_path: "/tmp/"
