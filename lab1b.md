@@ -218,9 +218,11 @@ The instructions for deploying OpenFaaS change from time to time as we strive to
 
 Deploy OpenFaaS to Kubernetes using the instructions for Helm:
 
-* Install helm
+* Install helm (required step)
 
-You can install helm and tiller using [these instructions](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
+Install `helm` and `tiller` 
+
+[Install now](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
 
 * Install the OpenFaaS helm chart
 
