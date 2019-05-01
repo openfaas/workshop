@@ -220,9 +220,39 @@ Deploy OpenFaaS to Kubernetes using the instructions for Helm:
 
 * Install helm (required step)
 
-Install `helm` and `tiller` 
 
-[Install now](https://github.com/openfaas/faas-netes/blob/master/HELM.md)
+### Install the helm CLI/client
+
+Instructions for latest Helm install
+
+* On Linux and Mac/Darwin:
+
+      curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
+* Or via Homebrew on Mac:
+
+      brew install kubernetes-helm
+      
+On Windows [download the helm.exe file](https://helm.sh) and place it in $PATH or /usr/bin/.
+
+### Install tiller
+
+* Create RBAC permissions for tiller
+
+```sh
+kubectl -n kube-system create sa tiller \
+  && kubectl create clusterrolebinding tiller \
+  --clusterrole cluster-admin \
+  --serviceaccount=kube-system:tiller
+```
+
+* Install the server-side Tiller component on your cluster
+
+```sh
+helm init --skip-refresh --upgrade --service-account tiller
+```
+
+### Install OpenFaaS with helm
 
 * Install the OpenFaaS helm chart
 
