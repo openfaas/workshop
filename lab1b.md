@@ -97,9 +97,9 @@ Once logged in, click the *Kubernetes* menu item and create a Cluster.
 
 It is recommended to use the latest Kubernetes version available and the to select your nearest Datacenter region to minimize latency.
 
-Under "Add node pool(s)" chance the instance type to 4GB / 2vCPU and pick between 1 and 3 nodes. More can be added at a later date.
+Under "Add node pool(s)" change the instance type to 4GB / 2vCPU and pick between 1 and 3 nodes. More can be added at a later date.
 
-* Download the `doctl` CLI
+* Download the [doctl](https://github.com/digitalocean/doctl#installing-doctl) CLI
 
 * Create an API Key in your DigitalOcean dashboard
 
@@ -288,7 +288,9 @@ The default for Docker for Mac would be `http://127.0.0.1:31112`
 
 If you're using a remote cluster or KinD then you can either use a LoadBalancer or run a command to port-forward the gateway to your local computer over the internet.
 
-* A) Get the LoadBalancer address 
+* A) Get the LoadBalancer address
+
+It may take a couple of minutes for the `EXTERNAL-IP` address to become available, it will remain `<pending>` during that time.
 
 ```sh
 kubectl get svc -o wide gateway-external -n openfaas
@@ -304,7 +306,6 @@ Now set the `OPENFAAS_URL` variable to link to the proper IP:
 ```bash
 export OPENFAAS_URL=http://IP_ADDRESS:8080
 ```
-
 You should now have OpenFaaS deployed. If you are on a shared WiFi connection at an event then it may take several minutes to pull down all the Docker images and start them.
 
 Check the services show `1/1` on this screen:
