@@ -23,6 +23,8 @@ For Windows
 
 * Install [Git Bash](https://git-scm.com/downloads)
 
+When you install git bash pick the following options: `install UNIX commands` and `use true-type font`.
+
 > Note: please use *Git Bash* for all steps: do not attempt to use *PowerShell*, *WSL* or *Bash for Windows*.
 
 Linux - Ubuntu or Debian
