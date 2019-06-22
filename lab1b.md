@@ -73,8 +73,6 @@ You can follow the labs whilst using Kubernetes, but you may need to make some s
 
 ### Create a local cluster on your laptop
 
-Depending on the option you may also need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
-
 #### _Docker for Mac_
 
 * [Install Docker for Mac](https://docs.docker.com/v17.12/docker-for-mac/install/)
