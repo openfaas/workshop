@@ -63,7 +63,7 @@ Since we now have a new URL for ngrok let's save login details for the new URL:
 
 * Run `export PASSWORD="value-here"
 
-* Now log in: `echo $PASSWORD | faas-cli login -g http://fuh83fhfj.ngrok.io --user=admin --password-stdin`
+* Now log in: `echo $PASSWORD | faas-cli login -g http://fuh83fhfj.ngrok.io --username=admin --password-stdin`
 
 Finally * test the remote URL such as https://fuh83fhfj.ngrok.io
 
@@ -325,7 +325,7 @@ def handle(req):
         return
 
     # Call sentimentanalysis
-    res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', 
+    res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis',
                         data= payload["issue"]["title"]+" "+payload["issue"]["body"])
 
     if res.status_code != 200:
