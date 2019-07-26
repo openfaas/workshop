@@ -11,14 +11,14 @@ $ mkdir -p lab7 \
 
 ## Call a function synchronously vs asynchronously
 
-When you call a function synchronously a connection is made to the gateway through to your function and is held open for the whole execution time. Synchronous calls are *blocking* so you should see your client pause and become inactive until the function has completed its task. 
+When you call a function synchronously a connection is made to the gateway through to your function and is held open for the whole execution time. Synchronous calls are *blocking* so you should see your client pause and become inactive until the function has completed its task.
 
 * The gateway uses a route of: `/function/<function_name>`
 * You have to wait until it has finished
 * You get the result after the call
 * You know if it passed or failed
 
-Asynchronous tasks run in a similar way with a few differences: 
+Asynchronous tasks run in a similar way with a few differences:
 
 * The gateway uses a different route: `/async-function/<function_name>`
 * The client gets an immediate response of *202 Accepted* from the gateway
@@ -83,7 +83,7 @@ docker service logs -f func_queue-worker
 #### _Kubernetes_
 
 ```
-kubectl logs deployment/queue-worker -n openfaas`
+kubectl logs deployment/queue-worker -n openfaas
 ```
 
 ## Use an `X-Callback-Url` with requestbin
@@ -114,12 +114,12 @@ $ echo -n "LaterIsBetter" | faas-cli invoke figlet --async --header "X-Callback-
 Now refresh the page on the requestbin site and you will see the result from `figlet`:
 
 ```
- _          _           ___     ____       _   _            
-| |    __ _| |_ ___ _ _|_ _|___| __ )  ___| |_| |_ ___ _ __ 
+ _          _           ___     ____       _   _
+| |    __ _| |_ ___ _ _|_ _|___| __ )  ___| |_| |_ ___ _ __
 | |   / _` | __/ _ \ '__| |/ __|  _ \ / _ \ __| __/ _ \ '__|
-| |__| (_| | ||  __/ |  | |\__ \ |_) |  __/ |_| ||  __/ |   
-|_____\__,_|\__\___|_| |___|___/____/ \___|\__|\__\___|_|   
-                                                            
+| |__| (_| | ||  __/ |  | |\__ \ |_) |  __/ |_| ||  __/ |
+|_____\__,_|\__\___|_| |___|___/____/ \___|\__|\__\___|_|
+
 ```
 
 > Pro-tip: It is also possible to use another function as the `X-Callback-Url` - this would be great for notifying yourself over Slack or Email when an asynchronous workload has been processed. To call another function with the result set the `X-Callback-Url` to `http://gateway:8080/function/<function_name>`.
