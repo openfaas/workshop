@@ -224,7 +224,7 @@ functions:
         save_path: "/tmp/"
 ```
 
-You can now test the fix by running `faas-cli up` and the files will be written into `/tmp/`.
+You can now test the fix by running `faas-cli up -f ingest-file.yml` one more time and the files will be written into `/tmp/`.
 
 We now have the ability to lock-down our function's code so that it cannot be changed accidentally or updated maliciously. 
 
