@@ -438,6 +438,47 @@ You can now type in `faas-cli new --lang node10-express`.
 
 See also: [Function & Template Store](https://github.com/openfaas/store/)
 
+### Variable Substitution in YAML File (optional exercise)
+
+The `.yml` file used to configure the CLI is capable of variable substitution so that you are able to use the same `.yml` file for multiple configurations.
+
+One example of where this can be useful is when there are different registries for development and production images. You can use the variable substitution so that local and test environments use the default account, and the CI server can be configured to use the production account.
+
+> This is provided by the [envsubst library](https://github.com/drone/envsubst). Follow the link to see examples of supported variables
+
+Edit your `astronaut-finder.yml` to match the following:
+
+```yml
+  astronaut-finder:
+    lang: python3
+    handler: ./astronaut-finder
+    image: ${DOCKER_USER:-development}/astronaut-finder
+    environment:
+      write_debug: true
+```
+
+You'll notice the `image` property has been updated to include a variable definition (`DOCKER_USER`). That value will be replaced with the value of the environment variable with the same name. If the environment variable is not present, or is empty, the default value (`development`) will be used.
+
+The variable will be replaced with the value throughout the file. So, if you have several functions in your `.yml` file, all references to the `DOCKER_USER` variable will be replaced with the value of that environment variable
+
+Run the following command and observe the output:
+
+`faas-cli build -f ./astronaut-finder.yml`
+
+The output should show that the image built is labeled as `development/astronaut-finder:latest`
+
+Now, set the environment variable to your Docker Hub account name (for the example, we'll use the OpenFaaS "functions" account)
+
+```sh
+export DOCKER_USER=functions
+```
+
+Run the same build command as before and observe the output:
+
+`faas-cli build -f ./astronaut-finder.yml`
+
+The output should now show that the image was built with the updated label `functions/astronaut-finder:latest`
+
 ### Custom binaries as functions (optional exercise)
 
 Custom binaries or containers can be used as functions, but most of the time using the language templates should cover all the most common scenarios.
