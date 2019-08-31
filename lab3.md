@@ -34,15 +34,21 @@ After that, to find out which languages are available type in:
 $ faas-cli new --list
 Languages available as templates:
 - csharp
+- csharp-armhf
 - dockerfile
+- dockerfile-armhf
 - go
 - go-armhf
+- java12
+- java8
 - node
 - node-arm64
 - node-armhf
+- php7
 - python
 - python-armhf
 - python3
+- python3-armhf
 - ruby
 ```
 
