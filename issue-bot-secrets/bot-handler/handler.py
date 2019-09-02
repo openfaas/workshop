@@ -9,6 +9,7 @@ def handle(req):
         sys.exit(1)
         return
 
+    # Use "gateway.openfaas" in the second argument if using Kubernetes
     gateway_hostname = os.getenv("gateway_hostname", "gateway")
 
     payload = json.loads(req)

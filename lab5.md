@@ -177,6 +177,7 @@ def handle(req):
         sys.exit("Unable to handle X-GitHub-Event: " + event_header)
         return
 
+    # Use "gateway.openfaas" in the second argument if using Kubernetes
     gateway_hostname = os.getenv("gateway_hostname", "gateway")
 
     payload = json.loads(req)
@@ -316,6 +317,7 @@ def handle(req):
         sys.exit("Unable to handle X-GitHub-Event: " + event_header)
         return
 
+     # Use "gateway.openfaas" in the second argument if using Kubernetes
     gateway_hostname = os.getenv("gateway_hostname", "gateway")
 
     payload = json.loads(req)

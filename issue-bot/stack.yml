@@ -11,7 +11,7 @@ functions:
       write_debug: true
       repo: alexellis2/bot-tester
       positive_threshold: 0.25
-      gateway_hostname: "gateway"
+      gateway_hostname: "gateway"  # use "gateway.openfaas" if using Kubernetes
     environment_file:
       - env.yml
     secrets:

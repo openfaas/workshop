@@ -389,7 +389,9 @@ Suffix the gateway host with `openfaas` namespace:
 Or via an environmental variable:
 
 ```python
-    gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
+    # uses a default of "gateway" for when "gateway_hostname" is not set
+    # use "gateway.openfaas" if using Kubernetes
+    gateway_hostname = os.getenv("gateway_hostname", "gateway")
     test_sentence = "California is great, it's always sunny there."
     r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", data= test_sentence)
 ```
@@ -417,7 +419,9 @@ def handle(req):
         req (str): request body
     """
 
-    gateway_hostname = os.getenv("gateway_hostname", "gateway") # uses a default of "gateway" for when "gateway_hostname" is not set
+    # uses a default of "gateway" for when "gateway_hostname" is not set
+    # use "gateway.openfaas" if using Kubernetes
+    gateway_hostname = os.getenv("gateway_hostname", "gateway")
 
     test_sentence = req
 

@@ -10,6 +10,6 @@ functions:
     environment:
       write_debug: true
       positive_threshold: 0.25
-      gateway_hostname: "gateway"
+      gateway_hostname: "gateway"  # use "gateway.openfaas" if using Kubernetes
     secrets:
       - auth-token
