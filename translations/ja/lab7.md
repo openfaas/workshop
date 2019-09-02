@@ -92,14 +92,14 @@ OpenFaaSのコールバックの仕組みを使うことで、非同期function�
 
 それではrequestbinを使って新しい「bin」を作ってみましょう。requestbinはインターネット上でリクエストを受け取れるサービスです。
 
-https://requestbin.fullcontact.com/
+https://requestbin.com/
 
 「Bin URL」をコピーして次のように呼び出してみましょう。
 
-例えば `http://requestbin.fullcontact.com/1i7i1we1` の場合
+例えば `http://requestbin.com/r/1i7i1we1` の場合
 
 ```
-$ echo -n "LaterIsBetter" | faas-cli invoke figlet --async --header "X-Callback-Url=http://requestbin.fullcontact.com/1i7i1we1"
+$ echo -n "LaterIsBetter" | faas-cli invoke figlet --async --header "X-Callback-Url=http://requestbin.com/r/1i7i1we1"
 ```
 
 呼び出し後、requestbinのページをリフレッシュしましょう。次のように `figlet` の結果が表示されます：

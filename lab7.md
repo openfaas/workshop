@@ -101,14 +101,14 @@ Some additional request headers are sent to the callback, for a complete list se
 
 Head over to requestbin and create a new "bin" - this will be a URL on the public internet that can receive your function's result.
 
-https://requestbin.fullcontact.com/
+https://requestbin.com/
 
 Now copy the "Bin URL" and paste it below:
 
-For example (`http://requestbin.fullcontact.com/1i7i1we1`)
+For example (`http://requestbin.com/r/1i7i1we1`)
 
 ```
-$ echo -n "LaterIsBetter" | faas-cli invoke figlet --async --header "X-Callback-Url=http://requestbin.fullcontact.com/1i7i1we1"
+$ echo -n "LaterIsBetter" | faas-cli invoke figlet --async --header "X-Callback-Url=http://requestbin.com/r/1i7i1we1"
 ```
 
 Now refresh the page on the requestbin site and you will see the result from `figlet`:
