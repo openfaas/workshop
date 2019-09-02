@@ -101,6 +101,8 @@ Some additional request headers are sent to the callback, for a complete list se
 
 Head over to requestbin and create a new "bin" - this will be a URL on the public internet that can receive your function's result.
 
+> For the purpose of this lab, be sure to uncheck the 'Private' checkbox as this will save you from needing to log in.
+
 https://requestbin.com/
 
 Now copy the "Bin URL" and paste it below:
