@@ -83,7 +83,7 @@ docker service logs -f func_queue-worker
 #### _Kubernetes_
 
 ```
-kubectl logs deployment/queue-worker -n openfaas`
+kubectl logs deployment/queue-worker -n openfaas
 ```
 
 ## Use an `X-Callback-Url` with requestbin
