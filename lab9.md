@@ -164,17 +164,17 @@ Try it out with the following commands:
 
 Docker Swarm:
 ```
-$ docker service scale nodeinfo=0
+$ docker service scale go-echo=0
 ```
 
 Kubernetes:
 ```
-$ kubectl scale deployment --replicas=0 nodeinfo -n openfaas-fn
+$ kubectl scale deployment --replicas=0 go-echo -n openfaas-fn
 ```
 
-Open the OpenFaaS UI and check that nodeinfo has 0 replicas, or by `docker service ls | grep nodeinfo`.
+Open the OpenFaaS UI and check that go-echo has 0 replicas, or by `docker service ls | grep go-echo`.
 
-> For Kubernetes use `kubectl get deployment nodeinfo -n openfaas-fn`
+> For Kubernetes use `kubectl get deployment go-echo -n openfaas-fn`
 
 Now invoke the function and check back that it scaled to 1 replicas.
 
