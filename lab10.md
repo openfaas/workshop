@@ -16,7 +16,11 @@ $ cp -r lab5 lab10 \
 From the Docker documentation: 
 > .. a secret is a blob of data, such as a password, SSH private key, SSL certificate, or another piece of data that should not be transmitted over a network or stored unencrypted in a Dockerfile or in your application’s source code.
 
-This is a more secure alternative to environmental variables. Environmental variables are easier to use but are best suited to non-confidential configuration items.  Seems a good fit for storing the `auth_token` value.  
+This is a more secure alternative to environmental variables. Environmental variables are easier to use but are best suited to non-confidential configuration items, like feature flags or verbose logging.
+
+Since our `auth_token` is confidential, using Secrets seems a good fit for storing it.
+
+See more information about Secrets and its design in the [docs](https://docs.openfaas.com/reference/secrets/).
 
 ### Create a secret
 
