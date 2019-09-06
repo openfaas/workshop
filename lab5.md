@@ -63,7 +63,9 @@ Since we now have a new URL for ngrok let's save login details for the new URL:
 
 * Run `export PASSWORD="value-here"
 
-* Now log in: `echo $PASSWORD | faas-cli login -g http://fuh83fhfj.ngrok.io --user=admin --password-stdin`
+* Run `export NGROK_ADDRESS=https://fuh83fhfj.ngrok.io`
+
+* Now log in: `echo $PASSWORD | faas-cli login -g $NGROK_ADDRESS --username=admin --password-stdin`
 
 Finally * test the remote URL such as https://fuh83fhfj.ngrok.io
 
