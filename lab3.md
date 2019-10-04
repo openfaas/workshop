@@ -52,6 +52,8 @@ Languages available as templates:
 - ruby
 ```
 
+Or alternatively create a folder containing a `Dockerfile`, then pick the "Dockerfile" lang type in your YAML file.
+
 At this point you can create a new function for Python, Python 3, Ruby, Go, Node, CSharp etc.
 
 * A note on our examples
