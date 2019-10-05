@@ -49,7 +49,7 @@ I.e.
 You will see the following fields displayed:
 
 * Status - whether the function is ready to run. You will not be able to invoke the function from the UI until the status shows Ready.
-* Replicas - the amount of replicas of your function running in the swarm cluster
+* Replicas - the amount of replicas of your function running in the cluster
 * Image - the Docker image name and version as published to the Docker Hub or Docker repository
 * Invocation count - this shows how many times the function has been invoked and is updated every 5 seconds
 
