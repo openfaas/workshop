@@ -132,6 +132,7 @@ This is the local developer-workflow for functions:
 ```sh
 $ faas-cli up -f hello-openfaas.yml
 ```
+> Note: Please make sure that you have logged in to docker registry with `docker login` command before running this command.
 
 Followed by invoking the function via the UI, CLI, `curl` or another application.
 

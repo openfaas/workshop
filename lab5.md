@@ -201,6 +201,14 @@ Update your `requirements.txt` file with the requests module for HTTP/HTTPs:
 requests
 ```
 
+Add `gateway_hostname` environment variable to `issue-bot.yml` file and set its value to `gateway` for Swarm or `gateway.openfaas` for Kubernetes.
+``` 
+    ...
+    environment:
+      gateway_hostname: "gateway"
+    ...
+```
+
 The following line from the code above posts the GitHub Issue's title and body to the `sentimentanalysis` function as text. The response will be in JSON format.
 
 ```python

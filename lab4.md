@@ -282,7 +282,7 @@ Let's try it. Open the `hello-openfaas.yaml` file and add those lines:
       combine_output: false
 ```
 
-Push, deploy and invoke the function.
+Deploy and invoke the function.
 
 The output should be:
 
