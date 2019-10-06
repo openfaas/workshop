@@ -134,6 +134,8 @@ $ faas-cli up -f hello-openfaas.yml
 ```
 > Note: Please make sure that you have logged in to docker registry with `docker login` command before running this command.
 
+> Note: `faas-cli up` command combines build, push and deploy commands of `faas-cli` in a single command.
+
 Followed by invoking the function via the UI, CLI, `curl` or another application.
 
 The function will always get a route, for example:
@@ -297,6 +299,7 @@ Now deploy your function again with `faas-cli deploy -f ./astronaut-finder.yml`.
 
 Invoke the function and then checkout the logs again to view the function responses:
 
+#### _Docker Swarm_
 ```sh
 $ docker service logs -f astronaut-finder
 
@@ -305,6 +308,11 @@ astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Query
 astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Path  /
 astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:37 Duration: 1.128897 seconds
 astronaut-finder.1.tp6k14i8kf6s   | Alexey Ovchinin is in space
+```
+
+#### _Kubernetes_
+```sh
+$ kubectl logs deployment/astronaut-finder -n openfaas-fn
 ```
 
 ### Managing multiple functions
