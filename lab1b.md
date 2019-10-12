@@ -37,7 +37,7 @@ On MacOS or Linux:
 ```sh
 curl -sSLf https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx > kubectx
 chmod +x kubectx
-sudo mv kubectx /usr/local/bin/
+mv kubectx /usr/local/bin/
 ```
 
 ## OpenFaaS CLI
@@ -82,7 +82,7 @@ Depending on the option you may also need to install [kubectl](https://kubernete
 
 #### _With Minikube_
 
-* To install Minikube download the proper installer from [latest release](https://github.com/kubernetes/minikube/releases) depending on your platform.
+* [Install Minikube](https://minikube.sigs.k8s.io/docs/start/) This will allow you to run kubernetes locally.
 * [Install Helm client](https://docs.helm.sh/using_helm/#installing-the-helm-client)
 
 * Now run Minikube with
