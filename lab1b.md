@@ -216,16 +216,16 @@ There is a new tool called `k3sup` which can install helm charts, including Open
 
 * Get k3sup
 
-For Windows:
-
-```sh
-curl -SLsf https://get.k3sup.dev/ | sh
-```
-
 For MacOS / Linux:
 
 ```sh
 curl -SLsf https://get.k3sup.dev/ | sudo sh
+```
+
+For Windows:
+
+```sh
+curl -SLsf https://get.k3sup.dev/ | sh
 ```
 
 * Install the OpenFaaS app
@@ -277,7 +277,10 @@ Your URL will be the IP or DNS entry above on port `8080`.
 ```sh
 export OPENFAAS_URL="" # Populate as above
 
+# This command retrieves your password
 PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+
+# This command logs in and saves a file to ~/.openfaas/config.yml
 echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 ```
 
@@ -293,7 +296,7 @@ Edit `~/.bashrc` or `~/.bash_profile` - create the file if it doesn't exist.
 
 Now add the following - changing the URL as per the one you saw above.
 
-```
+```sh
 export OPENFAAS_URL="" # populate as above
 ```
 
