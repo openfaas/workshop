@@ -14,22 +14,6 @@ $ docker swarm init
 
 > If you receive an error then pass the `--advertise-addr` parameter along with your laptop's IP address.
 
-### Docker Hub
-
-Sign up for a Docker Hub account. The [Docker Hub](https://hub.docker.com) allows you to publish your Docker images on the Internet for use on multi-node clusters or to share with the wider community. We will be using the Docker Hub to publish our functions during the workshop.
-
-You can sign up here: [Docker Hub](https://hub.docker.com)
-
-> Note: The Docker Hub can also be setup to automate builds of Docker images.
-
-Open a Terminal or Git Bash window and log into the Docker Hub using the username you signed up for above.
-
-```sh
-$ docker login
-```
-
-> Note: Tip from community - if you get an error while trying to run this command on a Windows machine, then click on the Docker for Windows icon in the taskbar and log into Docker there instead "Sign in / Create Docker ID".
-
 ### Deploy OpenFaaS
 
 The instructions for deploying OpenFaaS change from time to time as we strive to make this easier. The following will get OpenFaaS deployed in around 60 seconds:
