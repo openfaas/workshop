@@ -4,9 +4,9 @@
 
 ## Install latest `kubectl`
 
-Install kubectl for your operating system using the [official instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/). If you're on Windows use the instructions on the page and place the binary in `/usr/local/bin/` or `C:\windows\`.
+Install `kubectl` for your operating system using the instructions below or the [official documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
-### Linux
+* Linux
 
 ```sh
 export VER=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
@@ -15,57 +15,24 @@ chmod +x kubectl
 mv kubectl /usr/local/bin/
 ```
 
-### MacOS
+* MacOS
 
 ```sh
 export VER=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-curl -LO https://storage.googleapis.com/kubernetes-release/release/$VER/bin/darwin/amd64/kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$VER/bin/darwin/amd64/kubectl.exe
 chmod +x kubectl
 mv kubectl /usr/local/bin/
 ```
 
-> Note: you should install the latest version because the version you have may be out of date.
-
-## Install kubectx
-
-[kubectx](https://github.com/ahmetb/kubectx/blob/master/kubectx) can help you switch between multiple clusters.
-
-If you're using Windows then download from the [releases page](https://github.com/ahmetb/kubectx/releases) and place in `/usr/bin/` or `C:\Windows\`.
-
-On MacOS or Linux:
+* Windows
 
 ```sh
-curl -sSLf https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx > kubectx
-chmod +x kubectx
-sudo mv kubectx /usr/local/bin/
+export VER=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$VER/bin/windows/amd64/kubectl.exe
+chmod +x kubectl.exe
+mkdir -p $HOME/bin/
+mv kubectl $HOME/bin/
 ```
-
-## OpenFaaS CLI
-
-You can install the OpenFaaS CLI with `brew` on a Mac or with a utility script on Mac or Linux:
-
-Using a Terminal on Mac or Linux:
-
-```sh
-$ curl -sL cli.openfaas.com | sudo sh
-```
-
-On Windows download the the latest `faas-cli.exe` from the [releases page](https://github.com/openfaas/faas-cli/releases). You can place it in `C:\Windows\` or `/usr/local/bin/`
-
-> If you're an advanced Windows user, place the CLI in a directory of your choice and then add that folder to your PATH environmental variable.
-
-We will use the `faas-cli` to scaffold new functions, build, deploy and invoke functions. You can find out commands available for the cli with `faas-cli --help`.
-
-Test the `faas-cli`
-
-Open a Terminal or Git Bash window and type in:
-
-```
-$ faas-cli help
-$ faas-cli version
-```
-
-Later in the lab, after setting up OpenFaaS we will run `faas-cli login` to save the password for our OpenFaaS gateway.
 
 ## Setup a Kubernetes cluster
 
@@ -73,11 +40,36 @@ You can follow the labs whilst using Kubernetes, but you may need to make some s
 
 ### Create a local cluster on your laptop
 
-Depending on the option you may also need to install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+#### *k3s using k3d*
+
+If you have Docker on your computer, then you can use `k3d` from Rancher Labs. It installs a lightweight version of Kubernetes called `k3s` and runs it within a Docker container, meaning it will work on any computer that has Docker.
+
+* [Install k3d](https://github.com/rancher/k3d)
+
+* Start a cluster
+
+```sh
+$ k3d create
+INFO[0000] Created cluster network with ID 9a7d5887754d3e317b5c1500f706a5ae602077a18bc71bcedb9fae86ebd84c0b 
+INFO[0000] Created docker volume  k3d-k3s-default-images 
+INFO[0000] Creating cluster [k3s-default]               
+INFO[0000] Creating server using docker.io/rancher/k3s:v0.9.1... 
+INFO[0000] SUCCESS: created cluster [k3s-default]       
+```
+
+Switch into the k3d context:
+
+```sh
+export KUBECONFIG="$(k3d get-kubeconfig --name='k3s-default')"
+kubectl cluster-info 
+```
+
+> Note: You have to run this on any new terminal you open.
 
 #### _Docker for Mac_
 
 * [Install Docker for Mac](https://docs.docker.com/v17.12/docker-for-mac/install/)
+
 > Note that Kubernetes is only available in Docker for Mac 17.12 CE and higher
 
 #### _With Minikube_
@@ -94,6 +86,8 @@ $ minikube start
 The minikube VM is exposed to the host system via a host-only IP address. Check this IP with `minikube ip`.
 This is the IP you will later use for the gateway URL.
 
+> Note: Minikube also requires a Hypervisor such as VirtualBox or Hyperkit (on MacOS). Follow the minikube instructions and documentation
+
 ### Create a remote cluster on the cloud
 
 You can create a remote cluster in the cloud and enjoy the same experience as if you were developing locally whilst saving on RAM/CPU and battery. The costs for running a cluster for 1-2 days is minimal.
@@ -104,7 +98,7 @@ You can use free credits to create a cluster through DigitalOcean's UI.
 
 The DigitalOcean dashboard will then guide you through how to configure your `kubectl` and `KUBECONFIG` file for use in the labs.
 
-* [Claim your free credits - $100 in credit over 60 days](https://m.do.co/c/8d4e75e9886f)
+* [Claim your free credits - $50 in credit over 30 days.](https://m.do.co/c/8d4e75e9886f)
 
 Even if you have already claimed free credit, the running costs for a 2-3 node cluster for 24-48 hours is negligible.
 
@@ -117,7 +111,8 @@ It is recommended to use the latest Kubernetes version available and the to sele
 * Under "Add node pool(s)"
 
 Use 2x 4GB / 2vCPU
-(More can be added at a later date.)
+
+> Note: You can add more capacity at a later time, if required
 
 * Download the [doctl](https://github.com/digitalocean/doctl#installing-doctl) CLI and place it in your path.
 
@@ -148,7 +143,7 @@ $ doctl k8s cluster kubeconfig save workshop-lon1
 
 You now need to switch your Kubernetes context to point at the new cluster.
 
-Find the cluster name with `kubectx`, if it's not highlighted type in `kubectx <context-name>`.
+Find the cluster name with `kubectl config get-contexts`, if it's not highlighted type in `kubectl config set-context <context-name>`.
 
 #### _Run on GKE (Google Kubernetes Engine)_
 
@@ -227,11 +222,6 @@ $ docker login
 ## Deploy OpenFaaS
 
 The instructions for deploying OpenFaaS change from time to time as we strive to make this even easier.
-
-Deploy OpenFaaS to Kubernetes using the instructions for Helm:
-
-* Install helm (required step)
-
 
 ### Install the helm CLI/client
 
@@ -324,7 +314,6 @@ helm repo update \
     --set functionNamespace=openfaas-fn
 ```
 
-
 ### Determine your Gateway URL
 
 Depending on your installation method and Kubernetes distribution the Gateway URL may vary as will how you access it from your laptop during the workshop.
@@ -400,4 +389,3 @@ export OPENFAAS_URL=http://
 This URL will now be saved for each new terminal window that you open.
 
 Now move onto [Lab 2](./lab2.md)
-
