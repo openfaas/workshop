@@ -72,7 +72,7 @@ You can sign up here: [Docker Hub](https://hub.docker.com)
 
 Open a Terminal or Git Bash window and log into the Docker Hub using the username you signed up for above.
 
-```
+```sh
 $ docker login
 ```
 
@@ -86,7 +86,7 @@ Edit `~/.bashrc` or `~/.bash_profile` - create the file if it doesn't exist.
 
 Now add the following - changing the URL as per the one you saw above.
 
-```
+```sh
 export OPENFAAS_PREFIX="" # Populate with your Docker Hub username
 ```
 
@@ -107,7 +107,7 @@ Start the first lab by picking one of the tracks below:
 
 Pull the most recent OpenFaaS images. 
 
-```
+```sh
 curl -sSL https://raw.githubusercontent.com/openfaas/faas/master/docker-compose.yml | grep image | awk -F " " '{print $NF}' | xargs -L1 docker pull
 ```
 
