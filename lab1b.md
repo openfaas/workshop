@@ -204,20 +204,6 @@ NAME                                   STATUS    ROLES     AGE       VERSION
 gke-name-default-pool-eceef152-qjmt   Ready     <none>    1h        v1.10.7-gke.2
 ```
 
-## Configure a registry - The Docker Hub
-
-Sign up for a Docker Hub account. The [Docker Hub](https://hub.docker.com) allows you to publish your Docker images on the Internet for use on multi-node clusters or to share with the wider community. We will be using the Docker Hub to publish our functions during the workshop.
-
-You can sign up here: [Docker Hub](https://hub.docker.com)
-
-Open a Terminal or Git Bash window and log into the Docker Hub using the username you signed up for above.
-
-```
-$ docker login
-```
-
-> Note: Tip from community - if you get an error while trying to run this command on a Windows machine, then click on the Docker for Windows icon in the taskbar and log into Docker there instead "Sign in / Create Docker ID".
-
 ## Deploy OpenFaaS
 
 The instructions for deploying OpenFaaS change from time to time as we strive to make this even easier.
@@ -308,7 +294,7 @@ Edit `~/.bashrc` or `~/.bash_profile` - create the file if it doesn't exist.
 Now add the following - changing the URL as per the one you saw above.
 
 ```
--export OPENFAAS_URL="" # populate as above
+export OPENFAAS_URL="" # populate as above
 ```
 
 Now move onto [Lab 2](lab2.md)
