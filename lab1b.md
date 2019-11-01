@@ -75,7 +75,6 @@ kubectl cluster-info
 #### _With Minikube_
 
 * To install Minikube download the proper installer from [latest release](https://github.com/kubernetes/minikube/releases) depending on your platform.
-* [Install Helm client](https://docs.helm.sh/using_helm/#installing-the-helm-client)
 
 * Now run Minikube with
 
@@ -222,41 +221,6 @@ $ docker login
 ## Deploy OpenFaaS
 
 The instructions for deploying OpenFaaS change from time to time as we strive to make this even easier.
-
-### Install the helm CLI/client
-
-Instructions for latest Helm install
-
-* On Linux and Mac/Darwin:
-
-```sh
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
-```
-
-* Or via Homebrew on Mac:
-
-```sh
-brew install kubernetes-helm
-```
-      
-On Windows [download the helm.exe file](https://helm.sh) and place it in $PATH or /usr/bin/.
-
-### Install tiller
-
-* Create RBAC permissions for tiller
-
-```sh
-kubectl -n kube-system create sa tiller \
-  && kubectl create clusterrolebinding tiller \
-  --clusterrole cluster-admin \
-  --serviceaccount=kube-system:tiller
-```
-
-* Install the server-side Tiller component on your cluster
-
-```sh
-helm init --skip-refresh --upgrade --service-account tiller
-```
 
 ### Install OpenFaaS
 
