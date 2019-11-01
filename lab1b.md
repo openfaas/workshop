@@ -258,134 +258,83 @@ kubectl -n kube-system create sa tiller \
 helm init --skip-refresh --upgrade --service-account tiller
 ```
 
-### Install OpenFaaS with helm
+### Install OpenFaaS
 
-* Install the OpenFaaS helm chart
+There is a new tool called `k3sup` which can install helm charts, including OpenFaaS. This makes the installation procedure much faster.
 
-We first create two namespaces `openfaas` and `openfaas-fn`:
+#### Install with `k3sup`
 
-```sh
-kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
-```
+* Get k3sup
 
-Now add the helm chart repo for the project:
+For Windows:
 
 ```sh
-helm repo add openfaas https://openfaas.github.io/faas-netes/
+curl -SLsf https://get.k3sup.dev/ | sh
 ```
 
-Create a password for your OpenFaaS gateway:
+For MacOS / Linux:
 
 ```sh
-# generate a random password
-PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
-
-kubectl -n openfaas create secret generic basic-auth \
---from-literal=basic-auth-user=admin \
---from-literal=basic-auth-password="$PASSWORD"
-
-echo $PASSWORD > gateway-password.txt
+curl -SLsf https://get.k3sup.dev/ | sudo sh
 ```
 
->Note: If you get any issues with `helm upgrade` then you can reset it with `helm delete --purge openfaas`
+* Install the OpenFaaS app
 
-### A) For local clusters
-
-If you're running on a local cluster run the following:
+If you're using a managed cloud Kubernetes service which supplies LoadBalancers, then run the following:
 
 ```sh
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    --set basic_auth=true \
-    --set functionNamespace=openfaas-fn
+k3sup app install openfaas --loadbalancer
 ```
 
-### B) For remote clusters
-
-If you're running on a remote cluster run the following which will also expose a LoadBalancer with a public IP so that you can access it easily from your own laptop.
+If you're using a local Kubernetes cluster or a VM, then run:
 
 ```sh
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    --set basic_auth=true \
-    --set serviceType=LoadBalancer \
-    --set functionNamespace=openfaas-fn
+k3sup app install openfaas
 ```
 
-### Determine your Gateway URL
+#### Or install with helm (advanced)
 
-Depending on your installation method and Kubernetes distribution the Gateway URL may vary as will how you access it from your laptop during the workshop.
+If you prefer, you can install OpenFaaS using the [helm chart](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md) instructions.
 
-#### NodePort (local Kubernetes, excluding KinD)
+### Log into your OpenFaaS gateway
 
-The default installation for OpenFaaS exposes the gateway through a Kubernetes Service of type `NodePort`. The gateway address will generally be: `http://IP_ADDRESS:31112/`
-
-The default for Docker for Mac would be `http://127.0.0.1:31112`
-
-#### LoadBalancer (remote Kubernetes, or KinD)
-
-If you're using a remote cluster or KinD then you can either use a LoadBalancer or run a command to port-forward the gateway to your local computer over the internet.
-
-* A) Get the LoadBalancer address
-
-It may take a couple of minutes for the `EXTERNAL-IP` address to become available, it will remain `<pending>` during that time.
+* Check the gateway is ready
 
 ```sh
-kubectl get svc -o wide gateway-external -n openfaas
+kubectl rollout status -n openfaas deploy/gateway
 ```
 
-* B) Or start port-forwarding:
+If you're using your laptop, a VM, or any other kind of Kubernetes distribution run the following instead:
 
 ```sh
 kubectl port-forward svc/gateway -n openfaas 8080:8080
 ```
 
-Now set the `OPENFAAS_URL` variable to link to the proper IP:
-```bash
-export OPENFAAS_URL=http://IP_ADDRESS:8080
-```
-You should now have OpenFaaS deployed. If you are on a shared WiFi connection at an event then it may take several minutes to pull down all the Docker images and start them.
+This command will open a tunnel from your Kubernetes cluster to your local computer so that you can access the OpenFaaS gateway. There are other ways to access OpenFaaS, but that is beyond the scope of this workshop.
 
-Check the services show `1/1` on this screen:
+Your gateway URL is: `http://127.0.0.1:8080`
 
-```
-$ kubectl get pods -n openfaas
-NAME                            READY     STATUS    RESTARTS   AGE
-alertmanager-f5b4dfb8b-ztbb7    1/1       Running   0          1h
-gateway-d8477b4b6-m962x         2/2       Running   0          1h
-nats-86955fb749-8w65j           1/1       Running   0          1h
-prometheus-7d78d54b57-nncss     1/1       Running   0          1h
-queue-worker-8698f5bb78-qfv6n   1/1       Running   0          1h
+If you're using a managed cloud Kubernetes service then get the LoadBalancer's IP address or DNS entry from the `EXTERNAL-IP` field from the command below.
+
+```sh
+kubectl get svc -o wide gateway-external -n openfaas
 ```
 
-If you run into any problems, please consult the [helm chart README](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md).
+Your URL will be the IP or DNS entry above on port `8080`.
 
-### Login to the OpenFaaS Gateway
+* Log in:
 
-If you are running on a remote cluster and deployed openfaas with `basic_auth=true`, then you need to log in to access openfaas gateway. 
+```sh
+export OPENFAAS_URL="" # Populate as above
 
-If you are accessing the gateway in the browser then it will prompt you for username and password. Username will be `admin` and password will be the value of environment variable `PASSWORD`
-
-To access openfaas gateway from openfaas CLI, you need to log in using `faas-cli login` command.
-
-Log in with the CLI and check connectivity:
-
-```
-echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
+PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 ```
 
-### Permanently save your OpenFaaS URL
+* Check that `faas-cli list` works:
 
-Edit `~/.bashrc` or `~/.bash_profile` - create the file if it doesn't exist.
-
-Now add the following - changing the URL as per the one you saw above.
-
-```
-export OPENFAAS_URL=http://
+```sh
+faas-cli list
 ```
 
-This URL will now be saved for each new terminal window that you open.
-
-Now move onto [Lab 2](./lab2.md)
+Now move onto [Lab 2](lab2.md)
