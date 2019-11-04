@@ -233,7 +233,7 @@ curl -SLsf https://get.k3sup.dev/ | sh
 If you're using a managed cloud Kubernetes service which supplies LoadBalancers, then run the following:
 
 ```sh
-k3sup app install openfaas --loadbalancer
+k3sup app install openfaas --load-balancer
 ```
 
 > Note: the `--loadbalancer` flag has a default of `false`, so by passing the flag, the installation will request one from your cloud provider.
