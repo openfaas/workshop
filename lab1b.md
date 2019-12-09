@@ -210,7 +210,13 @@ The instructions for deploying OpenFaaS change from time to time as we strive to
 
 ### Install OpenFaaS
 
-There is a new tool called `k3sup` which can install helm charts, including OpenFaaS. This makes the installation procedure much faster.
+There are three ways to install OpenFaaS and you can pick whatever makes sense for you and your team. In this workshop we will use the official installer `k3sup`.
+
+* `k3sup app install` - k3sup installs OpenFaaS using its official helm chart. It can also offer other software with a user-friendly CLI such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
+
+* Helm chart - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments
+
+* Plain YAML files - hard-coded settings/values. Tools like Kustomize can offer custom settings
 
 #### Install with `k3sup`
 
