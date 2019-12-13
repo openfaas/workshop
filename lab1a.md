@@ -39,9 +39,20 @@ $ cd faas && \
 $ ./deploy_stack.sh
 ```
 
-Watch out for the password and then run the command you are given in the output.
+Your gateway URL is: `http://127.0.0.1:8080`
 
-* Run the `faas-cli login` command
+Watch out for the password and then run the commands below, or the login command printed to the console.
+
+```shell script
+# This exports your password to and environment variable for use in the following commands
+export PASSWORD=<password-printed-in-console>
+
+# This command sets the URL for the gateway, used by the faas-cli command
+export OPENFAAS_URL=http://127.0.0.1:8080
+
+# This command logs in and saves a file to ~/.openfaas/config.yml
+echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+```
 
 * Check if the services are up and showing 1/1 for each:
 
