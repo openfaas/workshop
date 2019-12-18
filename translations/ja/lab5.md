@@ -85,7 +85,7 @@ GitHubに戻って先程作った *bot-tester* を開きます
 http://fuh83fhfj.ngrok.io/function/issue-bot
 ```
 
-![](./screenshot/WebhookURLSettings.png)
+![](../../screenshot/WebhookURLSettings.png)
 
 *Content-type* には *application/json* を選択
 
@@ -95,7 +95,7 @@ http://fuh83fhfj.ngrok.io/function/issue-bot
 
 イベントは **Issues** と **Issue comment** を選択
 
-![](./screenshot/WebhookEventsSettings.png)
+![](../../screenshot/WebhookEventsSettings.png)
 
 ## webhookの動作確認
 
@@ -186,7 +186,7 @@ $ faas-cli up -f issue-bot.yml
 
 このリクエストとレスポンスはGitHubの *Settings* -> *Webhook* のページで確認できます：
 
-![](./screenshot/WebhookResponse.png)
+![](../../screenshot/WebhookResponse.png)
 
 ## GitHubに応答する
 
@@ -196,11 +196,11 @@ $ faas-cli up -f issue-bot.yml
 
 *GitHub profile* -> *Settings/Developer settings* -> *Personal access tokens* で *Generate new token* をクリックします。
 
-![](./screenshot/PersonalAccessTokens.png)
+![](../../screenshot/PersonalAccessTokens.png)
 
 「repo」にチェックを入れてリポジトリへのアクセス権を付与します。
 
-![](./screenshot/NewPAT.png)
+![](../../screenshot/NewPAT.png)
 
 ページ下部の「Generate Token」ボタンをクリックします。
 
