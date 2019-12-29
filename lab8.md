@@ -60,9 +60,9 @@ functions:
     image: <your-docker-username-here>/sleep-for:0.1
     environment:
       sleep_duration: 10
-      read_timeout: 5
-      write_timeout: 5
-      exec_timeout: 5
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
 ```
 
 Use the CLI to build, push, deploy and invoke the function.
