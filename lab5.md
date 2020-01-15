@@ -63,7 +63,7 @@ Since we now have a new URL for ngrok let's save login details for the new URL:
 
 * Run `export PASSWORD="value-here"
 
-* Run `export NGROK_ADDRESS=https://fuh83fhfj.ngrok.io`
+* Export the tunnel urls as found in http://127.0.0.1:4040/inspect/http. For example: `export NGROK_ADDRESS=https://fuh83fhfj.ngrok.io`
 
 * Now log in: `echo $PASSWORD | faas-cli login -g $NGROK_ADDRESS --username=admin --password-stdin`
 
