@@ -210,28 +210,28 @@ The instructions for deploying OpenFaaS change from time to time as we strive to
 
 ### Install OpenFaaS
 
-There are three ways to install OpenFaaS and you can pick whatever makes sense for you and your team. In this workshop we will use the official installer `k3sup`.
+There are three ways to install OpenFaaS and you can pick whatever makes sense for you and your team. In this workshop we will use the official installer `arkade`.
 
-* `k3sup app install` - k3sup installs OpenFaaS using its official helm chart. It can also offer other software with a user-friendly CLI such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
+* `arkade app install` - arkade installs OpenFaaS using its official helm chart. It can also offer other software with a user-friendly CLI such as `cert-manager` and `nginx-ingress`. It's the easiest and quickest way to get up and running.
 
 * Helm chart - sane defaults and easy to configure through YAML or CLI flags. Secure options such as `helm template` or `helm 3` also exist for those working within restrictive environments
 
 * Plain YAML files - hard-coded settings/values. Tools like Kustomize can offer custom settings
 
-#### Install with `k3sup`
+#### Install with `arkade`
 
-* Get k3sup
+* Get arkade
 
 For MacOS / Linux:
 
 ```sh
-curl -SLsf https://get.k3sup.dev/ | sudo sh
+curl -SLsf https://dl.get-arkade.dev/ | sudo sh
 ```
 
 For Windows:
 
 ```sh
-curl -SLsf https://get.k3sup.dev/ | sh
+curl -SLsf https://dl.get-arkade.dev/ | sh
 ```
 
 * Install the OpenFaaS app
@@ -239,7 +239,7 @@ curl -SLsf https://get.k3sup.dev/ | sh
 If you're using a managed cloud Kubernetes service which supplies LoadBalancers, then run the following:
 
 ```sh
-k3sup app install openfaas --load-balancer
+arkade install openfaas --load-balancer
 ```
 
 > Note: the `--load-balancer` flag has a default of `false`, so by passing the flag, the installation will request one from your cloud provider.
@@ -247,7 +247,7 @@ k3sup app install openfaas --load-balancer
 If you're using a local Kubernetes cluster or a VM, then run:
 
 ```sh
-k3sup app install openfaas
+arkade install openfaas
 ```
 
 #### Or install with helm (advanced)
