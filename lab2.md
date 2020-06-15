@@ -165,7 +165,7 @@ grafana
 Expose Grafana with a NodePort:
 
 ```sh
-kubectl -n openfaas expose deployment grafana \
+kubectl -n openfaas expose pod grafana \
 --type=NodePort \
 --name=grafana
 ```
