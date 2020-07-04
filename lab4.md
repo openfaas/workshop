@@ -394,6 +394,11 @@ Or via an environmental variable:
     r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", data= test_sentence)
 ```
 
+> Note: If you're running on Kubernetes, suffix the `gateway_hostname` with `openfaas` namespace:
+> ```
+> gateway_hostname: "gateway.openfaas"
+> ```
+
 Since the result is always in JSON format we can make use of the helper function `.json()` to convert the response:
 
 ```python
