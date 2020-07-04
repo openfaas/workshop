@@ -275,7 +275,7 @@ so we need to redirect the messages from stderr to the container's logs.
 OpenFaaS provides a solution so you can print the error messages to the logs and keep the function response clear, returning only `stdout`.
 You should use the `combine_output` flag for that purposes.
 
-Let's try it. Open the `hello-openfaas.yaml` file and add those lines:
+Let's try it. Open the `hello-openfaas.yml` file and add those lines:
 
 ```yaml
     environment:
