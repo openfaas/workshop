@@ -48,23 +48,10 @@ If you have Docker on your computer, then you can use `k3d` from Rancher Labs. I
 
 * Start a cluster
 
-```sh
-$ k3d create
-INFO[0000] Created cluster network with ID 9a7d5887754d3e317b5c1500f706a5ae602077a18bc71bcedb9fae86ebd84c0b 
-INFO[0000] Created docker volume  k3d-k3s-default-images 
-INFO[0000] Creating cluster [k3s-default]               
-INFO[0000] Creating server using docker.io/rancher/k3s:v0.9.1... 
-INFO[0000] SUCCESS: created cluster [k3s-default]       
-```
-
-Switch into the k3d context:
-
-```sh
-export KUBECONFIG="$(k3d get-kubeconfig --name='k3s-default')"
-kubectl cluster-info 
-```
-
-> Note: You have to run this on any new terminal you open.
+1. `k3d cluster create CLUSTER_NAME` to create a new single-node cluster (= 1 container running k3s + 1 loadbalancer container)
+2. `k3d kubeconfig merge CLUSTER_NAME --switch-context` to update your default kubeconfig and switch the current-context to the new one
+3. execute some commands like `kubectl get pods --all-namespaces`
+If you want to delete default cluster `k3d cluster delete CLUSTER_NAME`
 
 #### _Docker for Mac_
 
