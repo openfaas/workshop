@@ -181,7 +181,7 @@ where `IP_ADDRESS` is your corresponding IP for Kubernetes.
 Or you may run this port-forwarding command in order to be able to access Grafana on `http://127.0.0.1:3000`:
 
 ```sh
-$ kubectl port-forward deployment/grafana 3000:3000 -n openfaas
+$ kubectl port-forward grafana 3000:3000 -n openfaas
 ```
 
 After the service has been created open Grafana in your browser, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at:
