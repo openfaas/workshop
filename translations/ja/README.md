@@ -29,7 +29,6 @@ Docker：
 ## [Lab 1 - まずはOpenFaaSの準備](./lab1.md)
 
 * 必要なものをインストール
-* Docker Swarmを使ってシングルノードのクラスタをセットアップ
 * Docker Hubのアカウントについて
 * OpenFaaS CLI
 * OpenFaaSをデプロイ
@@ -100,7 +99,7 @@ Docker：
 
 ## [Lab 10 - 応用編 - secretの使い方](./lab10.md)
 * issue-botでsecretを使うようにしよう
-  * Swarmのsecretを作ろう
+  * のsecretを作ろう
   * functionからsecretにアクセスしよう
 
 [Lab 1](lab1.md) から順番に進めていくことができます。

@@ -2,13 +2,13 @@
 
 <img src="https://github.com/openfaas/media/raw/master/OpenFaaS_Magnet_3_1_png.png" width="500px"></img>
 
-OpenFaaS requires a [Kubernetes](https://kubernetes.io) or [Docker Swarm](https://docs.docker.com/engine/swarm/) cluster to operate. You can use a single-node cluster or a multi-node cluster, whether that's on your laptop or in the cloud.
+OpenFaaS requires a [Kubernetes](https://kubernetes.io) cluster to operate. You can use a single-node cluster or a multi-node cluster, whether that's on your laptop or in the cloud.
 
 The basic primitive for any OpenFaaS function is a Docker image, which is built using the `faas-cli` tool-chain.
 
 ## Pre-requisites:
 
-Let's install Docker, the OpenFaaS CLI and pick Kubernetes or Swarm to proceed.
+Let's install Docker, the OpenFaaS CLI and setup Kubernetes.
 
 ### Docker
 
@@ -92,23 +92,6 @@ export OPENFAAS_PREFIX="" # Populate with your Docker Hub username
 
 ### Setup a single-node cluster
 
-If you're taking part in an instructor-lead event then the organiser may ask you to use Docker Swarm, because it's much quicker and easier to set up in a short period of time. For some workshops you will be using Kubernetes.
-
-If you are working independently then choice is entirely your own.
-
-Start the first lab by picking one of the tracks below:
-
-* Docker Swarm: [Lab 1a](./lab1a.md)
+The labs use Kubernetes, and still have some references to Docker Swarm. Please ignore those references as Swarm is no longer supported by the OpenFaaS community. Some of the workshop labs will work for faasd, but you may need to alter the commands and we do not provide support for the workshop when taken with faasd.
 
 * Kubernetes: [Lab 1b](./lab1b.md)
-
-
-### Pre-pull the system images (only if using Swarm)
-
-Pull the most recent OpenFaaS images. 
-
-```sh
-curl -sSL https://raw.githubusercontent.com/openfaas/faas/master/docker-compose.yml | grep image | awk -F " " '{print $NF}' | xargs -L1 docker pull
-```
-
-This should offset the impact on the workshop WiFi of multiple attendees trying to pull the images at the same time.

@@ -14,7 +14,7 @@ Finally the labs cover more advanced topics and give suggestions for further lea
 
 ## Requirements:
 
-We walk through how to install these requirements in [Lab 1](./lab1.md). Please do [Lab 1](./lab1.md) before you attend an instructor-led workshop.  At the very least you should [install Docker](./lab1.md#docker) and [pre-pull the OpenFaaS images](./lab1.md#Pre-pull-the-system-images).
+We walk through how to install these requirements in [Lab 1](./lab1.md). Please do [Lab 1](./lab1.md) before you attend an instructor-led workshop.
 
 * Functions will be written in Python, so prior programming or scripting experience is preferred 
 * Install the recommended code-editor / IDE [VSCode](https://code.visualstudio.com/download)
@@ -36,13 +36,7 @@ If you're taking an instructor-led workshops then a link will be shared to join 
 
 In Lab 1 you will pick your track and then throughout the labs look out for any special commands needed for the container orchestrator for your track.
 
-### Docker Swarm (beginners)
-
-The easiest and simplest way to learn about OpenFaaS is by deploying Docker Swarm, this is because it is already built into the Docker distribution and has more limited extensibility.
-
-The knowledge you build up and the functions you create are both transferrable and portable between Docker Swarm and Kubernetes.
-
-### Kubernetes (intermediate)
+### Kubernetes
 
 You can also learn about Serverless on Kubernetes using OpenFaaS.
 
@@ -51,7 +45,7 @@ The recommendation from the OpenFaaS community is that you run Kubernetes in pro
 ## [Lab 1 - Prepare for OpenFaaS](./lab1.md)
 
 * Install pre-requisites
-* Set up a single-node cluster with Docker Swarm or Kubernetes
+* Set up a single-node cluster with Kubernetes
 * Docker Hub account
 * OpenFaaS CLI
 * Deploy OpenFaaS
@@ -125,7 +119,7 @@ The recommendation from the OpenFaaS community is that you run Kubernetes in pro
 ## [Lab 10 - Advanced Feature - Secrets](./lab10.md)
 
 * Adapt issue-bot to use a secret
-  * Create a Swarm secret
+  * Create a Kubernetes secret with faas-cli
   * Access the secret within the function
 
 ## [Lab 11 - Advanced feature - Trust with HMAC](./lab11.md)
