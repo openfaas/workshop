@@ -44,11 +44,11 @@ $ kubectl -n openfaas run \
 --port=4040 \
 ngrok -- http gateway:8080
 
-$ kubectl -n openfaas expose deployment ngrok \
+$ kubectl -n openfaas expose pod ngrok \
 --type=NodePort \
 --name=ngrok
 
-$ kubectl port-forward deployment/ngrok 4040:4040 -n openfaas
+$ kubectl port-forward pod/ngrok 4040:4040 -n openfaas
 ```
 
 Use the built-in UI of `ngrok` at http://127.0.0.1:4040 to find your HTTP URL. You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
