@@ -257,16 +257,6 @@ Joe Acaba is in space
 
 You can find out high-level information on every invocation of your function via the container's logs:
 
-#### _Docker Swarm_
-
-```sh
-$ docker service logs -f astronaut-finder
-astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:25 Forking fprocess.
-astronaut-finder.1.1e1ujtsijf6b@nuc    | 2018/02/21 14:53:26 Wrote 18 Bytes - Duration: 0.063269 seconds
-```
-
-#### _Kubernetes_
-
 ```sh
 $ kubectl logs deployment/astronaut-finder -n openfaas-fn
 ```
@@ -304,18 +294,6 @@ Now deploy your function again with `faas-cli deploy -f ./astronaut-finder.yml`.
 
 Invoke the function and then checkout the logs again to view the function responses:
 
-#### _Docker Swarm_
-```sh
-$ docker service logs -f astronaut-finder
-
-astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Forking fprocess.
-astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Query  
-astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:36 Path  /
-astronaut-finder.1.tp6k14i8kf6s   | 2019/04/25 18:28:37 Duration: 1.128897 seconds
-astronaut-finder.1.tp6k14i8kf6s   | Alexey Ovchinin is in space
-```
-
-#### _Kubernetes_
 ```sh
 $ kubectl logs deployment/astronaut-finder -n openfaas-fn
 ```

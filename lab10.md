@@ -24,14 +24,6 @@ This is a more secure alternative to environmental variables. Environmental vari
 
 From a terminal run the following command:
 
-#### _Docker Swarm_
-
-```
-$ echo -n <auth_token> | faas-cli secret create auth-token
-```
-
-#### _Kubernetes_
-
 ```
 $ echo -n <auth_token> | faas-cli secret create auth-token
 ```
@@ -42,8 +34,6 @@ Test that the secret was created:
 $ faas-cli secret ls
 ```
 > Note: Remember that the `-g` flag enables easy switching between gateways.  This works for secrets too.
-
-#### _Kubernetes_
 
 ```
 kubectl get secret auth-token -n openfaas-fn -o json
@@ -69,17 +59,12 @@ functions:
     image: <your-username>/issue-bot
     environment:
       write_debug: true
-      gateway_hostname: "gateway"
+      gateway_hostname: "gateway.openfaas"
       positive_threshold: 0.25
     secrets:
       - auth-token
 
 ```
-
-> Note: If you're running on Kubernetes, suffix the `gateway_hostname` with `openfaas` namespace:
-> ```
-> gateway_hostname: "gateway.openfaas"
-> ```
 
 ### Update the `issue-bot` function
 

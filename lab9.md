@@ -28,14 +28,6 @@ You can control the maximum amount of replicas that can spawn for a function by 
 
 ### Check out Prometheus
 
-Open Prometheus in a web-browser:
-
-#### _Docker Swarm_
-
-`http://127.0.0.1:9090/graph`
-
-#### _Kubernetes_
-
 You will need to run this port-forwarding command in order to be able to access Prometheus on `http://127.0.0.1:9090`:
 ```
 $ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
@@ -160,21 +152,13 @@ See also: [hey on GitHub](https://github.com/rakyll/hey)
 
 If you scale down your function to 0 replicas, you can still invoke it. The invocation will trigger the gateway into scaling the function to a non-zero value.
 
-Try it out with the following commands:
+Try it out with the following command:
 
-Docker Swarm:
-```
-$ docker service scale nodeinfo=0
-```
-
-Kubernetes:
 ```
 $ kubectl scale deployment --replicas=0 nodeinfo -n openfaas-fn
 ```
 
-Open the OpenFaaS UI and check that nodeinfo has 0 replicas, or by `docker service ls | grep nodeinfo`.
-
-> For Kubernetes use `kubectl get deployment nodeinfo -n openfaas-fn`
+Open the OpenFaaS UI and check that nodeinfo has 0 replicas, or by `kubectl get deployment nodeinfo -n openfaas-fn`.
 
 Now invoke the function and check back that it scaled to 1 replicas.
 

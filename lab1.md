@@ -92,6 +92,6 @@ export OPENFAAS_PREFIX="" # Populate with your Docker Hub username
 
 ### Setup a single-node cluster
 
-The labs use Kubernetes, and still have some references to Docker Swarm. Please ignore those references as Swarm is no longer supported by the OpenFaaS community. Some of the workshop labs will work for faasd, but you may need to alter the commands and we do not provide support for the workshop when taken with faasd.
+The labs use Kubernetes, Swarm is no longer supported by the OpenFaaS community. Some of the workshop labs will work for faasd, but you may need to alter the commands and we do not provide support for the workshop when taken with faasd.
 
 * Kubernetes: [Lab 1b](./lab1b.md)

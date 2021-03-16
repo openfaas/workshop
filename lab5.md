@@ -29,15 +29,6 @@ You will need to receive incoming webhooks from GitHub. In production you will h
 
 Open a new Terminal and type in:
 
-### _Docker Swarm_
-
-```
-$ docker run -p 4040:4040 -d --name=ngrok --net=func_functions \
-  alexellis2/ngrok-admin http gateway:8080
-```
-
-#### _Kubernetes_
-
 ```
 $ kubectl -n openfaas run \
 --image=alexellis2/ngrok-admin \
@@ -201,11 +192,11 @@ Update your `requirements.txt` file with the requests module for HTTP/HTTPs:
 requests
 ```
 
-Add `gateway_hostname` environment variable to `issue-bot.yml` file and set its value to `gateway` for Swarm or `gateway.openfaas` for Kubernetes.
+Add `gateway_hostname` environment variable to `issue-bot.yml` file and set its value to `gateway.openfaas`.
 ``` 
     ...
     environment:
-      gateway_hostname: "gateway"
+      gateway_hostname: "gateway.openfaas"
     ...
 ```
 
@@ -269,17 +260,11 @@ functions:
     image: <your-username>/issue-bot
     environment:
       write_debug: true
-      gateway_hostname: "gateway"
+      gateway_hostname: "gateway.openfaas"
       positive_threshold: 0.25
     environment_file:
     - env.yml
 ```
-
-> Note: If you're running on Kubernetes, suffix the `gateway_hostname` with `openfaas` namespace:
-> ```
-> gateway_hostname: "gateway.openfaas"
-> ```
-
 > The `positive_threshold` environmental variable is used to fine-tune whether an Issue gets the `positive` or `review` label.
 
 Any sensitive information is placed in an external file (i.e. `env.yml`) so that it can be included in a `.gitignore` file which will help prevent that information getting stored in a public Git repository.
