@@ -139,20 +139,6 @@ $ cat lab2.md | faas-cli invoke markdown
 
 OpenFaaS tracks metrics on your functions automatically using Prometheus. The metrics can be turned into a useful dashboard with free and Open Source tools like [Grafana](https://grafana.com).
 
-Deploy OpenFaaS Grafana with:
-
-#### _Docker Swarm_
-
-```bash
-$ docker service create -d \
---name=grafana \
---publish=3000:3000 \
---network=func_functions \
-stefanprodan/faas-grafana:4.6.3
-```
-
-#### _Kubernetes_
-
 Run Grafana in OpenFaaS Kubernetes namespace:
 
 ```sh
@@ -186,16 +172,7 @@ $ kubectl port-forward pod/grafana 3000:3000 -n openfaas
 
 If you're using Kubernetes 1.17 or older, use `deploy/grafana` instead of `pod/` in the command above.
 
-After the service has been created open Grafana in your browser, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at:
-
-
-#### _Docker Swarm_
-
-[http://127.0.0.1:3000/dashboard/db/openfaas](http://127.0.0.1:3000/dashboard/db/openfaas)
-
-#### _Kubernetes_
-
-Use `$GRAFANA_URL` instead
+After the service has been created open Grafana in your browser, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at `$GRAFANA_URL`.
 
 <a href="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765"><img src="https://camo.githubusercontent.com/24915ac87ecf8a31285f273846e7a5ffe82eeceb/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4339636145364358554141585f36342e6a70673a6c61726765" width="600px" /></a>
 

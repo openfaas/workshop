@@ -31,14 +31,6 @@ Let's try it out with a querystring and a function that lists off all environmen
 
 * Deploy a function that prints environmental variables using a built-in BusyBox command:
 
-#### _Docker Swarm_
-
-```
-$ faas-cli deploy --name env --fprocess="env" --image="functions/alpine:latest" --network=func_functions
-```
-
-#### _Kubernetes_
-
 ```
 $ faas-cli deploy --name env --fprocess="env" --image="functions/alpine:latest"
 ```
@@ -371,15 +363,6 @@ $ echo -n "California is great, it's always sunny there." | faas-cli invoke sent
 So the result shows us that our test sentence was both very subjective (75%) and very positive (80%). The values for these two fields are always between `-1.00` and `1.00`.
 
 The following code can be used to call the *Sentiment Analysis* function or any other function:
-
-#### _Docker Swarm_
-
-```python
-    test_sentence = "California is great, it's always sunny there."
-    r = requests.get("http://gateway:8080/function/sentimentanalysis", data= test_sentence)
-```
-
-#### _Kubernetes_
 
 Suffix the gateway host with `openfaas` namespace:
 ```python
