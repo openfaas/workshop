@@ -49,7 +49,7 @@ If you have Docker on your computer, then you can use `k3d` from Rancher Labs. I
 * Start a cluster
 
 1. `k3d cluster create CLUSTER_NAME` to create a new single-node cluster (= 1 container running k3s + 1 loadbalancer container)
-2. `k3d kubeconfig merge CLUSTER_NAME --switch-context` to update your default kubeconfig and switch the current-context to the new one
+2. `k3d kubeconfig merge CLUSTER_NAME --kubeconfig-switch-context` to update your default kubeconfig and switch the current-context to the new one
 3. execute some commands like `kubectl get pods --all-namespaces`
 If you want to delete default cluster `k3d cluster delete CLUSTER_NAME`
 
