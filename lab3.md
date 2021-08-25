@@ -25,7 +25,7 @@ $ faas-cli template pull
 
 Fetch templates from repository: https://github.com/openfaas/templates.git
  Attempting to expand templates from https://github.com/openfaas/templates.git
- Fetched 11 template(s) : [csharp dockerfile go go-armhf node node-arm64 node-armhf python python-armhf python3 ruby]
+2021/08/25 15:58:10 Fetched 13 template(s) : [csharp dockerfile go java11 java11-vert-x node node12 node14 php7 python python3 python3-debian ruby] from https://github.com/openfaas/templates.git
 ```
 
 After that, to find out which languages are available type in:
@@ -34,21 +34,17 @@ After that, to find out which languages are available type in:
 $ faas-cli new --list
 Languages available as templates:
 - csharp
-- csharp-armhf
 - dockerfile
-- dockerfile-armhf
 - go
-- go-armhf
-- java12
-- java8
+- java11
+- java11-vert-x
 - node
-- node-arm64
-- node-armhf
+- node12
+- node14
 - php7
 - python
-- python-armhf
 - python3
-- python3-armhf
+- python3-debian
 - ruby
 ```
 
