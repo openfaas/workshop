@@ -174,14 +174,12 @@ The handler for the function - you get a `req` object with the raw request and c
 ```sh
 ./astronaut-finder/requirements.txt
 ```
-
-Use this file to list any `pip` modules you want to install, such as `requests` or `urllib`
+This file is used to manage the function - it has the name of the function, the Docker image and any other customisations needed.
 
 ```sh
 ./astronaut-finder.yml
 ```
-
-This file is used to manage the function - it has the name of the function, the Docker image and any other customisations needed.
+Use this file to list any `pip` modules you want to install, such as `requests` or `urllib`
 
 * Edit `./astronaut-finder/requirements.txt`
 
