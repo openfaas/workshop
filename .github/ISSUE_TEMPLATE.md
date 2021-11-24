@@ -30,7 +30,7 @@
 
 * Docker version ( Full output from: `docker version` ):
 
-* Are you using Docker Swarm (FaaS-swarm ) or Kubernetes (FaaS-netes)?
+* Are you using faasd or Kubernetes? Which version?
 
 * Operating System and version (e.g. Linux, Windows, MacOS):
 
