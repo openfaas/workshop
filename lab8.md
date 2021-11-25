@@ -84,8 +84,6 @@ Finished the sleep
 
 * API Gateway
 
-There is also a maximum timeout duration set at the gateway and it will override the function timeout. At the time of writing the maximum timeout is configured at "20s", but can be configured to a longer or shorter value.
-
-To update the gateway value, set `gateway.readTimeout` and `gateway.writeTimeout` in the [values.yaml](https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/values.yaml) file or use the Helm parameters `--set gateway.readTimeout=value` and `--set gateway.writeTimeout=value`.
+To set expanded timeouts for your functions beyond the default limit, follow the following tutorial: [Expanded timeouts](https://docs.openfaas.com/tutorials/expanded-timeouts/)
 
 Now move onto [Lab 9](lab9.md)
