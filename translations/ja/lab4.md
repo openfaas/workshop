@@ -131,7 +131,7 @@ This should be an error message.
 
 このままでは `stderr` が原因でfunctionの戻り値は無効なJSONの形になってしまいます。よって、 `stderr` の中身は戻り値には結合せず、コンテナのログにだけ出力するように挙動を変えたいです。これを実現するために `combine_output` フラグを設定することができます。
 
-では、実際に `hello-openfaas.yaml` に設定してみましょう：
+では、実際に `hello-openfaas.yml` に設定してみましょう：
 
 ```yaml
     environment:
