@@ -12,6 +12,14 @@ Finally the labs cover more advanced topics and give suggestions for further lea
 
 * [日本語](./translations/ja)
 
+## Learn for free, show your appreciation as a GitHub Sponsor
+
+OpenFaaS along with these materials are provided for free and require time and effort to maintain.
+
+* Become a sponsor for [OpenFaaS on GitHub](https://github.com/sponsor/openfaas)
+
+You can pick a predefined tier and its benefits, a custom monthly tier, or send a one-time amount.
+
 ## Requirements:
 
 We walk through how to install these requirements in [Lab 1](./lab1.md). Please do [Lab 1](./lab1.md) before you attend an instructor-led workshop.
