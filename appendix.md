@@ -43,7 +43,7 @@ rate ( gateway_function_invocation_total{function_name="figlet"} [20s] )
 
 ## The Director pattern (for function chaining)
 
-The *Director pattern* as [documented here](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) is where one function *the director* exists only to call another function and return the result. It is a mixture of the two techniques we explored in [Lab 6](./lab6.md).
+The *Director pattern* as [documented here](https://github.com/openfaas/faas/blob/7b300ce1f962d3caefe75b3570ca260418175a43/guide/chaining_functions.md) is where one function *the director* exists only to call another function and return the result. It is a mixture of the two techniques we explored in [Lab 6](./lab6.md).
 
 ![](./diagram/director_function.png)
 

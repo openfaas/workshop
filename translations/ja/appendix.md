@@ -43,7 +43,7 @@ rate ( gateway_function_invocation_total{function_name="figlet"} [20s] )
 
 ## Directorパターン (functionの連鎖)
 
-*Directorパターン* は [こちらのドキュメント](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) で述べられていますが、 director としてのfunctionを一つ用意して、その function は他の functionを呼ぶためだけに作られています。これは [Lab6](./lab6.md) で紹介した function の連鎖方法の2つの方法を組み合わせたハイブリッドなアプローチになります。
+*Directorパターン* は [こちらのドキュメント](https://github.com/openfaas/faas/blob/7b300ce1f962d3caefe75b3570ca260418175a43/guide/chaining_functions.md) で述べられていますが、 director としてのfunctionを一つ用意して、その function は他の functionを呼ぶためだけに作られています。これは [Lab6](./lab6.md) で紹介した function の連鎖方法の2つの方法を組み合わせたハイブリッドなアプローチになります。
 
 ![](../../diagram/director_function.png)
 
