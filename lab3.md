@@ -392,37 +392,67 @@ $ faas-cli template store list
 $ faas-cli template store list -v
 
 NAME                     SOURCE             DESCRIPTION
-csharp                   openfaas           Official C# template
-dockerfile               openfaas           Official Dockerfile template
-go                       openfaas           Official Golang template
+csharp                   openfaas           Classic C# template
+dockerfile               openfaas           Classic Dockerfile template
+go                       openfaas           Classic Golang template
 ...
 ```
 
 To get more details you can use the `--verbose` flag, or the `describe` command.
 
-Let's get a template for use with Node.js which is powered by the Express.js framework.
+Let's find a Golang template with a HTTP format:
+
+``bash
+faas-cli template store list | grep golang
+
+golang-http              openfaas           Golang HTTP template
+golang-middleware        openfaas           Golang Middleware template
+```
+
+Then check out its upstream repository:
 
 ```sh
-$ faas-cli template store describe node10-express
+$ faas-cli template store describe golang-http
 
-Name:              node10-express
+Name:              golang-http
 Platform:          x86_64
-Language:          NodeJS
-Source:            openfaas-incubator
-Description:       NodeJS 10 Express template
-Repository:        https://github.com/openfaas-incubator/node10-express-template
+Language:          Go
+Source:            openfaas
+Description:       Golang HTTP template
+Repository:        https://github.com/openfaas/golang-http-template
 Official Template: true
 ```
 
 Pull the template down:
 
 ```sh
-$ faas-cli template store pull node10-express
+$ faas-cli template store pull golang-http
 ```
 
-You can now type in `faas-cli new --lang node10-express`.
+You can now create a function with this template by typing in:
 
-See also: [Function & Template Store](https://github.com/openfaas/store/)
+```bash
+faas-cli new --lang golang-http NAME
+```
+
+To make it easier than having to run `faas-cli template store pull golang-http` for functions, you can append the following to your stack.yml file:
+
+```yaml
+configuration:
+  templates:
+    - name: golang-http
+```
+
+Then run the following instead of specifying the template name:
+
+```bash
+$ faas-cli template store pull
+```
+
+See also:
+
+* [OpenFaaS YAML reference guide](https://docs.openfaas.com/reference/yaml/)
+* [Function & Template Store](https://github.com/openfaas/store/)
 
 ### Variable Substitution in YAML File (optional exercise)
 
