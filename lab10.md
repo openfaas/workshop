@@ -18,6 +18,8 @@ From the Docker documentation:
 
 This is a more secure alternative to environmental variables. Environmental variables are easier to use but are best suited to non-confidential configuration items.  Seems a good fit for storing the `auth_token` value.  
 
+See more information about Secrets and its design in the [docs](https://docs.openfaas.com/reference/secrets/).
+
 ### Create a secret
 
 > Secret names must follow the DNS-1123 convention and consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character 
