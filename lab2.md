@@ -118,21 +118,13 @@ $ faas-cli invoke markdown
 
 You'll now be asked to type in some text. Hit Control + D when you're done.
 
-Alternatively you can use a command such as `echo` or `uname -a` as input to the `invoke` command which works through the use of pipes.
+Alternatively you can use a command such as `echo` or `curl` as input to the `invoke` command which works through the use of pipes.
 
 ```sh
-$ echo Hi | faas-cli invoke markdown
+$ echo "# Hi" | faas-cli invoke markdown
 
-$ uname -a | faas-cli invoke markdown
-```
-
-You can even generate a HTML file from this lab's markdown file with the following:
-
-```sh
-$ git clone https://github.com/openfaas/workshop \
-   && cd workshop
-
-$ cat lab2.md | faas-cli invoke markdown
+$ curl -sLS https://raw.githubusercontent.com/openfaas/faas/master/README.md \
+  | faas-cli invoke markdown
 ```
 
 ## Monitoring dashboard
