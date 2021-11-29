@@ -18,13 +18,13 @@ def getHash(hash):
 
 def handle(req):
     # We receive the hashed message in form of a header
-    messageMAC = os.getenv("Http_Hmac")
+    receivedHMAC = os.getenv("Http_Hmac")
 
     # Read secret from inside the container
     with open("/var/openfaas/secrets/payload-secret","r") as secretContent:
-        payloadSecret = secretContent.read()
+        payloadKey = secretContent.read()
 
     # Function to validate the HMAC
-    if validateHMAC(req, payloadSecret, messageMAC):
+    if validateHMAC(req, payloadKey, receivedHMAC):
         return "Successfully validated: " + req
     return "HMAC validation failed."

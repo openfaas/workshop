@@ -34,7 +34,7 @@ This way we close our functions from being invoked with invalid or even dangerou
 
 ## Using HMAC
 
-We will use the `--sign` flag provided by faas-cli to send a header containing the hashed message created with the shared key which we send with the `--key` flag.
+We will use the `--sign` flag provided by faas-cli to include a header, which contains the hashed message created using the shared key which we provide with the `--key` flag.
 
 > Note: Both `--sign` and `--key` must be present.
 
@@ -172,9 +172,10 @@ Here we compare the generated and received hashes:
 
 ```python
 ...
-    if hmacDigest == cleanHash:
-        return True
-    return False
+    # Function to validate the HMAC
+    if validateHMAC(req, payloadKey, receivedHMAC):
+        return "Successfully validated: " + req
+    return "HMAC validation failed."
 ...
 ```
 
