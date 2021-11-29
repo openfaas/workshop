@@ -13,7 +13,7 @@ We're going to use OpenFaaS functions to create a GitHub bot named `issue-bot`.
 
 The job of issue-bot is to triage new issues by analysing the sentiment of the "description" field, it will then apply a label of *positive* or *review*. This will help the maintainers with their busy schedule so they can prioritize which issues to look at first.
 
-![](./diagram/issue-bot.png)
+![Diagram of the issue bot](./diagram/issue-bot.png)
 
 ## Get a GitHub account
 
@@ -23,58 +23,92 @@ The job of issue-bot is to triage new issues by analysing the sentiment of the "
 
 Note: we will only use this repository as a testing ground for creating Issues. You don't need to commit any code there.
 
-## Set up a tunnel with ngrok
+## Set up a tunnel with inlets
 
-You will need to receive incoming webhooks from GitHub. In production you will have a clear route for incoming traffic but within the constraints of a workshop we have to be creative.
+You will need to receive incoming webhooks from GitHub. Fortunately, inlets makes this very quick and simple. It's available on a monthly or annual subscription, so if you are not sure if you are going to need it all year, you can just pay for a single month.
 
-Open a new Terminal and type in:
+inlets has a Kubernetes integration called the inlets-operator. You can use it to setup LoadBalancers or Ingress with TLS. It works by creating a cloud VM for you and running a tunnel server there, it then runs a tunnel client as a Pod for you and you get incoming traffic.
 
-```
-$ kubectl -n openfaas run \
---image=alexellis2/ngrok-admin \
---port=4040 \
-ngrok -- http gateway:8080
+Create a write access token under the API page of your preferred cloud provider, such as DigitalOcean, then save the contents to `digital-ocean-api-token.txt`.
 
-$ kubectl -n openfaas expose deployment ngrok \
---type=NodePort \
---name=ngrok
+After setting your subscription, save your key to `$HOME/.inlets/LICENSE` and run the following:
 
-$ kubectl port-forward deployment/ngrok 4040:4040 -n openfaas
+```bash
+arkade install inlets-operator \
+  --provider digitalocean \
+  --region lon1 \
+  --token-file $HOME/digital-ocean-api-token.txt
 ```
 
-Use the built-in UI of `ngrok` at http://127.0.0.1:4040 to find your HTTP URL. You will be given a URL that you can access over the Internet, it will connect directly to your OpenFaaS API Gateway.
+This will deploy the inlets-operator and instruct it to provision new hosts on DigitalOcean into the London region for your tunnel servers. Other providers and regions are available, [see the docs for more](https://docs.inlets.dev/reference/inlets-operator/).
 
-> Note: `ngrok` also provides a JSON API at `http://127.0.0.1:4040/api/tunnels`
+## Log into your gateway with the Gateway's public IP
 
-## Log into the gateway with the ngrok address
+Retrieve your gateway password with the message from:
 
-Since we now have a new URL for ngrok let's save login details for the new URL:
-
-* Retrieve your password using the [troubleshooting guide](https://docs.openfaas.com/deployment/troubleshooting/#i-forgot-my-gateway-password)
-
-* Run `export PASSWORD="value-here"
-
-* Run `export NGROK_ADDRESS=https://fuh83fhfj.ngrok.io`
-
-* Now log in: `echo $PASSWORD | faas-cli login -g $NGROK_ADDRESS --username=admin --password-stdin`
-
-Finally * test the remote URL such as https://fuh83fhfj.ngrok.io
-
-```
-$ faas-cli list --gateway https://fuh83fhfj.ngrok.io/
+```bash
+arkade info openfaas
 ```
 
-> Note: you will notice that because we used the HTTPS url, that the warning about using an insecure certificate disappeared. The OpenFaaS documentation shows [how to setup Ingress with TLS for OpenFaaS](https://docs.openfaas.com/reference/ssl/kubernetes-with-cert-manager/). If you're using a remote cluster then you can try this after completing all the labs.
+The public IP for the LoadBalancer will take around 10-30 seconds to appear:
+
+```bash
+kubectl get svc -n openfaas gateway-external
+NAME               TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)          AGE
+gateway-external   LoadBalancer   10.96.29.46   <pending>     8080:32278/TCP   5h56m
+gateway-external   LoadBalancer   10.96.29.46   165.227.233.227   8080:32278/TCP   5h56m
+```
+
+Then save it into an environment variable:
+
+```bash
+export OPENFAAS_URL=http://165.227.233.227:8080
+```
+
+Log in with the password you were given to the public IP:
+
+```bash
+echo $PASSWORD | faas-cli login --password-stdin
+```
+
+Finally test the remote URL such as http://165.227.233.227:8080
+
+You can run commands against the remote gateway by setting the `OPENFAAS_URL` environment variable or by using the `--gateway` flag.
+
+If you'd like to expose OpenFaaS with a TLS certificate and a custom domain, you can follow these instructions instead:
+
+```bash
+arkade install ingress-nginx
+arkade install cert-manager
+arkade install openfaas
+arkade install openfaas-ingress \
+  --email web@example.com \
+  --domain openfaas.example.com
+```
+
+Then create a DNS A record pointing at the IP address of ingress-nginx:
+
+```bash
+kubectl get svc ingress-nginx-controller
+NAME                       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+NAME                       TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller   LoadBalancer   10.96.179.20   <pending>     80:30319/TCP,443:31591/TCP   20s
+ingress-nginx-controller   LoadBalancer   10.96.179.20   209.97.135.63   80:30319/TCP,443:31591/TCP   52s
+```
+
+That'll now give you a custom TLS record for `https://openfaas.example.com`
 
 ## Create a webhook receiver `issue-bot`
 
-```
-$ faas-cli new --lang python3 issue-bot --prefix="<your-docker-username-here>"
+```bash
+export OPENFAAS_PREFIX="docker.io/your-username"
+$ faas-cli new --lang python3 \
+  issue-bot
 ```
 
 Now edit the function's YAML file `issue-bot.yml` and add an environmental variable of `write_debug: true`:
 
-```
+```yaml
 provider:
   name: openfaas
   gateway: http://127.0.0.1:8080
@@ -83,14 +117,14 @@ functions:
   issue-bot:
     lang: python3
     handler: ./issue-bot
-    image: <user-name>/issue-bot
+    image: docker.io/your-username/issue-bot
     environment:
       write_debug: true
 ```
 
 * Build, push and deploy the function with
 
-```
+```bash
 $ faas-cli up -f ./issue-bot.yml
 ```
 
@@ -100,15 +134,15 @@ Log back into GitHub and navigate to your repository *bot-tester*
 
 Click *Settings* -> *Webhooks* -> *Add Webhook*
 
-![](./screenshot/add_github_webhook.png)
+![Adding the webhook](./screenshot/add_github_webhook.png)
 
-Now enter the URL you were given from `ngrok` adding `/function/issue-bot` to the end, for example:
+Now enter the URL you were given from inlets or your custom domain adding `/function/issue-bot` to the end, for example:
 
 ```
-http://fuh83fhfj.ngrok.io/function/issue-bot
+https://openfaas.example.com
 ```
 
-![](./screenshot/WebhookURLSettings.png)
+![Adding the webhook](./screenshot/issue-bot-webhook.png)
 
 For *Content-type* select: *application/json*
 
@@ -118,7 +152,7 @@ And select "Let me select individual events"
 
 For events select **Issues** and **Issue comment**
 
-![](./screenshot/WebhookEventsSettings.png)
+![Setting the events](./screenshot/WebhookEventsSettings.png)
 
 ## Check it worked
 
@@ -138,7 +172,7 @@ You can see the payload sent via GitHub by typing in `docker service logs -f iss
 
 The GitHub Webhooks page will also show every message sent under "Recent Deliveries", you can replay a message here and see the response returned by your function.
 
-![](./screenshot/github_replay.png)
+![Replaying an event](./screenshot/github_replay.png)
 
 ### Deploy SentimentAnalysis function
 
@@ -214,7 +248,7 @@ Use the CLI to build and deploy the function:
 $ faas-cli up -f issue-bot.yml
 ```
 
-Now create a new issue in the `bot-tester` repository. GitHub will respond by sending a JSON payload to your function via the Ngrok tunnel we set up at the start.
+Now create a new issue in the `bot-tester` repository. GitHub will respond by sending a JSON payload to your function via the Inlets tunnel we configured earlier.
 
 You can view the request/response directly on GitHub - navigate to *Settings* -> *Webhook* as below:
 
