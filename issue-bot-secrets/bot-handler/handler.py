@@ -9,7 +9,7 @@ def handle(req):
         sys.exit(1)
         return
 
-    gateway_hostname = os.getenv("gateway_hostname", "gateway")
+    gateway_hostname = os.getenv("gateway_hostname", "gateway.openfaas")
 
     payload = json.loads(req)
 

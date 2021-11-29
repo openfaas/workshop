@@ -230,7 +230,7 @@ $ echo -n "California is great, it's always sunny there." | faas-cli invoke sent
 また、環境変数を使った場合は次のようになります:
 
 ```python
-    gateway_hostname = os.getenv("gateway_hostname", "gateway") # gateway_hostnameという環境変数が無い場合はデフォルト値の"gateway"に設定
+    gateway_hostname = os.getenv("gateway_hostname", "gateway.openfaas") # gateway_hostnameという環境変数が無い場合はデフォルト値の"gateway"に設定
     test_sentence = "California is great, it's always sunny there."
     r = requests.get("http://" + gateway_hostname + ":8080/function/sentimentanalysis", text= test_sentence)
 ```
@@ -258,7 +258,7 @@ def handle(req):
         req (str): request body
     """
 
-    gateway_hostname = os.getenv("gateway_hostname", "gateway") # gateway_hostnameという環境変数が無い場合はデフォルト値の"gateway"に設定
+    gateway_hostname = os.getenv("gateway_hostname", "gateway.openfaas") # gateway_hostnameという環境変数が無い場合はデフォルト値の"gateway"に設定
 
     test_sentence = req
 

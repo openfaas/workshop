@@ -8,7 +8,7 @@ def handle(req):
         sys.exit("Unable to handle X-GitHub-Event: " + event_header)
         return
 
-    gateway_hostname = os.getenv("gateway_hostname", "gateway")
+    gateway_hostname = os.getenv("gateway_hostname", "gateway.openfaas")
 
     payload = json.loads(req)
 
