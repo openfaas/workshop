@@ -212,6 +212,7 @@ There are three ways to install OpenFaaS and you can pick whatever makes sense f
 For MacOS / Linux:
 
 ```sh
+# MacOS users may need to run "bash" first if this command fails
 curl -SLsf https://dl.get-arkade.dev/ | sudo sh
 ```
 
@@ -236,6 +237,8 @@ If you're using a local Kubernetes cluster or a VM, then run:
 ```sh
 arkade install openfaas
 ```
+
+In a later lab, we'll show you how to set up a custom domain with TLS using Kubernetes Ingress.
 
 #### Or install with helm (advanced)
 

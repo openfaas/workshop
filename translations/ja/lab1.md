@@ -75,6 +75,7 @@ $ docker login
 OpenFaaS CLIはMacであれば `brew` でインストールできますし、MacやLinuxであれば下記コマンドでインストールできます：
 
 ```
+# MacOS users may need to run "bash" first if this command fails
 $ curl -sL cli.openfaas.com | sudo sh
 ```
 

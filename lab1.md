@@ -44,6 +44,7 @@ You can install the OpenFaaS CLI using the official bash script, `brew` is also 
 With MacOS or Linux run the following in a Terminal:
 
 ```sh
+# MacOS users may need to run "bash" first if this command fails
 $ curl -sLSf https://cli.openfaas.com | sudo sh
 ```
 
