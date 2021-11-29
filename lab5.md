@@ -270,7 +270,6 @@ Tick the box for "repo" to allow access to your repositories
 
 Click the "Generate Token" button at the bottom of the page
 
-
 Create a file called `env.yml` in the directory where your `issue-bot.yml` file is located with the following content:
 
 ```yaml
@@ -316,7 +315,7 @@ issue_number = 1
 repo_name = "alexellis/issue_bot"
 auth_token = "xyz"
 
-g = Github("auth_token")
+g = Github(auth_token)
 repo = g.get_repo(repo_name)
 issue = repo.get_issue(issue_number)
 ```
