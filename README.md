@@ -18,8 +18,6 @@ OpenFaaS along with these materials are provided for free and require time and e
 
 * Become a sponsor for [OpenFaaS on GitHub](https://github.com/sponsor/openfaas)
 
-You can pick a predefined tier and its benefits, a custom monthly tier, or send a one-time amount.
-
 ## Requirements:
 
 We walk through how to install these requirements in [Lab 1](./lab1.md). Please do [Lab 1](./lab1.md) before you attend an instructor-led workshop.
