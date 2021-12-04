@@ -16,7 +16,7 @@ For Mac
 
 * [Docker CE for Mac Edge Edition](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 
-For Windows 
+For Windows
 
 * Use Windows 10 Pro or Enterprise only
 * Install [Docker CE for Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
