@@ -1,3 +1,8 @@
+The openfaas-workshop was written in 2017/2018, however more appropriate and recent materials now exist:
+
+* [Complete handbook with JavaScript](https://gumroad.com/l/serverless-for-everyone-else)
+* [Serverless on Kubernetes Course by the LinuxFoundation with Python](https://www.openfaas.com/blog/introduction-to-serverless-linuxfoundation/)
+
 # openfaas-workshop
 
 This is a self-paced workshop for learning how to build, deploy and run serverless functions with OpenFaaS.
