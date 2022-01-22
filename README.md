@@ -21,7 +21,7 @@ Finally the labs cover more advanced topics and give suggestions for further lea
 
 OpenFaaS along with these materials are provided for free and require time and effort to maintain.
 
-* Become a sponsor for [OpenFaaS on GitHub](https://github.com/sponsor/openfaas)
+* Become a sponsor for [OpenFaaS on GitHub](https://github.com/sponsors/openfaas)
 
 ## Requirements:
 
