@@ -17,7 +17,7 @@ There are several places where a timeout can be configured for your function, in
 
 * Function timeout
 
-* `read_timeout` - time allowed fo the function to read a request over HTTP
+* `read_timeout` - time allowed for the function to read a request over HTTP
 * `write_timeout` - time allowed for the function to write a response over HTTP
 * `exec_timeout` - the maximum duration a function can run before being terminated
 
