@@ -114,6 +114,49 @@ In Python code you'd type in `os.getenv("Http_X_Output_Mode")`.
 
 You can see that all other HTTP context is also provided such as `Content-Length` when the `Http_Method` is a `POST`, the `User_Agent`, Cookies and anything else you'd expect to see from a HTTP request.
 
+### Get client source ip
+
+`X-Forwarded-For` header contain client ip.
+But in Kubernetes cluster, `X-Forwarded-For` contain clusterIp which pods own.
+So getting source ip, follow [this guide](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport).
+
+openfaas gateway default service type is Nodeport and default ExternalTrafficPolicy is ClusterIp.
+- Edit gateway service `spec.ExternalTrafficPolic=Local` :
+```yaml
+spec:
+  clusterIP: 10.x.x.x
+  clusterIPs:
+  - 10.x.x.x
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+```
+
+Client source ip is public. So openfass gateway require public ip adress.
+
+Then curl to gateway  check X-Forwarded-For 
+
+```
+$ curl $openfass_public_url/function/env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=05e8db360c5a
+fprocess=env
+HOME=/root
+Http_X_Call_Id=8e597bcf-614f-4ca5-8f2e-f345d660db5e
+Http_X_Start_Time=1519729577415481886
+Http_Accept=*/*
+Http_Accept_Encoding=gzip
+Http_Connection=close
+Http_User_Agent=curl/7.55.1
+Http_Method=GET
+Http_ContentLength=0
+Http_Path=/
+...
+Http_X_Forwarded_For=3.39.x.x (client public source ip)
+...
+```
+
+When you use cloud provider's loadBalancer, enable **proxy protocol**.
+
 ## Security: read-only filesystems
 
 One of the security features of containers which is available to OpenFaaS is the ability to make the root filesystem of our execution environment read-only. This can reduce the attack surface if a function were to become compromised.
