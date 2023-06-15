@@ -213,13 +213,13 @@ For MacOS / Linux:
 
 ```sh
 # MacOS users may need to run "bash" first if this command fails
-curl -SLsf https://dl.get-arkade.dev/ | sudo sh
+curl -SLsf https://get-arkade.dev/ | sudo sh
 ```
 
 For Windows:
 
 ```sh
-curl -SLsf https://dl.get-arkade.dev/ | sh
+curl -SLsf https://get-arkade.dev/ | sh
 ```
 
 * Install the OpenFaaS app
