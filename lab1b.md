@@ -213,7 +213,7 @@ For MacOS / Linux:
 
 ```sh
 # MacOS users may need to run "bash" first if this command fails
-curl -SLsf https://get-arkade.dev/ | sudo sh
+curl -sLS https://get.arkade.dev | sudo sh
 ```
 
 For Windows:
