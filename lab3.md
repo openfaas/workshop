@@ -402,7 +402,7 @@ To get more details you can use the `--verbose` flag, or the `describe` command.
 
 Let's find a Golang template with a HTTP format:
 
-``bash
+```bash
 faas-cli template store list | grep golang
 
 golang-http              openfaas           Golang HTTP template
