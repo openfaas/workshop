@@ -18,7 +18,7 @@ $ mkdir -p lab2 \
 下のコマンドでサンプルのfunctionをデプロイすることができます：
 
 ```
-$ faas-cli deploy -f https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
+$ faas-cli store deploy markdown
 ```
 
 ![](../../screenshot/markdown_portal.png)
