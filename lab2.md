@@ -25,7 +25,9 @@ If you haven't set an `$OPENFAAS_URL` then the default is normally: [http://127.
 We can deploy some sample functions and then use them to test things out:
 
 ```sh
-$ faas-cli deploy -f https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
+faas-cli store deploy markdown
+faas-cli store deploy nodeinfo
+faas-cli store deploy env
 ```
 
 ![](./screenshot/markdown_portal.png)
