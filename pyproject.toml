@@ -1,0 +1,91 @@
+[tool.poetry]
+name = "openfaas-workshop"
+version = "0.1.0"
+description = "OpenFaaS Workshop Python Functions"
+authors = ["OpenFaaS Workshop Contributors"]
+readme = "README.md"
+packages = [
+    { include = "astronaut-finder" },
+    { include = "hello-openfaas" },
+    { include = "hmac-protected/hmac-protected" },
+    { include = "issue-bot/bot-handler" },
+    { include = "issue-bot-secrets/bot-handler" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.31.0"
+PyGithub = "^2.1.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.12.0"
+
+[tool.poetry.scripts]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=astronaut-finder",
+    "--cov=hello-openfaas",
+    "--cov=hmac-protected",
+    "--cov=issue-bot",
+    "--cov=issue-bot-secrets",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=80"
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow tests"
+]
+
+[tool.coverage.run]
+source = [
+    "astronaut-finder",
+    "hello-openfaas",
+    "hmac-protected",
+    "issue-bot",
+    "issue-bot-secrets"
+]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):"
+]
+precision = 2
+show_missing = true
+skip_covered = true
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
